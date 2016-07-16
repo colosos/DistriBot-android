@@ -7,8 +7,6 @@ namespace DistriBot
 	[Activity(Label = "DistriBot", MainLauncher = true, Icon = "@mipmap/icon")]
 	public class MainActivity : Activity
 	{
-		int count = 1;
-
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
@@ -20,7 +18,16 @@ namespace DistriBot
 			// and attach an event to it
 			Button button = FindViewById<Button>(Resource.Id.myButton);
 
-			button.Click += delegate { button.Text = string.Format("{0} clicks!", count++); };
+
+
+			button.Click += delegate { HTTPHelper.GetInstance().GetRequest("getMostActiveUsers", null, success: (obj) =>
+			{
+				//TODO: Success
+			}, failure: (json) =>
+			{
+				//TODO: Failure	
+			});
+			};
 		}
 	}
 }
