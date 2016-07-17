@@ -18,8 +18,6 @@ namespace DistriBot
 			// and attach an event to it
 			Button button = FindViewById<Button>(Resource.Id.myButton);
 
-
-
 			button.Click += delegate { HTTPHelper.GetInstance().GetRequest("getMostActiveUsers", null, success: (obj) =>
 			{
 				//TODO: Success
