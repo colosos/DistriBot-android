@@ -24,6 +24,20 @@ namespace DistriBot
 			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
 			return prefs.GetString("token-session", "DEFAULT");
 		}
+
+		public static void SaveTokenType(string tokenType)
+		{
+			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
+			ISharedPreferencesEditor editor = prefs.Edit();
+			editor.PutString("token-type", tokenType);
+			editor.Apply();
+		}
+
+		public static string GetTokenType()
+		{
+			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
+			return prefs.GetString("token-type", "DEFAULT");
+		}
 	}
 }
 
