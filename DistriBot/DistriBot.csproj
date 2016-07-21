@@ -52,6 +52,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Network\HTTPHelper.cs" />
     <Compile Include="Helpers\SessionManager.cs" />
+    <Compile Include="Network\SalesmanServiceManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
