@@ -2,4 +2,11 @@
 <resources>
 	<string name="hello">Hello World, Click Me!</string>
 	<string name="app_name">DistriBot</string>
+  <string name="username">Nombre de usuario</string>
+  <string name="login">Login</string>
+  <string name="logout">Salir</string>
+  <string name="register">Registrarse</string>
+  <string name="password">Contraseña</string>
+  <string name="forgot_password">He olvidado mi contraseña</string>
+
 </resources>
