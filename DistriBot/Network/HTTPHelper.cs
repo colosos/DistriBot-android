@@ -12,7 +12,7 @@ namespace DistriBot
 		
 		private HTTPHelper()
 		{
-			client = new RestClient("http://192.168.1.45:8080/PocketPoliceBackend-war/pocketPolice/");
+			client = new RestClient("https://microsoft-apiapp5f18a6cbd08e4a60b5d735c9bbf275ff.azurewebsites.net/api/");
 		}
 
 		public static HTTPHelper GetInstance()
@@ -144,6 +144,12 @@ namespace DistriBot
 				}
 			});
 		}
+
+		public string GetFormattedToken()
+		{
+			return SessionManager.GetTokenType() + " " + SessionManager.GetSessionToken();
+		}
+
 	}
 }
 
