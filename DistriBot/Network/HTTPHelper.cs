@@ -83,7 +83,9 @@ namespace DistriBot
 
 			if (parameters != null)
 			{
-				request.AddBody(parameters);
+				request.AddHeader("Accept", "application/json");
+				request.Parameters.Clear();
+				request.AddParameter("application/json", parameters, ParameterType.RequestBody);
 			}
 
 			// easily add HTTP Headers
