@@ -13,12 +13,12 @@ namespace DistriBot
 
 		public static void Login(string username, string password, Action success, Action failure)
 		{
-			string relativeUrl = "login";
-			string grant_type = "password";
+			string relativeUrl = "Salesmen";
+			//string grant_type = "password";
 			JsonObject parameters = new JsonObject();
-			parameters.Add("username", username);
-			parameters.Add("password", password);
-			parameters.Add("grant_type", grant_type);
+			parameters.Add("UserName", username);
+			parameters.Add("Password", password);
+			//parameters.Add("grant_type", grant_type);
 			HTTPHelper.GetInstance().PostRequest(relativeUrl, parameters, success: (obj) =>
 			{
 				var token = obj["access_token"];
