@@ -1849,6 +1849,18 @@ namespace DistriBot
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f070086
+			public const int List = 2131165318;
+			
+			// aapt resource value: 0x7f070083
+			public const int Text = 2131165315;
+			
+			// aapt resource value: 0x7f070084
+			public const int Text1 = 2131165316;
+			
+			// aapt resource value: 0x7f070085
+			public const int Text2 = 2131165317;
+			
 			// aapt resource value: 0x7f070076
 			public const int action0 = 2131165302;
 			
@@ -2431,16 +2443,22 @@ namespace DistriBot
 			public const int notification_template_part_time = 2130968622;
 			
 			// aapt resource value: 0x7f04002f
-			public const int select_dialog_item_material = 2130968623;
+			public const int ProductRow = 2130968623;
 			
 			// aapt resource value: 0x7f040030
-			public const int select_dialog_multichoice_material = 2130968624;
+			public const int Products = 2130968624;
 			
 			// aapt resource value: 0x7f040031
-			public const int select_dialog_singlechoice_material = 2130968625;
+			public const int select_dialog_item_material = 2130968625;
 			
 			// aapt resource value: 0x7f040032
-			public const int support_simple_spinner_dropdown_item = 2130968626;
+			public const int select_dialog_multichoice_material = 2130968626;
+			
+			// aapt resource value: 0x7f040033
+			public const int select_dialog_singlechoice_material = 2130968627;
+			
+			// aapt resource value: 0x7f040034
+			public const int support_simple_spinner_dropdown_item = 2130968628;
 			
 			static Layout()
 			{
@@ -3326,6 +3344,9 @@ namespace DistriBot
 			
 			// aapt resource value: 0x7f0a00f0
 			public const int Theme_AppCompat_Light_DialogWhenLarge = 2131362032;
+			
+			// aapt resource value: 0x7f0a0158
+			public const int Theme_AppCompat_Light_ListActionBar = 2131362136;
 			
 			// aapt resource value: 0x7f0a00f1
 			public const int Theme_AppCompat_Light_NoActionBar = 2131362033;

@@ -6,11 +6,9 @@ using Android.Content;
 
 namespace DistriBot
 {
-	[Activity(Label = "DistriBot", MainLauncher = true, Icon = "@mipmap/icon", Theme = "@style/Theme.AppCompat.Light.NoActionBar.FullScreen")]
+	[Activity(Label = "DistriBot", Icon = "@mipmap/icon", Theme = "@style/Theme.AppCompat.Light.NoActionBar.FullScreen")]
 	public class MainActivity : AppCompatActivity
 	{
-
-
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);

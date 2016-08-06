@@ -11,4 +11,12 @@
     <item name="colorAccent">@color/accent</item>
     <item name="android:windowBackground">@color/primary_dark</item>
   </style>
+
+  <style name="Theme.AppCompat.Light.ListActionBar" parent="@style/Theme.AppCompat">
+    <!-- Colors go here -->
+    <item name="colorPrimary">@color/primary</item>
+    <item name="colorPrimaryDark">@color/primary_dark</item>
+    <item name="colorAccent">@color/accent</item>
+    <item name="android:windowBackground">@color/primary_dark</item>
+  </style>
 </resources>
