@@ -2068,6 +2068,12 @@ namespace DistriBot
 			// aapt resource value: 0x7f070079
 			public const int media_actions = 2131165305;
 			
+			// aapt resource value: 0x7f070089
+			public const int menu_settings = 2131165321;
+			
+			// aapt resource value: 0x7f070088
+			public const int menu_share = 2131165320;
+			
 			// aapt resource value: 0x7f07001d
 			public const int middle = 2131165213;
 			
@@ -2226,6 +2232,9 @@ namespace DistriBot
 			
 			// aapt resource value: 0x7f070048
 			public const int title_template = 2131165256;
+			
+			// aapt resource value: 0x7f070087
+			public const int toolbar = 2131165319;
 			
 			// aapt resource value: 0x7f070032
 			public const int top = 2131165234;
@@ -2460,12 +2469,31 @@ namespace DistriBot
 			// aapt resource value: 0x7f040034
 			public const int support_simple_spinner_dropdown_item = 2130968628;
 			
+			// aapt resource value: 0x7f040035
+			public const int Toolbar = 2130968629;
+			
 			static Layout()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
 			}
 			
 			private Layout()
+			{
+			}
+		}
+		
+		public partial class Menu
+		{
+			
+			// aapt resource value: 0x7f0d0000
+			public const int home = 2131558400;
+			
+			static Menu()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Menu()
 			{
 			}
 		}
@@ -3039,6 +3067,9 @@ namespace DistriBot
 			// aapt resource value: 0x7f0a0140
 			public const int Base_Widget_Design_TabLayout = 2131362112;
 			
+			// aapt resource value: 0x7f0a0158
+			public const int DefaultTheme = 2131362136;
+			
 			// aapt resource value: 0x7f0a0017
 			public const int Platform_AppCompat = 2131361815;
 			
@@ -3344,9 +3375,6 @@ namespace DistriBot
 			
 			// aapt resource value: 0x7f0a00f0
 			public const int Theme_AppCompat_Light_DialogWhenLarge = 2131362032;
-			
-			// aapt resource value: 0x7f0a0158
-			public const int Theme_AppCompat_Light_ListActionBar = 2131362136;
 			
 			// aapt resource value: 0x7f0a00f1
 			public const int Theme_AppCompat_Light_NoActionBar = 2131362033;

@@ -13,7 +13,7 @@ using Android.Support.V7.App;
 
 namespace DistriBot
 {
-	[Activity(Label = "Products", MainLauncher = true, Theme = "@style/Theme.AppCompat.Light.ListActionBar")]
+	[Activity(Label = "Productos", MainLauncher = true, Theme = "@style/DefaultTheme")]
 	public class ProductsActivity : AppCompatActivity
 	{
 		ListView listView;
@@ -30,16 +30,29 @@ namespace DistriBot
 			base.OnCreate(savedInstanceState);
 
 			SetContentView(Resource.Layout.Products);
+
 			listView = FindViewById<ListView>(Resource.Id.List);
 
 			listView.Adapter = new ProductsAdapter(this, products);
-			listView.ItemClick += OnListItemClick;  // to be defined
+			listView.ItemClick += OnListItemClick;
 		}
 
 		void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e)
 		{
 			var p = products[e.Position];
 			Android.Widget.Toast.MakeText(this, p.Name, Android.Widget.ToastLength.Short).Show();
+		}
+
+		public override bool OnCreateOptionsMenu(IMenu menu)
+		{
+			MenuInflater.Inflate(Resource.Menu.home, menu);
+			return base.OnCreateOptionsMenu(menu);
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			Toast.MakeText(this, "Top ActionBar pressed: " + item.TitleFormatted, ToastLength.Short).Show();
+			return base.OnOptionsItemSelected(item);
 		}
 	}
 }
