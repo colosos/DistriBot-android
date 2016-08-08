@@ -152,6 +152,29 @@ namespace DistriBot
 			return SessionManager.GetTokenType() + " " + SessionManager.GetSessionToken();
 		}
 
+		public void PostLoginRequest(string relativeUrl, string username, string password, Action<JsonValue> success, Action<JsonValue> failure)
+		{
+			RestRequest request = new RestRequest(relativeUrl, Method.POST);
+
+			request.AddHeader("Accept", "application/json");
+			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.AddParameter("username", username);
+			request.AddParameter("password", password);
+			request.AddParameter("grant_type","password");
+
+			client.ExecuteAsync(request, response =>
+			{
+				var json = JsonValue.Parse(response.Content);
+				if ((int)response.StatusCode >= 200 && (int)response.StatusCode <= 210)
+				{
+					success(json);
+				}
+				else
+				{
+					failure(json);
+				}
+			});
+		}
 	}
 }
 
