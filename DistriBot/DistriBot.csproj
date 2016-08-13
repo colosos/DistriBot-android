@@ -73,6 +73,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ProductsRecyclerAdapter.cs" />
+    <Compile Include="Helpers\RecyclerViewOnScrollListener.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Network\HTTPHelper.cs" />
@@ -81,7 +83,6 @@
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\MenuActivity.cs" />
     <Compile Include="Models\Product.cs" />
-    <Compile Include="Helpers\ProductsAdapter.cs" />
     <Compile Include="Activities\ProductsActivity.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -125,10 +126,9 @@
   <ItemGroup>
     <AndroidResource Include="Resources\values\Colors.xml" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Activities\" />
-    <Folder Include="Models\" />
-    <Folder Include="Resources\menu\" />
+    <AndroidResource Include="Resources\drawable\ListStateSelector.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
