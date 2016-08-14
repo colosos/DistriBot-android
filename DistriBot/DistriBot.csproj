@@ -84,6 +84,7 @@
     <Compile Include="Activities\MenuActivity.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Activities\ProductsActivity.cs" />
+    <Compile Include="Network\ProductServiceManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

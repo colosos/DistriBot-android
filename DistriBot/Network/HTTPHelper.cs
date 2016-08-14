@@ -12,7 +12,7 @@ namespace DistriBot
 		
 		private HTTPHelper()
 		{
-			client = new RestClient("https://microsoft-apiapp5f18a6cbd08e4a60b5d735c9bbf275ff.azurewebsites.net/api/");
+			client = new RestClient("https://microsoft-apiappb014d742205d461bab0e6eaa303215f7.azurewebsites.net/api/");
 		}
 
 		public static HTTPHelper GetInstance()
@@ -57,7 +57,9 @@ namespace DistriBot
 		public void GetRequest(string relativeUrl, JsonValue parameters, Action<JsonValue> success, Action<JsonValue> failure)
 		{
 			RestRequest request = new RestRequest(relativeUrl, Method.GET);
-
+			request.AddHeader("Authorization", GetFormattedToken());
+			request.AddHeader("Accept", "application/json");
+			request.AddHeader("Content-Type", "application/json");
 			if (parameters != null)
 			{
 				request.AddBody(parameters);
@@ -149,7 +151,8 @@ namespace DistriBot
 
 		public string GetFormattedToken()
 		{
-			return SessionManager.GetTokenType() + " " + SessionManager.GetSessionToken();
+			//return SessionManager.GetTokenType() + " " + SessionManager.GetSessionToken();
+			return "bearer beM7jYPiMIwXV8_taF3tCmAso9S2ifJR6-jnPhCztPCYuOQ981T4tCvuNKXF5brdYOzkYKuXttPjdnjIanOKylLFRAGmcuspCwB8Xjjy5-g3UzBEp2XOrigAu7AUcOkOTaPsfZzgomHJsBZxGia1pkLZfOiNX40Vk7MqA8f7PVsS9GoK8s1RuxS1VIV3AGnwitPFg3hZJai24EL_Vt_nJq9xpd-PQQE9tJGyh7p3bO4";
 		}
 
 		public void PostLoginRequest(string relativeUrl, string username, string password, Action<JsonValue> success, Action<JsonValue> failure)
