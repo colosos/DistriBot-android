@@ -8,5 +8,8 @@
   <string name="register">Registrarse</string>
   <string name="password">Contraseña</string>
   <string name="forgot_password">He olvidado mi contraseña</string>
-
+  <string name="presales">Preventa</string>
+  <string name="deliveryRequests">Pedidos</string>
+  <string name="catalogue">Catálogo</string>
+  
 </resources>

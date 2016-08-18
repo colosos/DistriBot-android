@@ -15,7 +15,7 @@ using Android.Support.V7.Widget;
 
 namespace DistriBot
 {
-	[Activity(Label = "Productos", MainLauncher = true, Theme = "@style/DefaultTheme")]
+	[Activity(Label = "Productos", Theme = "@style/DefaultTheme")]
 	public class ProductsActivity : AppCompatActivity
 	{
         private RecyclerView mRecyclerView;
