@@ -23,6 +23,7 @@ namespace DistriBot
 
         private SupportFragment mCurrentFragment;
         private ProductsFragment mProductsFragment;
+        //fragment 1 y 2 son de prueba para la navegacion
         private Fragment1 mFragment1;
         private Fragment2 mFragment2;
         private Stack<SupportFragment> mStackFragment;

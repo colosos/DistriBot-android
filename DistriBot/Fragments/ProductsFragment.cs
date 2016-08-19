@@ -36,23 +36,42 @@ namespace DistriBot
             
         }
 
-        View view;
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
 
-            view = inflater.Inflate(Resource.Layout.Products, container, false);
-            CreateAdapter();
+            View view = inflater.Inflate(Resource.Layout.Products, container, false);
             return view;
         }
+
+        public override void OnActivityCreated(Bundle savedInstanceState)
+        {
+            CreateAdapter();
+            base.OnActivityCreated(savedInstanceState);
+        }
+
+        //private void LoadProducts()
+        //{
+        //    //TODO: Show spinner while loading products
+        //    ProductServiceManager.GetProducts(1, success: (obj) =>
+        //    {
+        //        products = obj;
+        //        this.RunOnUiThread(() =>
+        //        {
+        //            CreateAdapter();
+        //        });
+        //    }, failure: (obj) =>
+        //    {
+        //        //TODO: Show error message.
+        //    });
+        //}
 
         private void CreateAdapter()
         {
             mAdapter = new ProductsRecyclerAdapter(products);
             mAdapter.ItemClick += OnListItemClick;
-
-            mRecyclerView = view.FindViewById<RecyclerView>(Resource.Id.recyclerView);
+            mRecyclerView = View.FindViewById<RecyclerView>(Resource.Id.recyclerView);
             if (mRecyclerView != null)
             {
                 mRecyclerView.HasFixedSize = true;
