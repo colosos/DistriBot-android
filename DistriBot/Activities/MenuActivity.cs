@@ -23,8 +23,7 @@ namespace DistriBot
 
         private SupportFragment mCurrentFragment;
         private ProductsFragment mProductsFragment;
-        //fragment 1 y 2 son de prueba para la navegacion
-        private Fragment1 mFragment1;
+		private ClientsMapFragment mClientsMapFragment;
         private Fragment2 mFragment2;
         private Stack<SupportFragment> mStackFragment;
 
@@ -35,7 +34,7 @@ namespace DistriBot
             SetContentView(Resource.Layout.Menu);
 
             mProductsFragment = new ProductsFragment();
-            mFragment1 = new Fragment1();
+			mClientsMapFragment = new ClientsMapFragment();
             mFragment2 = new Fragment2();
 
             mStackFragment = new Stack<SupportFragment>();
@@ -43,8 +42,8 @@ namespace DistriBot
             var trans = SupportFragmentManager.BeginTransaction();
             trans.Add(Resource.Id.fragmentContainer, mFragment2, "Fragment2");
             trans.Hide(mFragment2);
-            trans.Add(Resource.Id.fragmentContainer, mFragment1, "Fragment1");
-            trans.Hide(mFragment1);
+			trans.Add(Resource.Id.fragmentContainer, mClientsMapFragment, "ClientsMapFragment");
+			trans.Hide(mClientsMapFragment);
             trans.Add(Resource.Id.fragmentContainer, mProductsFragment, "ProductsFragment");
             trans.Commit();
             mCurrentFragment = mProductsFragment;
@@ -67,7 +66,7 @@ namespace DistriBot
                     ShowFragment(mProductsFragment);
                     break;
                 case 1:
-                    ShowFragment(mFragment1);
+                    ShowFragment(mClientsMapFragment);
                     break;
                 case 2:
                     ShowFragment(mFragment2);
