@@ -2,14 +2,15 @@
 <resources>
 	<string name="hello">Hello World, Click Me!</string>
 	<string name="app_name">DistriBot</string>
-  <string name="username">Nombre de usuario</string>
-  <string name="login">Login</string>
-  <string name="logout">Salir</string>
-  <string name="register">Registrarse</string>
-  <string name="password">Contraseña</string>
-  <string name="forgot_password">He olvidado mi contraseña</string>
-  <string name="presales">Preventa</string>
-  <string name="deliveryRequests">Pedidos</string>
-  <string name="catalogue">Catálogo</string>
+  	<string name="username">Nombre de usuario</string>
+  	<string name="login">Login</string>
+  	<string name="logout">Salir</string>
+  	<string name="register">Registrarse</string>
+  	<string name="password">Contraseña</string>
+  	<string name="forgot_password">He olvidado mi contraseña</string>
+  	<string name="presales">Preventa</string>
+  	<string name="deliveryRequests">Pedidos</string>
+  	<string name="catalogue">Catálogo</string>
+	<string name="google_maps_key">AIzaSyBwTuut6NUstGsaTbaSU1ynaMOc9HFOK9E</string>
   
 </resources>
