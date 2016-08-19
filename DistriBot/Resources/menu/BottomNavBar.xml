@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <item
+      android:id="@+id/bottomBarPreSales"
+      android:icon="@drawable/ic_work_white_24dp"
+      android:title="@string/presales" />
+   <item
+      android:id="@+id/bottomBarCatalogue"
+      android:icon="@drawable/ic_view_list_white_24dp"
+      android:title="@string/catalogue" />
+ <item
+      android:id="@+id/bottomBarDeliveryRequests"
+      android:icon="@drawable/ic_shopping_cart_white_24dp"
+      android:title="@string/deliveryRequests" />
+</menu>
