@@ -16,11 +16,18 @@ using Android.Gms.Maps.Model;
 
 namespace DistriBot
 {
-	public class ClientsMapFragment : Fragment, IOnMapReadyCallback
+	public class ClientsMapFragment : Fragment, IOnMapReadyCallback, View.IOnTouchListener
 	{
 
 		private GoogleMap mMap;
 		private List<Client> clients = new List<Client>();
+
+		public FrameLayout mClientsDetailFragmentContainer;
+		public TextView txtClientName;
+		public TextView txtClientAddress;
+		public TextView txtClientPhone;
+
+		private float mLastPosY;
 
 		public override void OnCreate(Bundle savedInstanceState)
 		{
@@ -30,12 +37,27 @@ namespace DistriBot
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			View view = inflater.Inflate(Resource.Layout.ClientsMapFragment, container, false);
+			mClientsDetailFragmentContainer = view.FindViewById<FrameLayout>(Resource.Id.clientsDetailFragmentContainer);
+			//txtClientName = view.FindViewById<TextView>(Resource.Id.txtClientName);
+			//txtClientAddress = view.FindViewById<TextView>(Resource.Id.txtClientAddress);
+			//txtClientPhone = view.FindViewById<TextView>(Resource.Id.txtClientPhone);
+			var trans = Activity.SupportFragmentManager.BeginTransaction();
+			//trans.Add(mClientsDetailFragmentContainer.Id, new ClientsDetailFragment(), "ClientsDetailFragment");
+			//trans.Commit();
+			mClientsDetailFragmentContainer.SetOnTouchListener(this);
 			return view;
 		}
 
 		public override void OnActivityCreated(Bundle savedInstanceState)
 		{
 			SetUpMap();
+			if (mClientsDetailFragmentContainer.TranslationY + 2 >= mClientsDetailFragmentContainer.Height)
+			{
+				var interpolator = new Android.Views.Animations.OvershootInterpolator(5);
+				mClientsDetailFragmentContainer.Animate().SetInterpolator(interpolator)
+											   .TranslationYBy(-130)
+											   .SetDuration(500);
+			}
 			base.OnActivityCreated(savedInstanceState);
 		}
 
@@ -43,7 +65,7 @@ namespace DistriBot
 		{
 			if (mMap == null)
 			{
-				Activity.FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
+				//Activity.FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
 			}
 		}
 
@@ -52,6 +74,7 @@ namespace DistriBot
 			mMap = googleMap;
 			mMap.MyLocationEnabled = true;
 			LoadClients();
+			mMap.MarkerClick += MMap_MarkerClick;
 			// mMap.MyLocationChange += MMap_MyLocationChange;
 		}
 
@@ -62,8 +85,34 @@ namespace DistriBot
 			// mMap.AnimateCamera(camera);
 		}
 
+		void MMap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
+		{
+			//txtClientName.Text = "";
+			//txtClientAddress.Text = "";
+			//txtClientPhone.Text = "";
+
+			foreach (Client client in clients)
+			{
+				double latitude = e.Marker.Position.Latitude;
+				double longitude = e.Marker.Position.Longitude;
+				if (client.Latitude == latitude && client.Longitude == longitude)
+				{
+					//txtClientName.Text = client.Name;
+				}
+			}
+
+			if (mClientsDetailFragmentContainer.TranslationY + 2 >= mClientsDetailFragmentContainer.Height)
+			{
+				var interpolator = new Android.Views.Animations.OvershootInterpolator(5);
+				mClientsDetailFragmentContainer.Animate().SetInterpolator(interpolator)
+											   .TranslationYBy(-130)
+											   .SetDuration(500);
+			}
+		}
+
 		void LoadClients()
 		{
+			/*
 			Client c1 = new Client("Alejandro", -34.881203, -56.074917);
 			Client c2 = new Client("Federico", -34.892619, -56.083213);
 			Client c3 = new Client("Andres", -34.914684, -56.150516);
@@ -86,22 +135,47 @@ namespace DistriBot
 			mMap.AddMarker(m4);
 			CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(new LatLng(c2.Latitude, c2.Longitude), 10);
 			mMap.AnimateCamera(camera);
+			*/
 
-			/*
 			ClientServiceManager.GetClients(success: (obj) =>
 			{
-				clients = obj;
+				foreach (Client client in obj)
+				{
+					Activity.RunOnUiThread(() =>
+					{
+						clients.Add(client);
+						MarkerOptions markerOptions = new MarkerOptions();
+						markerOptions.SetPosition(new LatLng(client.Latitude, client.Longitude));
+						mMap.AddMarker(markerOptions);
+					});
+				}
 			}, failure: (obj) =>
 			{
 				//TODO: Show error message
 			});
-			foreach (Client client in clients)
+		}
+
+		public bool OnTouch(View v, MotionEvent e)
+		{
+			switch (e.Action)
 			{
-				MarkerOptions markerOptions = new MarkerOptions();
-				markerOptions.SetPosition(new LatLng(client.Latitude, client.Longitude));
-				mMap.AddMarker(markerOptions);
+				case MotionEventActions.Down:
+					mLastPosY = e.GetY();
+					return true;
+				case MotionEventActions.Move:
+					var currentPosition = e.GetY();
+					var deltaY = mLastPosY - currentPosition;
+					var transY = v.TranslationY;
+					transY -= deltaY;
+					if (transY < 0)
+					{
+						transY = 0;
+					}
+					v.TranslationY = transY;
+					return true;
+				default:
+					return v.OnTouchEvent(e);
 			}
-			*/
 		}
 	}
 }

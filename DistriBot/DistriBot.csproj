@@ -105,11 +105,11 @@
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\MenuActivity.cs" />
     <Compile Include="Models\Product.cs" />
-    <Compile Include="Activities\ProductsActivity.cs" />
     <Compile Include="Network\ProductServiceManager.cs" />
     <Compile Include="Fragments\ClientsMapFragment.cs" />
     <Compile Include="Network\ClientServiceManager.cs" />
     <Compile Include="Models\Client.cs" />
+    <Compile Include="Fragments\ClientsDetailFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -122,6 +122,7 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ClientsMapFragment.axml" />
+    <AndroidResource Include="Resources\layout\ClientsDetailFragment.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\ic_shopping_cart_white_36dp.png" />
