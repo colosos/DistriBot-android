@@ -13,8 +13,9 @@ using Android.Widget;
 
 namespace DistriBot
 {
-    public class Fragment1 : Fragment
+    public class ProductDetailFragment : Fragment
     {
+        public Product ProductoDetalle { get; set; }
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -24,8 +25,15 @@ namespace DistriBot
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            View view = inflater.Inflate(Resource.Layout.Fragment1, container, false);
+            View view = inflater.Inflate(Resource.Layout.ProductDetailFragment, container, false);
+            view.FindViewById<TextView>(Resource.Id.tvProductnName).Text = ProductoDetalle.Name;
+            view.FindViewById<TextView>(Resource.Id.tvProductUnitPrice).Text = ProductoDetalle.UnitPrice.ToString();
             return view;
+        }
+
+        public ProductDetailFragment (Product product)
+        {
+            ProductoDetalle = product;
         }
     }
 }

@@ -91,9 +91,10 @@ namespace DistriBot
                 var p = products[position];
                 Android.Widget.Toast.MakeText(Context, p.Name, Android.Widget.ToastLength.Short).Show();
 
-                // Elimino el item que se selecciona y se le avisa especificamente eso al recyclerview adapter
-                products.RemoveAt(position);
-                mAdapter.NotifyItemRemoved(position);
+                //Llamo el metodo de la actividad menu que muestra el fragment del detalle del producto
+                MenuActivity actividad = Activity as MenuActivity;
+                actividad.ShowFragment(new ProductDetailFragment(p), "Detalle");
+
             }
         }
 
