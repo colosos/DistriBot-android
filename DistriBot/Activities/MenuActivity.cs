@@ -23,8 +23,7 @@ namespace DistriBot
 
         private SupportFragment mCurrentFragment;
         private ProductsFragment mProductsFragment;
-		private ClientsMapFragment mClientsMapFragment;
-        private Fragment2 mFragment2;
+        private ClientsOnMapFragment mClientsOnMapFragment;
         private Stack<SupportFragment> mStackFragment;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -34,16 +33,13 @@ namespace DistriBot
             SetContentView(Resource.Layout.Menu);
 
             mProductsFragment = new ProductsFragment();
-			mClientsMapFragment = new ClientsMapFragment();
-            mFragment2 = new Fragment2();
+            mClientsOnMapFragment = new ClientsOnMapFragment();
 
             mStackFragment = new Stack<SupportFragment>();
 
             var trans = SupportFragmentManager.BeginTransaction();
-            trans.Add(Resource.Id.fragmentContainer, mFragment2, "Fragment2");
-            trans.Hide(mFragment2);
-			trans.Add(Resource.Id.fragmentContainer, mClientsMapFragment, "ClientsMapFragment");
-			trans.Hide(mClientsMapFragment);
+            trans.Add(Resource.Id.fragmentContainer, mClientsOnMapFragment, "ClientsOnMapFragment");
+            trans.Hide(mClientsOnMapFragment);
             trans.Add(Resource.Id.fragmentContainer, mProductsFragment, "ProductsFragment");
             trans.Commit();
             mCurrentFragment = mProductsFragment;
@@ -65,11 +61,10 @@ namespace DistriBot
                 case 0:
                     ShowFragment(mProductsFragment);
                     break;
-                case 1:
-                    ShowFragment(mClientsMapFragment);
+				case 1:
                     break;
                 case 2:
-                    ShowFragment(mFragment2);
+                    ShowFragment(mClientsOnMapFragment);
                     break;
 
             }

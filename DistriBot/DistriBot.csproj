@@ -93,7 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fragments\Fragment1.cs" />
-    <Compile Include="Fragments\Fragment2.cs" />
+    <Compile Include="Fragments\ClientsOnMapFragment.cs" />
     <Compile Include="Fragments\ProductsFragment.cs" />
     <Compile Include="Helpers\ProductsRecyclerAdapter.cs" />
     <Compile Include="Helpers\RecyclerViewOnScrollListener.cs" />
@@ -105,11 +105,10 @@
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\MenuActivity.cs" />
     <Compile Include="Models\Product.cs" />
-    <Compile Include="Activities\ProductsActivity.cs" />
     <Compile Include="Network\ProductServiceManager.cs" />
-    <Compile Include="Fragments\ClientsMapFragment.cs" />
     <Compile Include="Network\ClientServiceManager.cs" />
     <Compile Include="Models\Client.cs" />
+    <Compile Include="Fragments\ClientsDetailFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -118,10 +117,10 @@
     </None>
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
-    <AndroidResource Include="Resources\layout\Fragment2.axml">
+    <AndroidResource Include="Resources\layout\ClientsOnMapFragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\ClientsMapFragment.axml" />
+    <AndroidResource Include="Resources\layout\ClientsDetailFragment.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-hdpi\ic_shopping_cart_white_36dp.png" />

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary">
+    <TextView
+        android:id="@+id/txtClientName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Client name"
+        android:textColor="@color/primary_light"
+        android:layout_centerHorizontal="true"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:paddingTop="15dp"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="20dp" />
+    <TextView
+        android:id="@+id/txtClientAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Client address"
+        android:textColor="@color/primary_light"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:textSize="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="15dp" />
+    <TextView
+        android:id="@+id/txtClientPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Client phone"
+        android:textColor="@color/primary_light"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:textSize="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="110dp"
+        android:layout_marginLeft="15dp" />
+    <TextView
+        android:id="@+id/txtClientEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Client email"
+        android:textColor="@color/primary_light"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:textSize="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="15dp" />
+</RelativeLayout>
