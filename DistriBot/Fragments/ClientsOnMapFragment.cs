@@ -15,7 +15,7 @@ using Android.Gms.Maps.Model;
 
 namespace DistriBot
 {
-	public class Fragment2 : Fragment, View.IOnTouchListener, IOnMapReadyCallback
+	public class ClientsOnMapFragment : Fragment, View.IOnTouchListener, IOnMapReadyCallback
     {
 
 		private GoogleMap mMap;
@@ -29,13 +29,11 @@ namespace DistriBot
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
-            // Create your fragment here
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            View view = inflater.Inflate(Resource.Layout.Fragment2, container, false);
+			View view = inflater.Inflate(Resource.Layout.ClientsOnMapFragment, container, false);
 			mClientsDetailFragmentContainer = view.FindViewById<FrameLayout>(Resource.Id.clientsDetailFragmentContainer);
 			mClientsDetailFragmentContainer.SetOnTouchListener(this);
             return view;
