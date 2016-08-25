@@ -38,25 +38,26 @@ namespace DistriBot
 			}
 			else
 			{
-				
-
-
-				LoginServiceManager.Login(etUsername.Text, etPassword.Text, success: (role) =>
+				var progressDialog = ProgressDialog.Show(this, "", "Autenticando", true);
+				new Thread(new ThreadStart(delegate
 				{
-					if (role.Equals("Salesman"))
+					RunOnUiThread(() => LoginServiceManager.Login(etUsername.Text, etPassword.Text, success: (role) =>
 					{
-						var menuActivity = new Intent(this, typeof(MenuActivity));
-						StartActivity(menuActivity);
-					}
-					else
+						if (role.Equals("Salesman"))
+						{
+							var menuActivity = new Intent(this, typeof(MenuActivity));
+							StartActivity(menuActivity);
+						}
+						else
+						{
+							// TODO: Redirect to Deliveryman menu
+						}
+					}, failure: () =>
 					{
-						// TODO: Redirect to Deliveryman menu
-					}
-				}, failure: () =>
-				{
-					Toast.MakeText(this, "El nombre de usuario y/o la contraseña son incorrectos", ToastLength.Long).Show();
-				});
-
+						Toast.MakeText(this, "El nombre de usuario y/o la contraseña son incorrectos", ToastLength.Long).Show();
+					}));
+					RunOnUiThread(() => progressDialog.Hide());
+				})).Start();
 			}
 		}
 	}
