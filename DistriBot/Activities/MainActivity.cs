@@ -39,14 +39,19 @@ namespace DistriBot
 			else
 			{
 				var progressDialog = ProgressDialog.Show(this, "", "Autenticando", true);
+				progressDialog.SetProgressStyle(ProgressDialogStyle.Spinner);
 				new Thread(new ThreadStart(delegate
 				{
-					RunOnUiThread(() => LoginServiceManager.Login(etUsername.Text, etPassword.Text, success: (role) =>
+					LoginServiceManager.Login(etUsername.Text, etPassword.Text, success: (role) =>
 					{
-						if (role.Equals("Salesman"))
+						if (role.Equals("salesmen"))
 						{
-							var menuActivity = new Intent(this, typeof(MenuActivity));
-							StartActivity(menuActivity);
+							RunOnUiThread(() =>
+							{
+								var menuActivity = new Intent(this, typeof(MenuActivity));
+								StartActivity(menuActivity);
+								progressDialog.Dismiss();
+							});
 						}
 						else
 						{
@@ -54,9 +59,12 @@ namespace DistriBot
 						}
 					}, failure: () =>
 					{
-						Toast.MakeText(this, "El nombre de usuario y/o la contraseña son incorrectos", ToastLength.Long).Show();
-					}));
-					RunOnUiThread(() => progressDialog.Hide());
+						RunOnUiThread(() =>
+						{
+							progressDialog.Dismiss();
+							Toast.MakeText(this, "El nombre de usuario y/o la contraseña son incorrectos", ToastLength.Long).Show();
+						});
+					});
 				})).Start();
 			}
 		}
