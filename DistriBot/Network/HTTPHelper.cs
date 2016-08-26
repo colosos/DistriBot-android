@@ -89,23 +89,6 @@ namespace DistriBot
 				request.Parameters.Clear();
 				request.AddParameter("application/json", parameters, ParameterType.RequestBody);
 			}
-
-			// easily add HTTP Headers
-			//request.AddHeader("header", "value");
-
-			// execute the request
-			//IRestResponse response = client.Execute(request);
-			//var content = response.Content; // raw content as string
-
-			// or automatically deserialize result
-			// return content type is sniffed but can be explicitly set via RestClient.AddHandler();
-			//IRestResponse<Person> response2 = client.Execute<Person>(request);
-			//var name = response2.Data.Name;
-
-			// or download and save file to disk
-			//client.DownloadData(request).SaveAs(path);
-
-			// easy async support
 			client.ExecuteAsync(request, response =>
 			{
 				var json = JsonValue.Parse(response.Content);
@@ -118,12 +101,6 @@ namespace DistriBot
 					failure(json);
 				}
 			});
-
-			// async with deserialization
-			//var asyncHandle = client.ExecuteAsync<Person>(request, response =>
-			//{
-			//	Console.WriteLine(response.Data.Name);
-			//});
 		}
 
 		public void PutRequest(string relativeUrl, JsonValue parameters, Action<JsonValue> success, Action<JsonValue> failure)
@@ -161,8 +138,8 @@ namespace DistriBot
 
 			request.AddHeader("Accept", "application/json");
 			request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
-			request.AddParameter("username", username);
-			request.AddParameter("password", password);
+			request.AddParameter("UserName", username);
+			request.AddParameter("Password", password);
 			request.AddParameter("grant_type","password");
 
 			client.ExecuteAsync(request, response =>

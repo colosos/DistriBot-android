@@ -16,7 +16,7 @@ using SupportFragment = Android.Support.V4.App.Fragment;
 
 namespace DistriBot
 {
-    [Activity(Label = "MenuActivity", MainLauncher = true, Theme = "@style/DefaultTheme")]
+    [Activity(Label = "MenuActivity", Theme = "@style/DefaultTheme")]
     public class MenuActivity : AppCompatActivity, IOnTabClickListener
     {
         private BottomBar bottomBar;
