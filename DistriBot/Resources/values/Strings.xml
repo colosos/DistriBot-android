@@ -11,6 +11,8 @@
   	<string name="presales">Preventa</string>
   	<string name="deliveryRequests">Pedidos</string>
   	<string name="catalogue">Catálogo</string>
-	<string name="google_maps_key">AIzaSyBwTuut6NUstGsaTbaSU1ynaMOc9HFOK9E</string>
+    <string name="price">Precio</string>
+    <string name="money_symbol">$</string>
+	  <string name="google_maps_key">AIzaSyBwTuut6NUstGsaTbaSU1ynaMOc9HFOK9E</string>
   
 </resources>

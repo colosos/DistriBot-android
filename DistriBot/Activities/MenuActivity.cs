@@ -25,7 +25,6 @@ namespace DistriBot
         private ProductsFragment mProductsFragment;
 
         private ClientsOnMapFragment mClientsOnMapFragment;
-        private Stack<SupportFragment> mStackFragment;
 
         private LinkedList<SupportFragment> mStackFragmentPreSales;
         private LinkedList<SupportFragment> mStackFragmentCatalogue;
@@ -171,7 +170,17 @@ namespace DistriBot
 
             }
         }
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case Android.Resource.Id.Home:
+                    OnBackPressed();
+                    break;
 
+            }
+            return false;
+        }
         protected override void OnSaveInstanceState(Bundle outState)
         {
             base.OnSaveInstanceState(outState);

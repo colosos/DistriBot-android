@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Support.V4.App;
 using Android.Support.V7.Widget;
+using Android.Support.V7.App;
 
 namespace DistriBot
 {
@@ -33,7 +34,7 @@ namespace DistriBot
             base.OnCreate(savedInstanceState);
 
             // Create your fragment here
-            
+
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -48,24 +49,29 @@ namespace DistriBot
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             CreateAdapter();
+            //LoadProducts();
+            var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            var activity = Activity as AppCompatActivity;
+            activity.SetSupportActionBar(toolbar);
             base.OnActivityCreated(savedInstanceState);
         }
 
-        //private void LoadProducts()
-        //{
-        //    //TODO: Show spinner while loading products
-        //    ProductServiceManager.GetProducts(1, success: (obj) =>
-        //    {
-        //        products = obj;
-        //        this.RunOnUiThread(() =>
-        //        {
-        //            CreateAdapter();
-        //        });
-        //    }, failure: (obj) =>
-        //    {
-        //        //TODO: Show error message.
-        //    });
-        //}
+        private void LoadProducts()
+        {
+            var progressDialogue = Android.App.ProgressDialog.Show(Context, "Espere un momento por favor", "Se están cargando los productos", true, true);
+            ProductServiceManager.GetProducts(1, success: (obj) =>
+            {
+                progressDialogue.Dismiss();
+                products = obj;
+                Activity.RunOnUiThread(() =>
+                {
+                    CreateAdapter();
+                });
+            }, failure: (obj) =>
+            {
+                Android.Widget.Toast.MakeText(Context, "Ha ocurrido un error al cargar los productos", Android.Widget.ToastLength.Short).Show();
+            });
+        }
 
         private void CreateAdapter()
         {
@@ -89,8 +95,6 @@ namespace DistriBot
             if (position >= 0)
             {
                 var p = products[position];
-                Android.Widget.Toast.MakeText(Context, p.Name, Android.Widget.ToastLength.Short).Show();
-
                 //Llamo el metodo de la actividad menu que muestra el fragment del detalle del producto
                 MenuActivity actividad = Activity as MenuActivity;
                 actividad.ShowFragment(new ProductDetailFragment(p), "Detalle");
