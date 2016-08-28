@@ -20,15 +20,8 @@ namespace DistriBot
         private RecyclerView mRecyclerView;
         private LinearLayoutManager mLayoutManager;
         private ProductsRecyclerAdapter mAdapter;
+		private List<Product> products = new List<Product>();
 
-        private List<Product> products = new List<Product>()
-        {
-            new Product(14, "Chocolate", 3.11),
-            new Product(15, "Arroz", 3.11),
-            new Product(16, "Banana", 3.11),
-            new Product(17, "Manzana", 3.11),
-            new Product(18, "Limón", 3.11)
-        };
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -48,8 +41,7 @@ namespace DistriBot
 
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
-            CreateAdapter();
-            //LoadProducts();
+            LoadProducts();
             var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             var activity = Activity as AppCompatActivity;
             activity.SetSupportActionBar(toolbar);
@@ -58,8 +50,8 @@ namespace DistriBot
 
         private void LoadProducts()
         {
-            var progressDialogue = Android.App.ProgressDialog.Show(Context, "Espere un momento por favor", "Se están cargando los productos", true, true);
-            ProductServiceManager.GetProducts(1, success: (obj) =>
+            var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando productos..", true, true);
+            ProductServiceManager.GetProducts(1, 10, success: (obj) =>
             {
                 progressDialogue.Dismiss();
                 products = obj;

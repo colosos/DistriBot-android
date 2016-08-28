@@ -23,7 +23,6 @@ namespace DistriBot
 
         private SupportFragment mCurrentFragment;
         private ProductsFragment mProductsFragment;
-
         private ClientsOnMapFragment mClientsOnMapFragment;
 
         private LinkedList<SupportFragment> mStackFragmentPreSales;
