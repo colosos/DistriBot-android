@@ -75,10 +75,10 @@ namespace DistriBot
                 switch (position)
                 {
                     case 0:
-                        ShowTab(mStackFragmentPreSales, mProductsFragment);
+						ShowTab(mStackFragmentCatalogue, mClientsOnMapFragment);                        
                         break;
                     case 1:
-                        ShowTab(mStackFragmentCatalogue, mClientsOnMapFragment);
+                        ShowTab(mStackFragmentPreSales, mProductsFragment);
                         break;
                     case 2:
                         break;

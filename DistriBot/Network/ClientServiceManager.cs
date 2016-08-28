@@ -22,6 +22,17 @@ namespace DistriBot
 				failure("Failed to get clients");
 			});
 		}
+
+		public static void GetNearestClient(double lat, double lon, Action<Client> success, Action<string> failure)
+		{
+			string url = relativeUrl + "/nearest?lat=" + lat + "&lon=" + lon;
+			HTTPHelper.GetInstance().GetRequest(url, null, success: (obj) =>
+			{
+				success(Client.ClientFromJson(obj));
+			}, failure: (obj) =>
+			{
+				failure(obj);
+			});
+		}
 	}
 }
-
