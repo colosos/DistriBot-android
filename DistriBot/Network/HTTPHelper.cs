@@ -128,8 +128,7 @@ namespace DistriBot
 
 		public string GetFormattedToken()
 		{
-			//return SessionManager.GetTokenType() + " " + SessionManager.GetSessionToken();
-			return "bearer beM7jYPiMIwXV8_taF3tCmAso9S2ifJR6-jnPhCztPCYuOQ981T4tCvuNKXF5brdYOzkYKuXttPjdnjIanOKylLFRAGmcuspCwB8Xjjy5-g3UzBEp2XOrigAu7AUcOkOTaPsfZzgomHJsBZxGia1pkLZfOiNX40Vk7MqA8f7PVsS9GoK8s1RuxS1VIV3AGnwitPFg3hZJai24EL_Vt_nJq9xpd-PQQE9tJGyh7p3bO4";
+			return SessionManager.GetTokenType() + " " + SessionManager.GetSessionToken();
 		}
 
 		public void PostLoginRequest(string relativeUrl, string username, string password, Action<JsonValue> success, Action<JsonValue> failure)

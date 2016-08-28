@@ -92,8 +92,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fragments\Fragment1.cs" />
     <Compile Include="Fragments\ClientsOnMapFragment.cs" />
+    <Compile Include="Fragments\ProductDetailFragment.cs" />
     <Compile Include="Fragments\ProductsFragment.cs" />
     <Compile Include="Helpers\ProductsRecyclerAdapter.cs" />
     <Compile Include="Helpers\RecyclerViewOnScrollListener.cs" />
@@ -118,27 +118,42 @@
     </None>
     <None Include="Assets\AboutAssets.txt" />
     <None Include="packages.config" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_shopping_cart_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_shopping_cart_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_view_list_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_view_list_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_work_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_work_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_shopping_cart_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_shopping_cart_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_view_list_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_view_list_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_work_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_work_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_shopping_cart_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_shopping_cart_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_view_list_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_view_list_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_work_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_work_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_shopping_cart_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_shopping_cart_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_view_list_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_view_list_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_work_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_work_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_shopping_cart_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_shopping_cart_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_view_list_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_view_list_white_36dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_work_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_work_white_36dp.png" />
     <AndroidResource Include="Resources\layout\ClientsOnMapFragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ClientsDetailFragment.axml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_shopping_cart_white_36dp.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\ic_view_list_white_36dp.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\ic_work_white_36dp.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\ic_shopping_cart_white_36dp.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\ic_view_list_white_36dp.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\ic_work_white_36dp.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_shopping_cart_white_36dp.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_view_list_white_36dp.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_work_white_36dp.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_shopping_cart_white_36dp.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_view_list_white_36dp.png" />
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_work_white_36dp.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_shopping_cart_white_36dp.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_view_list_white_36dp.png" />
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_work_white_36dp.png" />
     <AndroidResource Include="Resources\layout\Main.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -149,7 +164,9 @@
     <AndroidResource Include="Resources\mipmap-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\layout\Menu.axml" />
-    <AndroidResource Include="Resources\layout\Products.axml" />
+    <AndroidResource Include="Resources\layout\Products.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\layout\ProductRow.axml" />
     <AndroidResource Include="Resources\layout\Toolbar.axml" />
     <AndroidResource Include="Resources\menu\home.xml" />
@@ -182,52 +199,24 @@
     <AndroidResource Include="Resources\drawable\ListStateSelector.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_shopping_cart_white_24dp.png" />
+    <AndroidResource Include="Resources\layout\ProductDetailFragment.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_view_list_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_add_shopping_cart_white_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-hdpi\ic_work_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_add_shopping_cart_white_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_shopping_cart_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_add_shopping_cart_white_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_view_list_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_add_shopping_cart_white_24dp.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-mdpi\ic_work_white_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_shopping_cart_white_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_view_list_white_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_work_white_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_shopping_cart_white_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_view_list_white_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\ic_work_white_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_shopping_cart_white_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_view_list_white_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_work_white_24dp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\Fragment1.axml" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_add_shopping_cart_white_24dp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
