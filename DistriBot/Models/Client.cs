@@ -14,8 +14,10 @@ namespace DistriBot
 		public string Address { get; set; }
 		public string Phone { get; set; }
 		public string Email { get; set; }
+		public double CreditBalance { get; set; }
 
-		public Client(int id, string name, double latitude, double longitude, string address, string phone, string email)
+		public Client(int id, string name, double latitude, double longitude, string address,
+		              string phone, string email, double creditBalance)
 		{
 			Id = id;
 			Name = name;
@@ -24,6 +26,7 @@ namespace DistriBot
 			Address = address;
 			Phone = phone;
 			Email = email;
+			CreditBalance = creditBalance;
 		}
 
 		public static List<Client> ClientsFromJson(JsonValue jsonArray)
@@ -45,7 +48,8 @@ namespace DistriBot
 			string address = json["address"];
 			string phone = json["phone"];
 			string email = json["emailAddress"];
-			return new Client(id, name, latitude, longitude, address, phone, email);
+			double creditBalance = json["creditBalance"];
+			return new Client(id, name, latitude, longitude, address, phone, email, creditBalance);
 		}
 	}
 }
