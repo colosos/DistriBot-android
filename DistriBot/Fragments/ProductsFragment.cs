@@ -21,6 +21,9 @@ namespace DistriBot
         private LinearLayoutManager mLayoutManager;
         private ProductsRecyclerAdapter mAdapter;
 		private List<Product> products = new List<Product>();
+		private int lastProduct = 1;
+		private int prodQuantity = 10;
+		private bool reachedEnd = false;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -41,29 +44,42 @@ namespace DistriBot
 
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
-            LoadProducts();
+			SetupProductsList();
             var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             var activity = Activity as AppCompatActivity;
             activity.SetSupportActionBar(toolbar);
             base.OnActivityCreated(savedInstanceState);
         }
 
-        private void LoadProducts()
-        {
-            var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando productos..", true, true);
-            ProductServiceManager.GetProducts(1, 10, success: (obj) =>
-            {
-                progressDialogue.Dismiss();
-                products = obj;
-                Activity.RunOnUiThread(() =>
-                {
-                    CreateAdapter();
-                });
-            }, failure: (obj) =>
-            {
-                Android.Widget.Toast.MakeText(Context, "Ha ocurrido un error al cargar los productos", Android.Widget.ToastLength.Short).Show();
-            });
-        }
+		private void LoadProducts(Action<List<Product>> completion)
+		{
+			if (!reachedEnd)
+			{
+				var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando productos..", true, true);
+				ProductServiceManager.GetProducts(lastProduct, prodQuantity, success: (obj) =>
+				{
+					progressDialogue.Dismiss();
+					products = obj;
+					reachedEnd = obj.Count < prodQuantity;
+					lastProduct += obj.Count;
+					completion(obj);
+				}, failure: (obj) =>
+				{
+					Android.Widget.Toast.MakeText(Context, "Ha ocurrido un error al cargar los productos", Android.Widget.ToastLength.Short).Show();
+				});
+			}
+		}
+
+        private void SetupProductsList()
+		{
+			LoadProducts(completion: (obj) =>
+			{
+				Activity.RunOnUiThread(() =>
+				{
+					CreateAdapter();
+				});
+			});
+		}
 
         private void CreateAdapter()
         {
@@ -99,20 +115,21 @@ namespace DistriBot
             var onScrollListener = new RecyclerViewOnScrollListener(mLayoutManager);
             onScrollListener.LoadMoreEvent += (object sender, EventArgs e) =>
             {
-                //Load more stuff here
-                List<Product> addProducts = new List<Product>()
-                {
-                        new Product(14, "Chocolate", 3.11),
-                        new Product(15, "Arroz", 3.11),
-                        new Product(16, "Banana", 3.11),
-                        new Product(17, "Manzana", 3.11),
-                        new Product(18, "Limón", 3.11)
-                };
-                products.AddRange(addProducts);
-                mAdapter.NotifyItemRangeInserted(products.Count, addProducts.Count);
+				LoadProducts(completion: (obj) =>
+				{
+					products.AddRange(obj);
+					mAdapter.NotifyItemRangeInserted(products.Count, obj.Count);
+				});                
             };
 
             mRecyclerView.AddOnScrollListener(onScrollListener);
         }
+
+		private void resetPages()
+		{
+			lastProduct = 1;
+			prodQuantity = 10;
+			reachedEnd = false;
+		}	
     }
 }

@@ -31,18 +31,21 @@ namespace DistriBot
 			List<Client> clients = new List<Client>();
 			foreach (JsonValue json in jsonArray)
 			{
-				int id = json["id"];
-				string name = json["name"];
-				double latitude = json["latitude"];
-				double longitude = json["longitude"];
-				string address = json["address"];
-				string phone = json["phone"];
-				string email = json["emailAddress"];
-				Client client = new Client(id, name, latitude, longitude, address, phone, email);
-				clients.Add(client);
+				clients.Add(ClientFromJson(json));
 			}
 			return clients;
 		}
+
+		public static Client ClientFromJson(JsonValue json)
+		{
+			int id = json["id"];
+			string name = json["name"];
+			double latitude = json["latitude"];
+			double longitude = json["longitude"];
+			string address = json["address"];
+			string phone = json["phone"];
+			string email = json["emailAddress"];
+			return new Client(id, name, latitude, longitude, address, phone, email);
+		}
 	}
 }
-
