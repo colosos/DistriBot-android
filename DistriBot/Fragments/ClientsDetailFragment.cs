@@ -36,6 +36,16 @@ namespace DistriBot
 			view.FindViewById<TextView>(Resource.Id.txtClientAddress).Text = mClient.Address;
 			view.FindViewById<TextView>(Resource.Id.txtClientPhone).Text = mClient.Phone;
 			view.FindViewById<TextView>(Resource.Id.txtClientEmail).Text = mClient.Email;
+			TextView txtCreditBalance = view.FindViewById<TextView>(Resource.Id.txtClientCreditBalanceDynamic);
+			txtCreditBalance.Text = "$ " + mClient.CreditBalance.ToString(); 
+			if (mClient.CreditBalance > 0)
+			{
+				txtCreditBalance.SetTextColor(Android.Graphics.Color.ParseColor("#ff388e3c"));
+			}
+			if (mClient.CreditBalance < 0)
+			{
+				txtCreditBalance.SetTextColor(Android.Graphics.Color.ParseColor("#ffd32f2f"));
+			}
 			return view;
 		}
 	}

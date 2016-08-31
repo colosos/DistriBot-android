@@ -52,4 +52,28 @@
         android:layout_alignParentLeft="true"
         android:layout_marginTop="150dp"
         android:layout_marginLeft="15dp" />
+    <TextView
+        android:id="@+id/txtClientCreditBalanceStatic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Saldo"
+        android:textColor="@color/primary_light"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:textSize="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="190dp"
+        android:layout_marginLeft="15dp" />
+    <TextView
+        android:id="@+id/txtClientCreditBalanceDynamic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Saldo"
+        android:textColor="@color/primary_light"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:textSize="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="190dp"
+        android:layout_marginLeft="80dp" />
 </RelativeLayout>
