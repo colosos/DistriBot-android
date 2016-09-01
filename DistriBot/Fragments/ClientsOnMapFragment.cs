@@ -12,14 +12,18 @@ using Android.Views;
 using Android.Widget;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
+using Android.Locations;
 
 namespace DistriBot
 {
-	public class ClientsOnMapFragment : Fragment, View.IOnTouchListener, IOnMapReadyCallback
+	public class ClientsOnMapFragment : Fragment, View.IOnTouchListener, IOnMapReadyCallback, ILocationListener
     {
 
 		private GoogleMap mMap;
 		private Dictionary<Client, Marker> clientsDictionary = new Dictionary<Client, Marker>();
+
+		private LocationManager locationManager;
+		private Location currentLocation;
 
 		public FrameLayout mClientsDetailFragmentContainer;
 		public ClientsDetailFragment mClientDetailFragment;
@@ -29,6 +33,7 @@ namespace DistriBot
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+			InitializeLocationManager();
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -41,8 +46,33 @@ namespace DistriBot
 
 		public override void OnActivityCreated(Bundle savedInstanceState)
 		{
-			SetUpMap();
 			base.OnActivityCreated(savedInstanceState);
+			SetUpMap();
+		}
+
+		public override void OnResume()
+		{
+			base.OnResume();
+			Criteria locationCriteria = new Criteria();
+			string locationProvider;
+			locationCriteria.Accuracy = Accuracy.Fine;
+			locationCriteria.PowerRequirement = Power.Medium;
+			locationProvider = locationManager.GetBestProvider(locationCriteria, true);
+			if (locationProvider != null)
+			{
+				locationManager.RequestLocationUpdates(locationProvider, 2000, 1, this);
+			}
+		}
+
+		public override void OnPause()
+		{
+			base.OnPause();
+			locationManager.RemoveUpdates(this);
+		}
+
+		private void InitializeLocationManager()
+		{
+			locationManager = Activity.GetSystemService(Context.LocationService) as LocationManager;
 		}
 
 		private void SetUpMap()
@@ -126,6 +156,32 @@ namespace DistriBot
 				default:
 					return v.OnTouchEvent(e);
 			}
+		}
+
+		public void OnLocationChanged(Location location)
+		{
+			currentLocation = location;
+			LatLng latlng = new LatLng(currentLocation.Latitude, currentLocation.Longitude);
+			CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 12);
+			mMap.AnimateCamera(camera);
+		}
+
+		public void OnProviderDisabled(string provider)
+		{
+			// OnProviderEnabled and OnProviderDisabled - Complementary methods that notify the application when the 
+			// user has enabled or disabled the provider (for example, a user may disable GPS to conserve battery).	
+		}
+
+		public void OnProviderEnabled(string provider)
+		{
+			// OnProviderEnabled and OnProviderDisabled - Complementary methods that notify the application when the 
+			// user has enabled or disabled the provider (for example, a user may disable GPS to conserve battery).		
+		}
+
+		public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras)
+		{
+			// Notifies the application when the provider's availability changes, and provides
+			// the accompanying status (for example, GPS availability may change when a user walks indoors).
 		}
 	}
 }
