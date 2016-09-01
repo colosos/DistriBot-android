@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#00CC99">
-    <fragment
-        android:id="@+id/map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.google.android.gms.maps.MapFragment"
-        android:layout_weight="100" />
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/Toolbar" />
     <FrameLayout
-        android:id="@+id/clientsDetailFragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="#E2E2E2"
-        android:layout_gravity="bottom"
-        android:translationY="250dp" />
-</FrameLayout>
+        android:layout_height="match_parent">
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="100" />
+        <FrameLayout
+            android:id="@+id/clientsDetailFragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="#E2E2E2"
+            android:layout_gravity="bottom"
+            android:translationY="250dp" />
+    </FrameLayout>
+</LinearLayout>

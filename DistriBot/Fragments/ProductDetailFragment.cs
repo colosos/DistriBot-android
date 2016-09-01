@@ -36,15 +36,21 @@ namespace DistriBot
 
             return view;
         }
-
+        
         public override void OnActivityCreated(Bundle savedInstanceState)
+        {
+            SetUpToolbar();
+            base.OnActivityCreated(savedInstanceState);
+        }
+
+
+        private void SetUpToolbar()
         {
             var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             toolbar.Title = ProductDetail.Name;
             var activity = Activity as AppCompatActivity;
             activity.SetSupportActionBar(toolbar);
             activity.SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-            base.OnActivityCreated(savedInstanceState);
         }
 
         public void OnClick(View v)
@@ -56,7 +62,7 @@ namespace DistriBot
                     break;
             }
         }
-
+        
         public ProductDetailFragment(Product product)
         {
             ProductDetail = product;
