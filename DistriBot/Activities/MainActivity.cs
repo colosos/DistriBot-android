@@ -15,6 +15,12 @@ namespace DistriBot
 			base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Main);
 
+			if (SessionManager.IsUserLoggedIn())
+			{
+				var menuActivity = new Intent(this, typeof(MenuActivity));
+				StartActivity(menuActivity);
+			}
+
 			var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
             var btnForgotPassword = FindViewById<TextView>(Resource.Id.tvForgotPasswordLink);
 

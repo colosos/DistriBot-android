@@ -67,6 +67,5 @@ namespace DistriBot
                 view.Click += (sender, e) => listener(base.Position);
             }
         }
-
     }
 }

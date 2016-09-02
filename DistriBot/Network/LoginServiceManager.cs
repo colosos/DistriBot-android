@@ -3,7 +3,6 @@ namespace DistriBot
 {
 	public class LoginServiceManager
 	{
-
 		private static string relativeUrl = "login";
 
 		public LoginServiceManager()
@@ -28,4 +27,3 @@ namespace DistriBot
 		}
 	}
 }
-
