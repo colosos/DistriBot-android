@@ -18,17 +18,14 @@ namespace DistriBot
 {
 	public class ClientsOnMapFragment : Fragment, View.IOnTouchListener, IOnMapReadyCallback, ILocationListener
     {
-
 		private GoogleMap mMap;
 		private Dictionary<Client, Marker> clientsDictionary = new Dictionary<Client, Marker>();
-
 		private LocationManager locationManager;
 		private Location currentLocation;
+		private float mLastPosY;
 
 		public FrameLayout mClientsDetailFragmentContainer;
 		public ClientsDetailFragment mClientDetailFragment;
-
-		private float mLastPosY;
 
         public override void OnCreate(Bundle savedInstanceState)
         {

@@ -38,6 +38,10 @@ namespace DistriBot
 			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
 			return prefs.GetString("token-type", "DEFAULT");
 		}
+
+		public static bool IsUserLoggedIn()
+		{
+			return GetSessionToken() != null && GetSessionToken() != "";
+		}
 	}
 }
-

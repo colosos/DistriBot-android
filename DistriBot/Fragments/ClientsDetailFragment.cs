@@ -16,7 +16,6 @@ namespace DistriBot
 {
 	public class ClientsDetailFragment : Fragment
 	{
-
 		private Client mClient;
 
 		public ClientsDetailFragment(Client client)
@@ -50,4 +49,3 @@ namespace DistriBot
 		}
 	}
 }
-

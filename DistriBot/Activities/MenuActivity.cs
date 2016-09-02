@@ -50,10 +50,8 @@ namespace DistriBot
 
             var trans = SupportFragmentManager.BeginTransaction();
             trans.Add(Resource.Id.fragmentContainer, mClientsOnMapFragment, "ClientsOnMapFragment");
-            trans.Hide(mClientsOnMapFragment);
-            trans.Add(Resource.Id.fragmentContainer, mProductsFragment, "ProductsFragment");
             trans.Commit();
-            mCurrentFragment = mProductsFragment;
+            mCurrentFragment = mClientsOnMapFragment;
             mCurrentStack = mStackFragmentPreSales;
 
             bottomBar = BottomBar.Attach(this, savedInstanceState);
@@ -75,10 +73,10 @@ namespace DistriBot
                 switch (position)
                 {
                     case 0:
-						ShowTab(mStackFragmentCatalogue, mClientsOnMapFragment);                        
+						ShowTab(mStackFragmentCatalogue, mClientsOnMapFragment, "ClientsOnMapFragment");                        
                         break;
                     case 1:
-                        ShowTab(mStackFragmentPreSales, mProductsFragment);
+                        ShowTab(mStackFragmentPreSales, mProductsFragment, "ProductsFragment");
                         break;
                     case 2:
                         break;
@@ -87,7 +85,7 @@ namespace DistriBot
             backpressed = false;
         }
 
-        private void ShowTab(LinkedList<SupportFragment> stack, SupportFragment fragment)
+        private void ShowTab(LinkedList<SupportFragment> stack, SupportFragment fragment, String tag)
         {
             if (stack.Count > 0)
             {
@@ -97,6 +95,20 @@ namespace DistriBot
 
             var trans = SupportFragmentManager.BeginTransaction();
             trans.Hide(mCurrentFragment);
+			if (fragment.Id == 0)
+			{
+				switch (tag)
+				{
+					case "ProductsFragment":
+						trans.Add(Resource.Id.fragmentContainer, mProductsFragment, "ProductsFragment");
+						fragment = mProductsFragment;
+						break;
+					case "ClientsOnMapFragment":
+						trans.Add(Resource.Id.fragmentContainer, mClientsOnMapFragment, "ClientsOnMapFragment");
+						fragment = mClientsOnMapFragment;
+						break;
+				}
+			}
             trans.Show(fragment);
             trans.Commit();
 
@@ -105,7 +117,6 @@ namespace DistriBot
             if (mStackStacks.Contains(stack)) mStackStacks.Remove(stack);
             mCurrentFragment = fragment;
             mCurrentStack = stack;
-
         }
 
         /* Este metodo lo llama el fragment contenido por la activity
@@ -190,4 +201,3 @@ namespace DistriBot
         }
     }
 }
-
