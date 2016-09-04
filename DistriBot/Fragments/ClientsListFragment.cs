@@ -12,10 +12,11 @@ using Android.Views;
 using Android.Widget;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
+using Android.Locations;
 
 namespace DistriBot
 {
-    public class ClientsListFragment : Fragment
+    public class ClientsListFragment : Fragment, ILocationListener
     {
 
         private RecyclerView mRecyclerView;
@@ -23,10 +24,13 @@ namespace DistriBot
         private ClientsRecyclerAdapter mAdapter;
         private List<Client> clients = new List<Client>();
 
+		private LocationManager locationManager;
+		private Location currentLocation;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            //esto hace que se llame al OnOptionsItemSelected
+            InitializeLocationManager();
             HasOptionsMenu = true;
         }
 
@@ -39,15 +43,39 @@ namespace DistriBot
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             LoadClients();
-			SuggestClient();
             base.OnActivityCreated(savedInstanceState);
         }
+
+		public override void OnResume()
+		{
+			base.OnResume();
+			Criteria locationCriteria = new Criteria();
+			string locationProvider;
+			locationCriteria.Accuracy = Accuracy.Fine;
+			locationCriteria.PowerRequirement = Power.Medium;
+			locationProvider = locationManager.GetBestProvider(locationCriteria, true);
+			if (locationProvider != null)
+			{
+				locationManager.RequestSingleUpdate(locationProvider, this, null);
+			}
+		}
+
+		public override void OnPause()
+		{
+			base.OnPause();
+			locationManager.RemoveUpdates(this);
+		}
 
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
             base.OnCreateOptionsMenu(menu, inflater);
             SetUpToolbar();
         }
+
+		private void InitializeLocationManager()
+		{
+			locationManager = Activity.GetSystemService(Context.LocationService) as LocationManager;
+		}
 
         private void SetUpToolbar()
         {
@@ -59,7 +87,7 @@ namespace DistriBot
 
         void LoadClients()
         {
-            var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando clientes...", true, true);
+            var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando clientes", true, true);
             ClientServiceManager.GetClients(success: (obj) =>
             {
                 progressDialogue.Dismiss();
@@ -97,8 +125,8 @@ namespace DistriBot
             switch (item.ItemId)
             {
                 case Resource.Id.action_view_map:
-                    MenuActivity actividad = Activity as MenuActivity;
-                    actividad.ShowFragment(new ClientsOnMapFragment(clients), "ClientsOnMap");
+                    MenuActivity mActivity = Activity as MenuActivity;
+					mActivity.ShowFragment(new ClientsOnMapFragment(clients, currentLocation), "ClientsOnMap");
                     return true;
 
             }
@@ -118,14 +146,13 @@ namespace DistriBot
 
 		void SuggestClient()
 		{
-			//TODO: Obtener latitud y longitudes reales.
-			double lat = 1;
-			double lon = 1;
+			double lat = currentLocation.Latitude;
+			double lon = currentLocation.Longitude;
 			ClientServiceManager.GetNearestClient(lat, lon, success: (Client obj) =>
 			{
 				AlertDialog.Builder alert = new AlertDialog.Builder(this.Activity);
-				alert.SetTitle("Info");
-				alert.SetMessage("Ud se encuentra en " + obj.Name + "?");
+				alert.SetTitle("Informaci¨®n");
+				alert.SetMessage("Desea realizar un pedido para " + obj.Name + "?");
 				alert.SetPositiveButton("Si", (senderAlert, args) =>
 				{
 					MenuActivity actividad = Activity as MenuActivity;
@@ -144,25 +171,49 @@ namespace DistriBot
 			});
 		}
 
-        //private void CreateScrollListener()
-        //{
-        //    var onScrollListener = new RecyclerViewOnScrollListener(mLayoutManager);
-        //    onScrollListener.LoadMoreEvent += (object sender, EventArgs e) =>
-        //    {
-        //        //Load more stuff here
-        //        List<Product> addProducts = new List<Product>()
-        //        {
-        //                new Product(14, "Chocolate", 3.11),
-        //                new Product(15, "Arroz", 3.11),
-        //                new Product(16, "Banana", 3.11),
-        //                new Product(17, "Manzana", 3.11),
-        //                new Product(18, "Limón", 3.11)
-        //        };
-        //        clients.AddRange(addProducts);
-        //        mAdapter.NotifyItemRangeInserted(clients.Count, addProducts.Count);
-        //    };
+		public void OnLocationChanged(Location location)
+		{
+			currentLocation = location;
+			SuggestClient();
+		}
 
-        //    mRecyclerView.AddOnScrollListener(onScrollListener);
-        //}
-    }
+		public void OnProviderDisabled(string provider)
+		{
+			// OnProviderEnabled and OnProviderDisabled - Complementary methods that notify the application when the 
+			// user has enabled or disabled the provider (for example, a user may disable GPS to conserve battery).	
+		}
+
+		public void OnProviderEnabled(string provider)
+		{
+			// OnProviderEnabled and OnProviderDisabled - Complementary methods that notify the application when the 
+			// user has enabled or disabled the provider (for example, a user may disable GPS to conserve battery).	
+		}
+
+		public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras)
+		{
+			// Notifies the application when the provider's availability changes, and provides
+			// the accompanying status (for example, GPS availability may change when a user walks indoors).
+		}
+
+		//private void CreateScrollListener()
+		//{
+		//    var onScrollListener = new RecyclerViewOnScrollListener(mLayoutManager);
+		//    onScrollListener.LoadMoreEvent += (object sender, EventArgs e) =>
+		//    {
+		//        //Load more stuff here
+		//        List<Product> addProducts = new List<Product>()
+		//        {
+		//                new Product(14, "Chocolate", 3.11),
+		//                new Product(15, "Arroz", 3.11),
+		//                new Product(16, "Banana", 3.11),
+		//                new Product(17, "Manzana", 3.11),
+		//                new Product(18, "Limón", 3.11)
+		//        };
+		//        clients.AddRange(addProducts);
+		//        mAdapter.NotifyItemRangeInserted(clients.Count, addProducts.Count);
+		//    };
+
+		//    mRecyclerView.AddOnScrollListener(onScrollListener);
+		//}
+	}
 }

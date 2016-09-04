@@ -17,17 +17,18 @@ using Android.Support.V7.App;
 
 namespace DistriBot
 {
-	public class ClientsOnMapFragment : Fragment, View.IOnTouchListener, IOnMapReadyCallback, ILocationListener
+	public class ClientsOnMapFragment : Fragment, View.IOnTouchListener, IOnMapReadyCallback
     {
+
 		private GoogleMap mMap;
+		private MapView mapView;
+
+		private Location currentLocation;
 
 		private Dictionary<Client, Marker> clientsDictionary = new Dictionary<Client, Marker>();
-		private LocationManager locationManager;
-		private Location currentLocation;
-		private float mLastPosY;
+		private List<Client> clients = new List<Client>();
 
-        private MapView mapView;
-        private List<Client> clients = new List<Client>();
+		private float mLastPosY;
 
 		public FrameLayout mClientsDetailFragmentContainer;
 		public ClientsDetailFragment mClientDetailFragment;
@@ -35,15 +36,15 @@ namespace DistriBot
 
         public override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(savedInstanceState);
-            InitializeLocationManager();
+			base.OnCreate(savedInstanceState);
             HasOptionsMenu = true;
         }
 
 
-        public ClientsOnMapFragment(List<Client> clients)
+		public ClientsOnMapFragment(List<Client> clientList, Location location)
         {
-            this.clients = clients;
+            clients = clientList;
+			currentLocation = location;
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -64,29 +65,7 @@ namespace DistriBot
 		{
             mapView.OnResume();
             base.OnResume();
-			Criteria locationCriteria = new Criteria();
-			string locationProvider;
-			locationCriteria.Accuracy = Accuracy.Fine;
-			locationCriteria.PowerRequirement = Power.Medium;
-			locationProvider = locationManager.GetBestProvider(locationCriteria, true);
-			if (locationProvider != null)
-			{
-				locationManager.RequestLocationUpdates(locationProvider, 2000, 1, this);
-			}
 		}
-
-		public override void OnPause()
-		{
-			base.OnPause();
-			locationManager.RemoveUpdates(this);
-		}
-
-		private void InitializeLocationManager()
-		{
-			locationManager = Activity.GetSystemService(Context.LocationService) as LocationManager;
-		}
-
-
 
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
@@ -117,6 +96,7 @@ namespace DistriBot
             base.OnDestroy();
             mapView.OnDestroy();
         }
+
         public override void OnLowMemory()
         {
             base.OnLowMemory();
@@ -134,8 +114,8 @@ namespace DistriBot
 
 		void MMap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
 		{
-			var clients = clientsDictionary.Where(c => c.Value.Equals(e.Marker)).Select(c => c.Key);
-			foreach (Client client in clients)
+			var clientsList = clientsDictionary.Where(c => c.Value.Equals(e.Marker)).Select(c => c.Key);
+			foreach (Client client in clientsList)
 			{
 				mClientDetailFragment = new ClientsDetailFragment(client);
 				var trans = Activity.SupportFragmentManager.BeginTransaction();
@@ -167,7 +147,10 @@ namespace DistriBot
                     clientsDictionary.Add(client, marker);
                 });
             }
-        }
+			LatLng latlng = new LatLng(currentLocation.Latitude, currentLocation.Longitude);
+			CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 12);
+			mMap.AnimateCamera(camera);
+		}
 
 		public bool OnTouch(View v, MotionEvent e)
 		{
@@ -190,32 +173,6 @@ namespace DistriBot
 				default:
 					return v.OnTouchEvent(e);
 			}
-		}
-
-		public void OnLocationChanged(Location location)
-		{
-			currentLocation = location;
-			LatLng latlng = new LatLng(currentLocation.Latitude, currentLocation.Longitude);
-			CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 12);
-			mMap.AnimateCamera(camera);
-		}
-
-		public void OnProviderDisabled(string provider)
-		{
-			// OnProviderEnabled and OnProviderDisabled - Complementary methods that notify the application when the 
-			// user has enabled or disabled the provider (for example, a user may disable GPS to conserve battery).	
-		}
-
-		public void OnProviderEnabled(string provider)
-		{
-			// OnProviderEnabled and OnProviderDisabled - Complementary methods that notify the application when the 
-			// user has enabled or disabled the provider (for example, a user may disable GPS to conserve battery).		
-		}
-
-		public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras)
-		{
-			// Notifies the application when the provider's availability changes, and provides
-			// the accompanying status (for example, GPS availability may change when a user walks indoors).
 		}
 
         public override bool OnOptionsItemSelected(IMenuItem item)
