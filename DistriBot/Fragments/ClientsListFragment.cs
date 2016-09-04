@@ -18,7 +18,6 @@ namespace DistriBot
 {
     public class ClientsListFragment : Fragment, ILocationListener
     {
-
         private RecyclerView mRecyclerView;
         private LinearLayoutManager mLayoutManager;
         private ClientsRecyclerAdapter mAdapter;
