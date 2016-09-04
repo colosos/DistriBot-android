@@ -22,6 +22,7 @@ namespace DistriBot
         private LinearLayoutManager mLayoutManager;
         private ClientsRecyclerAdapter mAdapter;
         private List<Client> clients = new List<Client>();
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -38,16 +39,17 @@ namespace DistriBot
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
             LoadClients();
+			SuggestClient();
             base.OnActivityCreated(savedInstanceState);
         }
 
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
             base.OnCreateOptionsMenu(menu, inflater);
-            SetUpMap();
+            SetUpToolbar();
         }
 
-        private void SetUpMap()
+        private void SetUpToolbar()
         {
             var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             var activity = Activity as AppCompatActivity;
@@ -64,7 +66,7 @@ namespace DistriBot
                 clients = obj;
                 Activity.RunOnUiThread(() =>
                 {
-                    CreateAdapter();
+					CreateAdapter();
                 });
 
             }, failure: (obj) =>
@@ -108,12 +110,39 @@ namespace DistriBot
             if (position >= 0)
             {
                 var c = clients[position];
-                //Llamo el metodo de la actividad menu que muestra el fragment del detalle del client
-                //MenuActivity actividad = Activity as MenuActivity;
-                //actividad.ShowFragment(new ProductDetailFragment(p), "Detalle");
-
+                MenuActivity actividad = Activity as MenuActivity;
+				actividad.Order.ClientId = c.Id;
+                actividad.ShowFragment(new ProductsFragment(), "ProductsFragment");
             }
         }
+
+		void SuggestClient()
+		{
+			//TODO: Obtener latitud y longitudes reales.
+			double lat = 1;
+			double lon = 1;
+			ClientServiceManager.GetNearestClient(lat, lon, success: (Client obj) =>
+			{
+				AlertDialog.Builder alert = new AlertDialog.Builder(this.Activity);
+				alert.SetTitle("Info");
+				alert.SetMessage("Ud se encuentra en " + obj.Name + "?");
+				alert.SetPositiveButton("Si", (senderAlert, args) =>
+				{
+					MenuActivity actividad = Activity as MenuActivity;
+					actividad.Order.ClientId = obj.Id;
+					actividad.ShowFragment(new ProductsFragment(), "ProductsFragment");
+				});
+
+				alert.SetNegativeButton("No", (senderAlert, args) => { });
+				 
+				Activity.RunOnUiThread(() =>
+				{
+					alert.Show();
+				});
+			}, failure: (string obj) =>
+			{
+			});
+		}
 
         //private void CreateScrollListener()
         //{
