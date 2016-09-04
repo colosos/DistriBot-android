@@ -15,12 +15,6 @@ namespace DistriBot
 			base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.Main);
 
-			if (SessionManager.IsUserLoggedIn())
-			{
-				var menuActivity = new Intent(this, typeof(MenuActivity));
-				StartActivity(menuActivity);
-			}
-
 			var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
             var btnForgotPassword = FindViewById<TextView>(Resource.Id.tvForgotPasswordLink);
 
@@ -30,7 +24,6 @@ namespace DistriBot
             {
                 Toast.MakeText(this, "¡Qué lástima!", ToastLength.Short).Show();
             };
-
         }
 
 		void BtnLogin_Click(object sender, System.EventArgs e)

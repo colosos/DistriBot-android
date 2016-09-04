@@ -32,13 +32,18 @@ namespace DistriBot
         private LinkedList<LinkedList<SupportFragment>> mStackStacks;
         private LinkedList<SupportFragment> mCurrentStack;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+		//Este pedido se va construyendo con los fragments que pasan por esta Activity.
+		public Order Order { get; set; }
+
+		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.Menu);
 
             backpressed = true;
+
+			Order = new Order();
 
             mProductsFragment = new ProductsFragment();
             mSampleFragment = new SampleFragment();
