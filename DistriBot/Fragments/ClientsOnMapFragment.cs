@@ -13,43 +13,57 @@ using Android.Widget;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.Locations;
+using Android.Support.V7.App;
 
 namespace DistriBot
 {
 	public class ClientsOnMapFragment : Fragment, View.IOnTouchListener, IOnMapReadyCallback, ILocationListener
     {
 		private GoogleMap mMap;
+
 		private Dictionary<Client, Marker> clientsDictionary = new Dictionary<Client, Marker>();
 		private LocationManager locationManager;
 		private Location currentLocation;
 		private float mLastPosY;
 
+        private MapView mapView;
+        private List<Client> clients = new List<Client>();
+
 		public FrameLayout mClientsDetailFragmentContainer;
 		public ClientsDetailFragment mClientDetailFragment;
+
 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-			InitializeLocationManager();
+            InitializeLocationManager();
+            HasOptionsMenu = true;
+        }
+
+
+        public ClientsOnMapFragment(List<Client> clients)
+        {
+            this.clients = clients;
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
 			View view = inflater.Inflate(Resource.Layout.ClientsOnMapFragment, container, false);
-			mClientsDetailFragmentContainer = view.FindViewById<FrameLayout>(Resource.Id.clientsDetailFragmentContainer);
-			mClientsDetailFragmentContainer.SetOnTouchListener(this);
+            mClientsDetailFragmentContainer = view.FindViewById<FrameLayout>(Resource.Id.clientsDetailFragmentContainer);
+            mClientsDetailFragmentContainer.SetOnTouchListener(this);
             return view;
         }
 
 		public override void OnActivityCreated(Bundle savedInstanceState)
 		{
-			base.OnActivityCreated(savedInstanceState);
-			SetUpMap();
-		}
+            SetUpMap(savedInstanceState);
+            base.OnActivityCreated(savedInstanceState);
+        }
 
-		public override void OnResume()
+        public override void OnResume()
 		{
-			base.OnResume();
+            mapView.OnResume();
+            base.OnResume();
 			Criteria locationCriteria = new Criteria();
 			string locationProvider;
 			locationCriteria.Accuracy = Accuracy.Fine;
@@ -72,15 +86,44 @@ namespace DistriBot
 			locationManager = Activity.GetSystemService(Context.LocationService) as LocationManager;
 		}
 
-		private void SetUpMap()
+
+
+        public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+        {
+            base.OnCreateOptionsMenu(menu, inflater);
+            SetUpToolbar();
+        }
+
+        public void SetUpToolbar()
+        {
+            var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            var activity = Activity as AppCompatActivity;
+            toolbar.InflateMenu(Resource.Menu.MenuClientsOnMap);
+            activity.SetSupportActionBar(toolbar);
+        }
+
+        private void SetUpMap(Bundle savedInstanceState)
 		{
-			if (mMap == null)
+            mapView = View.FindViewById<MapView>(Resource.Id.map);
+            mapView.OnCreate(savedInstanceState);
+            if (mMap == null)
 			{
-				Activity.FragmentManager.FindFragmentById<MapFragment>(Resource.Id.map).GetMapAsync(this);
-			}
+                mapView.GetMapAsync(this);
+            }
 		}
 
-		public void OnMapReady(GoogleMap googleMap)
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            mapView.OnDestroy();
+        }
+        public override void OnLowMemory()
+        {
+            base.OnLowMemory();
+            mapView.OnLowMemory();
+        }
+
+        public void OnMapReady(GoogleMap googleMap)
 		{
 			mMap = googleMap;
 			mMap.MyLocationEnabled = true;
@@ -114,23 +157,17 @@ namespace DistriBot
 
 		void LoadClients()
 		{
-			ClientServiceManager.GetClients(success: (obj) =>
-			{
-				foreach (Client client in obj)
-				{
-					Activity.RunOnUiThread(() =>
-					{
-						MarkerOptions markerOptions = new MarkerOptions();
-						markerOptions.SetPosition(new LatLng(client.Latitude, client.Longitude));
-						Marker marker = mMap.AddMarker(markerOptions);
-						clientsDictionary.Add(client, marker);
-					});
-				}
-			}, failure: (obj) =>
-			{
-				//TODO: Show error message
-			});
-		}
+            foreach (Client client in clients)
+            {
+                Activity.RunOnUiThread(() =>
+                {
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.SetPosition(new LatLng(client.Latitude, client.Longitude));
+                    Marker marker = mMap.AddMarker(markerOptions);
+                    clientsDictionary.Add(client, marker);
+                });
+            }
+        }
 
 		public bool OnTouch(View v, MotionEvent e)
 		{
@@ -180,5 +217,17 @@ namespace DistriBot
 			// Notifies the application when the provider's availability changes, and provides
 			// the accompanying status (for example, GPS availability may change when a user walks indoors).
 		}
-	}
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case Resource.Id.action_view_list:
+                    MenuActivity actividad = Activity as MenuActivity;
+                    actividad.OnBackPressed();
+                    return true;
+            }
+            return false;
+        }
+    }
 }

@@ -42,10 +42,16 @@ namespace DistriBot
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
 			SetupProductsList();
+            SetUpToolbar();
+            base.OnActivityCreated(savedInstanceState);
+        }
+
+
+        private void SetUpToolbar()
+        {
             var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             var activity = Activity as AppCompatActivity;
             activity.SetSupportActionBar(toolbar);
-            base.OnActivityCreated(savedInstanceState);
         }
 
 		private void LoadProducts(Action<List<Product>> completion)

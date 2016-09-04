@@ -23,7 +23,8 @@ namespace DistriBot
 
         private SupportFragment mCurrentFragment;
         private ProductsFragment mProductsFragment;
-        private ClientsOnMapFragment mClientsOnMapFragment;
+        private SampleFragment mSampleFragment;
+        private ClientsListFragment mClientsListFragment;
 
         private LinkedList<SupportFragment> mStackFragmentPreSales;
         private LinkedList<SupportFragment> mStackFragmentCatalogue;
@@ -40,7 +41,8 @@ namespace DistriBot
             backpressed = true;
 
             mProductsFragment = new ProductsFragment();
-            mClientsOnMapFragment = new ClientsOnMapFragment();
+            mSampleFragment = new SampleFragment();
+            mClientsListFragment = new ClientsListFragment();
 
             mStackFragmentPreSales = new LinkedList<SupportFragment>();
             mStackFragmentCatalogue = new LinkedList<SupportFragment>();
@@ -49,9 +51,15 @@ namespace DistriBot
             mStackStacks = new LinkedList<LinkedList<SupportFragment>>();
 
             var trans = SupportFragmentManager.BeginTransaction();
-            trans.Add(Resource.Id.fragmentContainer, mClientsOnMapFragment, "ClientsOnMapFragment");
+
+            trans.Add(Resource.Id.fragmentContainer, mSampleFragment, "SampleFragment");
+            trans.Hide(mSampleFragment);
+            trans.Add(Resource.Id.fragmentContainer, mProductsFragment, "ProductsFragment");
+            trans.Hide(mProductsFragment);
+            trans.Add(Resource.Id.fragmentContainer, mClientsListFragment, "ClientsListFragment");
             trans.Commit();
-            mCurrentFragment = mClientsOnMapFragment;
+
+            mCurrentFragment = mClientsListFragment;
             mCurrentStack = mStackFragmentPreSales;
 
             bottomBar = BottomBar.Attach(this, savedInstanceState);
@@ -73,19 +81,20 @@ namespace DistriBot
                 switch (position)
                 {
                     case 0:
-						ShowTab(mStackFragmentCatalogue, mClientsOnMapFragment, "ClientsOnMapFragment");                        
+                        ShowTab(mStackFragmentPreSales, mClientsListFragment);
                         break;
                     case 1:
-                        ShowTab(mStackFragmentPreSales, mProductsFragment, "ProductsFragment");
+                        ShowTab(mStackFragmentCatalogue, mProductsFragment);
                         break;
                     case 2:
+                        ShowTab(mStackFragmentDeliveryRequests, mSampleFragment);
                         break;
                 }
             }
             backpressed = false;
         }
 
-        private void ShowTab(LinkedList<SupportFragment> stack, SupportFragment fragment, String tag)
+        private void ShowTab(LinkedList<SupportFragment> stack, SupportFragment fragment)
         {
             if (stack.Count > 0)
             {
@@ -95,20 +104,6 @@ namespace DistriBot
 
             var trans = SupportFragmentManager.BeginTransaction();
             trans.Hide(mCurrentFragment);
-			if (fragment.Id == 0)
-			{
-				switch (tag)
-				{
-					case "ProductsFragment":
-						trans.Add(Resource.Id.fragmentContainer, mProductsFragment, "ProductsFragment");
-						fragment = mProductsFragment;
-						break;
-					case "ClientsOnMapFragment":
-						trans.Add(Resource.Id.fragmentContainer, mClientsOnMapFragment, "ClientsOnMapFragment");
-						fragment = mClientsOnMapFragment;
-						break;
-				}
-			}
             trans.Show(fragment);
             trans.Commit();
 
@@ -191,6 +186,7 @@ namespace DistriBot
             }
             return false;
         }
+        
         protected override void OnSaveInstanceState(Bundle outState)
         {
             base.OnSaveInstanceState(outState);
