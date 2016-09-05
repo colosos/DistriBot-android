@@ -41,31 +41,17 @@ namespace DistriBot
 
             SetContentView(Resource.Layout.Menu);
 
-            backpressed = true;
+            Order = new Order();
 
-			Order = new Order();
-
-            mProductsFragment = new ProductsFragment();
-            mSampleFragment = new SampleFragment();
-            mClientsListFragment = new ClientsListFragment();
+            var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            SetSupportActionBar(toolbar);
+            SupportActionBar.Hide();
 
             mStackFragmentPreSales = new LinkedList<SupportFragment>();
             mStackFragmentCatalogue = new LinkedList<SupportFragment>();
             mStackFragmentDeliveryRequests = new LinkedList<SupportFragment>();
             mCurrentStack = new LinkedList<SupportFragment>();
             mStackStacks = new LinkedList<LinkedList<SupportFragment>>();
-
-            var trans = SupportFragmentManager.BeginTransaction();
-
-            trans.Add(Resource.Id.fragmentContainer, mSampleFragment, "SampleFragment");
-            trans.Hide(mSampleFragment);
-            trans.Add(Resource.Id.fragmentContainer, mProductsFragment, "ProductsFragment");
-            trans.Hide(mProductsFragment);
-            trans.Add(Resource.Id.fragmentContainer, mClientsListFragment, "ClientsListFragment");
-            trans.Commit();
-
-            mCurrentFragment = mClientsListFragment;
-            mCurrentStack = mStackFragmentPreSales;
 
             bottomBar = BottomBar.Attach(this, savedInstanceState);
             bottomBar.SetItems(Resource.Menu.BottomNavBar);
@@ -86,12 +72,36 @@ namespace DistriBot
                 switch (position)
                 {
                     case 0:
+                        if (mClientsListFragment == null)
+                        {
+                            mClientsListFragment = new ClientsListFragment();
+                            var trans = SupportFragmentManager.BeginTransaction();
+                            trans.Add(Resource.Id.fragmentContainer, mClientsListFragment, "ClientsListFragment");
+                            trans.Hide(mClientsListFragment);
+                            trans.Commit();
+                        }
                         ShowTab(mStackFragmentPreSales, mClientsListFragment);
                         break;
                     case 1:
+                        if(mProductsFragment == null)
+                        {
+                            mProductsFragment = new ProductsFragment();
+                            var trans = SupportFragmentManager.BeginTransaction();
+                            trans.Add(Resource.Id.fragmentContainer, mProductsFragment, "ProductsFragment");
+                            trans.Hide(mProductsFragment);
+                            trans.Commit();
+                        }
                         ShowTab(mStackFragmentCatalogue, mProductsFragment);
                         break;
                     case 2:
+                        if (mSampleFragment == null)
+                        {
+                            mSampleFragment = new SampleFragment();
+                            var trans = SupportFragmentManager.BeginTransaction();
+                            trans.Add(Resource.Id.fragmentContainer, mSampleFragment, "SampleFragment");
+                            trans.Hide(mSampleFragment);
+                            trans.Commit();
+                        }
                         ShowTab(mStackFragmentDeliveryRequests, mSampleFragment);
                         break;
                 }
@@ -108,13 +118,17 @@ namespace DistriBot
             }
 
             var trans = SupportFragmentManager.BeginTransaction();
-            trans.Hide(mCurrentFragment);
+            if(mCurrentFragment!=null)
+                trans.Hide(mCurrentFragment);
             trans.Show(fragment);
             trans.Commit();
 
-            mCurrentStack.AddFirst(mCurrentFragment);
-            mStackStacks.AddFirst(mCurrentStack);
-            if (mStackStacks.Contains(stack)) mStackStacks.Remove(stack);
+            if (mCurrentFragment != null)
+            {
+                mCurrentStack.AddFirst(mCurrentFragment);
+                mStackStacks.AddFirst(mCurrentStack);
+                if (mStackStacks.Contains(stack)) mStackStacks.Remove(stack);
+            }
             mCurrentFragment = fragment;
             mCurrentStack = stack;
         }
@@ -180,13 +194,19 @@ namespace DistriBot
 
             }
         }
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            return base.OnCreateOptionsMenu(menu);
+        }
+
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             switch (item.ItemId)
             {
                 case Android.Resource.Id.Home:
                     OnBackPressed();
-                    break;
+                    return true;
 
             }
             return false;
