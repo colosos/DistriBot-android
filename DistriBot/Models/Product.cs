@@ -9,6 +9,7 @@ namespace DistriBot
 		public int Id { get; set; }
 		public string Name { get; set; }
 		public double UnitPrice { get; set; }
+		public string MeasurementUnit { get; set; }
 
 		public Product(int id, string name, double unitPrice)
 		{
