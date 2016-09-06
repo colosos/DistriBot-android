@@ -140,6 +140,7 @@
     <AndroidResource Include="Resources\layout\SampleFragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\AddProductFragment.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">

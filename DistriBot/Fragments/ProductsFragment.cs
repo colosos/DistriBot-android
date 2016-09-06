@@ -32,8 +32,8 @@ namespace DistriBot
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            // Use this to return your custom view for this Fragment
-            // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
+			// Use this to return your custom view for this Fragment
+			// return inflater.Inflate(Resource.Layout.YourFragment, container, false);
 
             View view = inflater.Inflate(Resource.Layout.Products, container, false);
             return view;
@@ -107,8 +107,8 @@ namespace DistriBot
             {
                 var p = products[position];
                 //Llamo el metodo de la actividad menu que muestra el fragment del detalle del producto
-                MenuActivity actividad = Activity as MenuActivity;
-                actividad.ShowFragment(new ProductDetailFragment(p), "Detalle");
+                //MenuActivity actividad = Activity as MenuActivity;
+                //actividad.ShowFragment(new ProductDetailFragment(p), "Detalle");
 
             }
         }
