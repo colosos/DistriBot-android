@@ -62,7 +62,7 @@ namespace DistriBot
 				ProductServiceManager.GetProducts(lastProduct, prodQuantity, success: (obj) =>
 				{
 					progressDialogue.Dismiss();
-					products = obj;
+					products.AddRange(obj);
 					reachedEnd = obj.Count < prodQuantity;
 					lastProduct += obj.Count;
 					completion(obj);

@@ -22,6 +22,9 @@ namespace DistriBot
         private LinearLayoutManager mLayoutManager;
         private ClientsRecyclerAdapter mAdapter;
         private List<Client> clients = new List<Client>();
+		private int lastClient = 1;
+		private int clientsQuantity = 10;
+		private bool reachedEnd = false;
 
 		private LocationManager locationManager;
 		private Location currentLocation;
@@ -41,7 +44,7 @@ namespace DistriBot
 
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
-            LoadClients();
+			SetupClientsList();
             base.OnActivityCreated(savedInstanceState);
         }
 
@@ -84,23 +87,32 @@ namespace DistriBot
             activity.SetSupportActionBar(toolbar);
         }
 
-        void LoadClients()
+		void LoadClients(Action<List<Client>> completion)
         {
             var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando clientes", true, true);
-            ClientServiceManager.GetClients(success: (obj) =>
-            {
-                progressDialogue.Dismiss();
-                clients = obj;
-                Activity.RunOnUiThread(() =>
-                {
-					CreateAdapter();
-                });
-
-            }, failure: (obj) =>
-            {
-                Android.Widget.Toast.MakeText(Context, "Ha ocurrido un error al cargar los clientes", Android.Widget.ToastLength.Short).Show();
-            });
+			ClientServiceManager.GetClientsPaginated(lastClient, clientsQuantity, success: (List<Client> obj) =>
+			{
+				progressDialogue.Dismiss();
+				clients.AddRange(obj);
+				reachedEnd = obj.Count < clientsQuantity;
+				lastClient+= obj.Count;
+				completion(obj);
+			}, failure: (obj) =>
+			{
+				Android.Widget.Toast.MakeText(Context, "Ha ocurrido un error al cargar los clientes", Android.Widget.ToastLength.Short).Show();
+			});
         }
+
+		void SetupClientsList()
+		{
+			LoadClients((List<Client> obj) =>
+			{
+				Activity.RunOnUiThread(() =>
+				{
+					CreateAdapter();
+				});
+			});
+		}
 
         private void CreateAdapter()
         {
@@ -112,7 +124,7 @@ namespace DistriBot
                 mRecyclerView.HasFixedSize = true;
                 mLayoutManager = new LinearLayoutManager(Context);
 
-                //CreateScrollListener();
+                CreateScrollListener();
 
                 mRecyclerView.SetLayoutManager(mLayoutManager);
                 mRecyclerView.SetAdapter(mAdapter);
@@ -150,7 +162,7 @@ namespace DistriBot
 			ClientServiceManager.GetNearestClient(lat, lon, success: (Client obj) =>
 			{
 				AlertDialog.Builder alert = new AlertDialog.Builder(this.Activity);
-				alert.SetTitle("Informaci¨®n");
+				alert.SetTitle("Info");
 				alert.SetMessage("Desea realizar un pedido para " + obj.Name + "?");
 				alert.SetPositiveButton("Si", (senderAlert, args) =>
 				{
@@ -194,25 +206,26 @@ namespace DistriBot
 			// the accompanying status (for example, GPS availability may change when a user walks indoors).
 		}
 
-		//private void CreateScrollListener()
-		//{
-		//    var onScrollListener = new RecyclerViewOnScrollListener(mLayoutManager);
-		//    onScrollListener.LoadMoreEvent += (object sender, EventArgs e) =>
-		//    {
-		//        //Load more stuff here
-		//        List<Product> addProducts = new List<Product>()
-		//        {
-		//                new Product(14, "Chocolate", 3.11),
-		//                new Product(15, "Arroz", 3.11),
-		//                new Product(16, "Banana", 3.11),
-		//                new Product(17, "Manzana", 3.11),
-		//                new Product(18, "Limón", 3.11)
-		//        };
-		//        clients.AddRange(addProducts);
-		//        mAdapter.NotifyItemRangeInserted(clients.Count, addProducts.Count);
-		//    };
+		private void CreateScrollListener()
+		{
+			var onScrollListener = new RecyclerViewOnScrollListener(mLayoutManager);
+			onScrollListener.LoadMoreEvent += (object sender, EventArgs e) =>
+			{
+				LoadClients(completion: (obj) =>
+				{
+					clients.AddRange(obj);
+					mAdapter.NotifyItemRangeInserted(clients.Count, obj.Count);
+				});
+			};
 
-		//    mRecyclerView.AddOnScrollListener(onScrollListener);
-		//}
+			mRecyclerView.AddOnScrollListener(onScrollListener);
+		}
+
+		private void resetPages()
+		{
+			lastClient = 1;
+			clientsQuantity = 10;
+			reachedEnd = false;
+		}
 	}
 }
