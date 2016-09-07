@@ -119,6 +119,7 @@
     <Compile Include="Fragments\ClientsDetailFragment.cs" />
     <Compile Include="Network\LoginServiceManager.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Fragments\AddProductFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

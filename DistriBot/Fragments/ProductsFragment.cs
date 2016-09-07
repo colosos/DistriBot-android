@@ -106,11 +106,27 @@ namespace DistriBot
             if (position >= 0)
             {
                 var p = products[position];
-                //Llamo el metodo de la actividad menu que muestra el fragment del detalle del producto
-                //MenuActivity actividad = Activity as MenuActivity;
-                //actividad.ShowFragment(new ProductDetailFragment(p), "Detalle");
+				//Llamo el metodo de la actividad menu que muestra el fragment del detalle del producto
+				//MenuActivity actividad = Activity as MenuActivity;
+				//actividad.ShowFragment(new ProductDetailFragment(p), "Detalle");
+				FragmentTransaction fragmentTransaction = FragmentManager.BeginTransaction();
+				fragmentTransaction.AddToBackStack(null);
+				AddProductFragment addProduct = new AddProductFragment();
+				addProduct.Show(fragmentTransaction, "AddProducts");
 
-            }
+				/*
+				 *FragmentTransaction fragmentTransaction = FragmentManager.BeginTransaction ();
+			//remove fragment from backstack if any exists
+			Fragment fragmentPrev =FragmentManager.FindFragmentByTag("dialog");
+			if ( fragmentPrev != null )
+			 fragmentTransaction.Remove ( fragmentPrev ); 
+			 
+			fragmentTransaction.AddToBackStack ( null );
+			//create and show the dialog
+			DialogFragmentSample dialogFragment= DialogFragmentSample.NewInstace(null); 
+			dialogFragment.Show ( fragmentTransaction , "dialog" );
+				 */
+			}
         }
 
         private void CreateScrollListener()
