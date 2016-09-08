@@ -111,7 +111,7 @@ namespace DistriBot
 				//actividad.ShowFragment(new ProductDetailFragment(p), "Detalle");
 				FragmentTransaction fragmentTransaction = FragmentManager.BeginTransaction();
 				fragmentTransaction.AddToBackStack(null);
-				AddProductFragment addProduct = new AddProductFragment();
+				AddProductFragment addProduct = new AddProductFragment(p);
 				addProduct.Show(fragmentTransaction, "AddProducts");
 
 				/*

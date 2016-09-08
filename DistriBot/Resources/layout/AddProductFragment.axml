@@ -36,10 +36,27 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginRight="5dp" />
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:maxWidth="80dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/android.support.design.widget.TextInputLayout2">
+            <EditText
+                android:id="@+id/txtQuantity"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:maxWidth="80dp"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="16dp"
+                android:textColor="@color/primary" />
+        </android.support.design.widget.TextInputLayout>
         <TextView
             android:id="@+id/txtUnit"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:text="unidad"
             android:textSize="18dp"
             android:textColor="@color/primary_dark"
@@ -54,24 +71,26 @@
         android:textColor="@color/primary_dark"
         android:layout_marginTop="280dp"
         android:layout_marginLeft="15dp" />
-    <Button
-        android:text="Agregar"
-        android:id="@+id/btnAddProduct"
-        android:layout_height="wrap_content"
+    <LinearLayout
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="310dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="280dp"
-        android:textColor="@color/primary"
-        style="?android:attr/borderlessButtonStyle" />
-    <Button
-        android:text="Cancelar"
-        android:id="@+id/btnCancel"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="310dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="170dp"
-        android:textColor="@color/primary"
-        style="?android:attr/borderlessButtonStyle" />
+        android:layout_marginLeft="90dp">
+        <Button
+            android:text="Cancelar"
+            android:id="@+id/btnCancel"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/primary"
+            style="?android:attr/borderlessButtonStyle" />
+        <Button
+            android:text="Agregar"
+            android:id="@+id/btnAddProduct"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/primary"
+            android:layout_marginLeft="5dp"
+            style="?android:attr/borderlessButtonStyle" />
+    </LinearLayout>
 </RelativeLayout>
