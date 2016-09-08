@@ -85,7 +85,7 @@ namespace DistriBot
                     case 1:
                         if(mProductsFragment == null)
                         {
-                            mProductsFragment = new ProductsFragment();
+							mProductsFragment = new ProductsFragment(false);
                             var trans = SupportFragmentManager.BeginTransaction();
                             trans.Add(Resource.Id.fragmentContainer, mProductsFragment, "ProductsFragment");
                             trans.Hide(mProductsFragment);

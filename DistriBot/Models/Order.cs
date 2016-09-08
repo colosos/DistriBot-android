@@ -7,11 +7,12 @@ namespace DistriBot
 	{
 		public int Id { get; set; }
 		public int ClientId { get; set; }
-		public List<Tuple<int, double>> Products { get; set; } // <ProductId, ProductQuantity>
+		public List<Tuple<int, double, double>> Products { get; set; } // <ProductId, ProductQuantity, Subtotal>
 		public double Price { get; set; }
 
 		public Order()
 		{
+			Products = new List<Tuple<int, double, double>>();
 		}
 	}
 }

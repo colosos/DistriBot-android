@@ -119,6 +119,8 @@
     <Compile Include="Fragments\ClientsDetailFragment.cs" />
     <Compile Include="Network\LoginServiceManager.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Fragments\AddProductFragment.cs" />
+    <Compile Include="Helpers\CartManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -140,6 +142,7 @@
     <AndroidResource Include="Resources\layout\SampleFragment.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\AddProductFragment.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">

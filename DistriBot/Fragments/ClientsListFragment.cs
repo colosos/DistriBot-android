@@ -89,18 +89,21 @@ namespace DistriBot
 
 		void LoadClients(Action<List<Client>> completion)
         {
-            var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando clientes", true, true);
-			ClientServiceManager.GetClientsPaginated(lastClient, clientsQuantity, success: (List<Client> obj) =>
+			if (!reachedEnd)
 			{
-				progressDialogue.Dismiss();
-				clients.AddRange(obj);
-				reachedEnd = obj.Count < clientsQuantity;
-				lastClient+= obj.Count;
-				completion(obj);
-			}, failure: (obj) =>
-			{
-				Android.Widget.Toast.MakeText(Context, "Ha ocurrido un error al cargar los clientes", Android.Widget.ToastLength.Short).Show();
-			});
+				var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando clientes", true, true);
+				ClientServiceManager.GetClientsPaginated(lastClient, clientsQuantity, success: (List<Client> obj) =>
+				{
+					progressDialogue.Dismiss();
+					clients.AddRange(obj);
+					reachedEnd = obj.Count < clientsQuantity;
+					lastClient += obj.Count;
+					completion(obj);
+				}, failure: (obj) =>
+				{
+					Android.Widget.Toast.MakeText(Context, "Ha ocurrido un error al cargar los clientes", Android.Widget.ToastLength.Short).Show();
+				});
+			}
         }
 
 		void SetupClientsList()
@@ -149,9 +152,10 @@ namespace DistriBot
             if (position >= 0)
             {
                 var c = clients[position];
+				CartManager.GetInstance().Client = c;
                 MenuActivity actividad = Activity as MenuActivity;
 				actividad.Order.ClientId = c.Id;
-                actividad.ShowFragment(new ProductsFragment(), "ProductsFragment");
+				actividad.ShowFragment(new ProductsFragment(true), "ProductsFragment");
             }
         }
 
@@ -168,7 +172,7 @@ namespace DistriBot
 				{
 					MenuActivity actividad = Activity as MenuActivity;
 					actividad.Order.ClientId = obj.Id;
-					actividad.ShowFragment(new ProductsFragment(), "ProductsFragment");
+					actividad.ShowFragment(new ProductsFragment(true), "ProductsFragment");
 				});
 
 				alert.SetNegativeButton("No", (senderAlert, args) => { });

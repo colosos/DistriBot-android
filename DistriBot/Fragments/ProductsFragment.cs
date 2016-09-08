@@ -25,6 +25,13 @@ namespace DistriBot
 		private int prodQuantity = 10;
 		private bool reachedEnd = false;
 
+		public bool Selling { get; set; }
+
+		public ProductsFragment(bool selling)
+		{
+			this.Selling = selling;
+		}
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -32,9 +39,8 @@ namespace DistriBot
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            // Use this to return your custom view for this Fragment
-            // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
-
+			// Use this to return your custom view for this Fragment
+			// return inflater.Inflate(Resource.Layout.YourFragment, container, false);
             View view = inflater.Inflate(Resource.Layout.Products, container, false);
             return view;
         }
@@ -106,11 +112,25 @@ namespace DistriBot
             if (position >= 0)
             {
                 var p = products[position];
-                //Llamo el metodo de la actividad menu que muestra el fragment del detalle del producto
-                MenuActivity actividad = Activity as MenuActivity;
-                actividad.ShowFragment(new ProductDetailFragment(p), "Detalle");
 
-            }
+				if (this.Selling)
+				{
+					FragmentTransaction fragmentTransaction = FragmentManager.BeginTransaction();
+					Fragment previousFragment = FragmentManager.FindFragmentByTag("AddProducts");
+					if (previousFragment != null)
+					{
+						fragmentTransaction.Remove(previousFragment);
+					}
+					fragmentTransaction.AddToBackStack(null);
+					AddProductFragment addProduct = new AddProductFragment(p);
+					addProduct.Show(fragmentTransaction, "AddProducts");
+				}
+				else {
+					//Llamo el metodo de la actividad menu que muestra el fragment del detalle del producto
+					MenuActivity actividad = Activity as MenuActivity;
+					actividad.ShowFragment(new ProductDetailFragment(p), "Details");
+				}
+			}
         }
 
         private void CreateScrollListener()

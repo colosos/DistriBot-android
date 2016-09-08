@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/primary_light">
+    <TextView
+        android:id="@+id/txtProductName"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="Nombre del producto"
+        android:textSize="20dp"
+        android:textColor="@color/primary_dark"
+        android:textStyle="bold"
+        android:paddingTop="10dp"
+        android:layout_marginLeft="15dp" />
+    <TextView
+        android:id="@+id/txtUnitPrice"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="$precio/unidad"
+        android:textSize="18dp"
+        android:textColor="@color/primary_dark"
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="15dp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="center_vertical">
+        <NumberPicker
+            android:id="@+id/numPickQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="5dp" />
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:maxWidth="80dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/android.support.design.widget.TextInputLayout2">
+            <EditText
+                android:id="@+id/txtQuantity"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:maxWidth="80dp"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="16dp"
+                android:textColor="@color/primary" />
+        </android.support.design.widget.TextInputLayout>
+        <TextView
+            android:id="@+id/txtUnit"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="unidad"
+            android:textSize="18dp"
+            android:textColor="@color/primary_dark"
+            android:layout_marginLeft="5dp" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/txtTotalPrice"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="Precio $"
+        android:textSize="20dp"
+        android:textColor="@color/primary_dark"
+        android:layout_marginTop="280dp"
+        android:layout_marginLeft="15dp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="310dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="90dp">
+        <Button
+            android:text="Cancelar"
+            android:id="@+id/btnCancel"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/primary"
+            style="?android:attr/borderlessButtonStyle" />
+        <Button
+            android:text="Agregar"
+            android:id="@+id/btnAddProduct"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/primary"
+            android:layout_marginLeft="5dp"
+            style="?android:attr/borderlessButtonStyle" />
+    </LinearLayout>
+</RelativeLayout>
