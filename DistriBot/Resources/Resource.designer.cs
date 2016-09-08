@@ -3767,11 +3767,11 @@ namespace DistriBot
 			// aapt resource value: 0x7f0a0088
 			public const int Text = 2131361928;
 			
-			// aapt resource value: 0x7f0a00b4
-			public const int Text1 = 2131361972;
-			
 			// aapt resource value: 0x7f0a00b5
-			public const int Text2 = 2131361973;
+			public const int Text1 = 2131361973;
+			
+			// aapt resource value: 0x7f0a00b6
+			public const int Text2 = 2131361974;
 			
 			// aapt resource value: 0x7f0a00ae
 			public const int Title = 2131361966;
@@ -3821,11 +3821,17 @@ namespace DistriBot
 			// aapt resource value: 0x7f0a0047
 			public const int action_mode_close_button = 2131361863;
 			
-			// aapt resource value: 0x7f0a00bc
-			public const int action_view_list = 2131361980;
+			// aapt resource value: 0x7f0a00bf
+			public const int action_view_cart = 2131361983;
 			
-			// aapt resource value: 0x7f0a00bb
-			public const int action_view_map = 2131361979;
+			// aapt resource value: 0x7f0a00be
+			public const int action_view_list = 2131361982;
+			
+			// aapt resource value: 0x7f0a00bd
+			public const int action_view_map = 2131361981;
+			
+			// aapt resource value: 0x7f0a00ba
+			public const int action_view_products = 2131361978;
 			
 			// aapt resource value: 0x7f0a0048
 			public const int activity_chooser_view_content = 2131361864;
@@ -3881,14 +3887,14 @@ namespace DistriBot
 			// aapt resource value: 0x7f0a0035
 			public const int bottom = 2131361845;
 			
-			// aapt resource value: 0x7f0a00b7
-			public const int bottomBarCatalogue = 2131361975;
-			
 			// aapt resource value: 0x7f0a00b8
-			public const int bottomBarDeliveryRequests = 2131361976;
+			public const int bottomBarCatalogue = 2131361976;
 			
-			// aapt resource value: 0x7f0a00b6
-			public const int bottomBarPreSales = 2131361974;
+			// aapt resource value: 0x7f0a00b9
+			public const int bottomBarDeliveryRequests = 2131361977;
+			
+			// aapt resource value: 0x7f0a00b7
+			public const int bottomBarPreSales = 2131361975;
 			
 			// aapt resource value: 0x7f0a007c
 			public const int btnAddProduct = 2131361916;
@@ -4010,8 +4016,8 @@ namespace DistriBot
 			// aapt resource value: 0x7f0a0043
 			public const int @fixed = 2131361859;
 			
-			// aapt resource value: 0x7f0a00b3
-			public const int floating_button = 2131361971;
+			// aapt resource value: 0x7f0a00b4
+			public const int floating_button = 2131361972;
 			
 			// aapt resource value: 0x7f0a00a0
 			public const int fragmentContainer = 2131361952;
@@ -4067,11 +4073,11 @@ namespace DistriBot
 			// aapt resource value: 0x7f0a00a4
 			public const int media_actions = 2131361956;
 			
-			// aapt resource value: 0x7f0a00ba
-			public const int menu_settings = 2131361978;
+			// aapt resource value: 0x7f0a00bc
+			public const int menu_settings = 2131361980;
 			
-			// aapt resource value: 0x7f0a00b9
-			public const int menu_share = 2131361977;
+			// aapt resource value: 0x7f0a00bb
+			public const int menu_share = 2131361979;
 			
 			// aapt resource value: 0x7f0a0028
 			public const int middle = 2131361832;
@@ -4106,8 +4112,8 @@ namespace DistriBot
 			// aapt resource value: 0x7f0a0034
 			public const int pin = 2131361844;
 			
-			// aapt resource value: 0x7f0a00b0
-			public const int productImage = 2131361968;
+			// aapt resource value: 0x7f0a00b1
+			public const int productImage = 2131361969;
 			
 			// aapt resource value: 0x7f0a0006
 			public const int progress_circular = 2131361798;
@@ -4271,11 +4277,11 @@ namespace DistriBot
 			// aapt resource value: 0x7f0a0089
 			public const int tvName = 2131361929;
 			
-			// aapt resource value: 0x7f0a00b2
-			public const int tvProductUnitPrice = 2131361970;
+			// aapt resource value: 0x7f0a00b3
+			public const int tvProductUnitPrice = 2131361971;
 			
-			// aapt resource value: 0x7f0a00b1
-			public const int tvProductnName = 2131361969;
+			// aapt resource value: 0x7f0a00b2
+			public const int tvProductnName = 2131361970;
 			
 			// aapt resource value: 0x7f0a008c
 			public const int txtClientAddress = 2131361932;
@@ -4300,6 +4306,9 @@ namespace DistriBot
 			
 			// aapt resource value: 0x7f0a0078
 			public const int txtQuantity = 2131361912;
+			
+			// aapt resource value: 0x7f0a00b0
+			public const int txtSubtotal = 2131361968;
 			
 			// aapt resource value: 0x7f0a007a
 			public const int txtTotalPrice = 2131361914;
@@ -4599,13 +4608,19 @@ namespace DistriBot
 			public const int BottomNavBar = 2131558400;
 			
 			// aapt resource value: 0x7f0d0001
-			public const int home = 2131558401;
+			public const int CartMenu = 2131558401;
 			
 			// aapt resource value: 0x7f0d0002
-			public const int MenuClientsList = 2131558402;
+			public const int home = 2131558402;
 			
 			// aapt resource value: 0x7f0d0003
-			public const int MenuClientsOnMap = 2131558403;
+			public const int MenuClientsList = 2131558403;
+			
+			// aapt resource value: 0x7f0d0004
+			public const int MenuClientsOnMap = 2131558404;
+			
+			// aapt resource value: 0x7f0d0005
+			public const int ProductsMenu = 2131558405;
 			
 			static Menu()
 			{

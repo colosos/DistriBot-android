@@ -147,6 +147,8 @@
     <AndroidResource Include="Resources\layout\AddProductFragment.axml" />
     <AndroidResource Include="Resources\layout\CartFragment.axml" />
     <AndroidResource Include="Resources\layout\ProductCartRow.axml" />
+    <AndroidResource Include="Resources\menu\CartMenu.xml" />
+    <AndroidResource Include="Resources\menu\ProductsMenu.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">

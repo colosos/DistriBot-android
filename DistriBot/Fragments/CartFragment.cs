@@ -20,15 +20,80 @@ namespace DistriBot
 	{
 
 		private RecyclerView recyclerView;
+		private ProductsCartRecyclerAdapter adapter;
+		private LinearLayoutManager layoutManager;
 
 		public override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
+			HasOptionsMenu = true;
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			return base.OnCreateView(inflater, container, savedInstanceState);
+			View view = inflater.Inflate(Resource.Layout.CartFragment, container, false);
+			return view;
+		}
+
+		public override void OnActivityCreated(Bundle savedInstanceState)
+		{
+			SetupToolbar();
+			base.OnActivityCreated(savedInstanceState);
+		}
+
+		private void SetupToolbar()
+		{
+			var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+			var activity = Activity as AppCompatActivity;
+			toolbar.InflateMenu(Resource.Menu.CartMenu);
+			activity.SetSupportActionBar(toolbar);
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			switch (item.ItemId)
+			{
+				case Resource.Id.action_view_products:
+					MenuActivity activity = Activity as MenuActivity;
+					activity.OnBackPressed();
+					return true;
+
+			}
+			return false;
+		}
+
+		private void CreateAdapter()
+		{
+			adapter = new ProductsCartRecyclerAdapter();
+			recyclerView = View.FindViewById<RecyclerView>(Resource.Id.recyclerView);
+			if (recyclerView != null)
+			{
+				recyclerView.HasFixedSize = true;
+				layoutManager = new LinearLayoutManager(Context);
+				CreateScrollListener();
+				recyclerView.SetLayoutManager(layoutManager);
+				recyclerView.SetAdapter(adapter);
+			}
+		}
+
+		private void CreateScrollListener()
+		{
+			var onScrollListener = new RecyclerViewOnScrollListener(layoutManager);
+			onScrollListener.LoadMoreEvent += (object sender, EventArgs e) =>
+			{
+			};
+			/*
+			var onScrollListener = new RecyclerViewOnScrollListener(mLayoutManager);
+			onScrollListener.LoadMoreEvent += (object sender, EventArgs e) =>
+			{
+				LoadProducts(completion: (obj) =>
+				{
+					products.AddRange(obj);
+					mAdapter.NotifyItemRangeInserted(products.Count, obj.Count);
+				});
+			};
+
+			mRecyclerView.AddOnScrollListener(onScrollListener);*/
 		}
 
 		/*
@@ -40,20 +105,6 @@ namespace DistriBot
 		private int prodQuantity = 10;
 		private bool reachedEnd = false;
 
-        public override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-        }
-
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-        {
-            // Use this to return your custom view for this Fragment
-            // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
-
-            View view = inflater.Inflate(Resource.Layout.Products, container, false);
-            return view;
-        }
-
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
 			SetupProductsList();
@@ -61,13 +112,6 @@ namespace DistriBot
             base.OnActivityCreated(savedInstanceState);
         }
 
-
-        private void SetUpToolbar()
-        {
-            var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            var activity = Activity as AppCompatActivity;
-            activity.SetSupportActionBar(toolbar);
-        }
 
 		private void LoadProducts(Action<List<Product>> completion)
 		{

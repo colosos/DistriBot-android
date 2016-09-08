@@ -2,7 +2,7 @@
 using Android.Views;
 using Android.Widget;
 using Android.Support.V7.Widget;
-
+using System.Collections.Generic;
 
 namespace DistriBot
 {
@@ -10,19 +10,24 @@ namespace DistriBot
 	{
 
 		private Order order;
+		private List<Product> products;
 
 		public event EventHandler<int> ItemClick;
 
-		public ProductsCartRecyclerAdapter(Order order) : base()
+		public ProductsCartRecyclerAdapter() : base()
 		{
-			this.order = order;
+			order = CartManager.GetInstance().Order;
+			foreach (Product product in CartManager.GetInstance().Products)
+			{
+				products.Add(product);
+			}
 		}
 
 		public override int ItemCount
 		{
 			get
 			{
-				return order.Products.Count;
+				return products.Count;
 			}
 		}
 
@@ -36,14 +41,21 @@ namespace DistriBot
 
 		public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
 		{
-			var item = order.Products[position];
+			var product = products[position];
+			var item = order.Products.Find(p => p.Item1 == product.Id);
 			ProductCartView myHolder = holder as ProductCartView;
-
+			myHolder.Name.Text = product.Name;
+			myHolder.Quantity.Text = item.Item2.ToString();
+			myHolder.Subtotal.Text = item.Item3.ToString();
 		}
 
 		public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
 		{
-			throw new NotImplementedException();
+			View row = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.ProductCartRow, parent, false);
+			TextView txtProductName = row.FindViewById<TextView>(Resource.Id.txtProductName);
+			TextView txtQuantity = row.FindViewById<TextView>(Resource.Id.txtQuantity);
+			TextView txtSubtotal = row.FindViewById<TextView>(Resource.Id.txtSubtotal);
+			return new ProductCartView(row, OnClick) { Name = txtProductName, Quantity = txtQuantity, Subtotal = txtSubtotal };
 		}
 
 		public class ProductCartView : RecyclerView.ViewHolder
@@ -51,35 +63,13 @@ namespace DistriBot
 			public View MainView { get; set; }
 			public TextView Name { get; set; }
 			public TextView Quantity { get; set; }
-			public TextView Price { get; set; }
+			public TextView Subtotal { get; set; }
 
 			public ProductCartView(View view, Action<int> listener) : base(view)
 			{
 				MainView = view;
-				view.Click += (sender, e) => listener(base.Position);
+				view.Click += (sender, e) => listener(Position);
 			}
 		}
 	}
 }
-
-/*
- *
-
-        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
-        {
-            var product = products[position];
-            ProductView myHolder = holder as ProductView;
-            myHolder.Name.Text = product.Name;
-            myHolder.UnitPrice.Text = product.UnitPrice.ToString();
-        }
-
-        public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
-        {
-            View row = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.ProductRow, parent, false);
-
-            TextView txtName = row.FindViewById<TextView>(Resource.Id.Text1);
-            TextView txtUnitPrice = row.FindViewById<TextView>(Resource.Id.Text2);
-
-            return new ProductView(row, OnClick) { Name = txtName, UnitPrice = txtUnitPrice};
-        }
- */
