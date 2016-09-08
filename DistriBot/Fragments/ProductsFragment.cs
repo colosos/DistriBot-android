@@ -25,6 +25,13 @@ namespace DistriBot
 		private int prodQuantity = 10;
 		private bool reachedEnd = false;
 
+		public bool Selling { get; set; }
+
+		public ProductsFragment(bool selling)
+		{
+			this.Selling = selling;
+		}
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -34,7 +41,6 @@ namespace DistriBot
         {
 			// Use this to return your custom view for this Fragment
 			// return inflater.Inflate(Resource.Layout.YourFragment, container, false);
-
             View view = inflater.Inflate(Resource.Layout.Products, container, false);
             return view;
         }
@@ -106,26 +112,24 @@ namespace DistriBot
             if (position >= 0)
             {
                 var p = products[position];
-				//Llamo el metodo de la actividad menu que muestra el fragment del detalle del producto
-				//MenuActivity actividad = Activity as MenuActivity;
-				//actividad.ShowFragment(new ProductDetailFragment(p), "Detalle");
-				FragmentTransaction fragmentTransaction = FragmentManager.BeginTransaction();
-				fragmentTransaction.AddToBackStack(null);
-				AddProductFragment addProduct = new AddProductFragment(p);
-				addProduct.Show(fragmentTransaction, "AddProducts");
 
-				/*
-				 *FragmentTransaction fragmentTransaction = FragmentManager.BeginTransaction ();
-			//remove fragment from backstack if any exists
-			Fragment fragmentPrev =FragmentManager.FindFragmentByTag("dialog");
-			if ( fragmentPrev != null )
-			 fragmentTransaction.Remove ( fragmentPrev ); 
-			 
-			fragmentTransaction.AddToBackStack ( null );
-			//create and show the dialog
-			DialogFragmentSample dialogFragment= DialogFragmentSample.NewInstace(null); 
-			dialogFragment.Show ( fragmentTransaction , "dialog" );
-				 */
+				if (this.Selling)
+				{
+					FragmentTransaction fragmentTransaction = FragmentManager.BeginTransaction();
+					Fragment previousFragment = FragmentManager.FindFragmentByTag("AddProducts");
+					if (previousFragment != null)
+					{
+						fragmentTransaction.Remove(previousFragment);
+					}
+					fragmentTransaction.AddToBackStack(null);
+					AddProductFragment addProduct = new AddProductFragment(p);
+					addProduct.Show(fragmentTransaction, "AddProducts");
+				}
+				else {
+					//Llamo el metodo de la actividad menu que muestra el fragment del detalle del producto
+					MenuActivity actividad = Activity as MenuActivity;
+					actividad.ShowFragment(new ProductDetailFragment(p), "Details");
+				}
 			}
         }
 

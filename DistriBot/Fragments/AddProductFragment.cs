@@ -8,13 +8,14 @@ namespace DistriBot
 {
 	public class AddProductFragment : DialogFragment
 	{
-
 		private Product product;
 
 		private NumberPicker numberPicker;
 		private EditText txtQuantity;
 		private Button btnAdd;
 		private Button btnCancel;
+		private TextView totalPrice;
+		private double subTotal = 0;
 
 		public AddProductFragment(Product mProduct)
 		{
@@ -29,11 +30,14 @@ namespace DistriBot
 			view.FindViewById<TextView>(Resource.Id.txtUnitPrice).Text = "$ " + product.UnitPrice + "/" + product.MeasurementUnit;
 			view.FindViewById<TextView>(Resource.Id.txtUnit).Text = product.MeasurementUnit;
 			txtQuantity = view.FindViewById<EditText>(Resource.Id.txtQuantity);
+			txtQuantity.TextChanged += TxtQuantity_TextChanged;
 
 			btnAdd = view.FindViewById<Button>(Resource.Id.btnAddProduct);
 			btnAdd.Click += BtnAdd_Click;
 			btnCancel = view.FindViewById<Button>(Resource.Id.btnCancel);
 			btnCancel.Click += BtnCancel_Click;
+
+			totalPrice = view.FindViewById<TextView>(Resource.Id.txtTotalPrice);
 
 			numberPicker = view.FindViewById<NumberPicker>(Resource.Id.numPickQuantity);
 			numberPicker.MinValue = 1;
@@ -51,14 +55,46 @@ namespace DistriBot
 			txtQuantity.SetSelection(txtQuantity.Text.Length);
 		}
 
+		void TxtQuantity_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
+		{
+			try
+			{
+				double finalPrice = product.UnitPrice * Convert.ToDouble(e.Text.ToString());
+				subTotal = finalPrice;
+				totalPrice.Text = "Subtotal: $" + finalPrice.ToString();
+			}
+			catch(Exception)
+			{
+				//Cannot convert string to double.
+				totalPrice.Text = "Subtotal: $";
+			}
+		}
+
 		void BtnAdd_Click(object sender, EventArgs e)
 		{
-
+			if (subTotal > 0)
+			{
+				try
+				{
+					Tuple<int, double, double> productCart = new Tuple<int, double, double>(product.Id, Convert.ToDouble(txtQuantity.Text), subTotal);
+					CartManager.GetInstance().Order.Products.Add(productCart);
+					CartManager.GetInstance().Products.Add(product);
+				}
+				catch (Exception)
+				{
+					//Cannot convert string to double.
+					Toast.MakeText(this.Activity, "Ingrese una cantidad correcta.", ToastLength.Short).Show();
+				}
+				finally
+				{
+					this.Dismiss();
+				}
+			}
 		}
 
 		void BtnCancel_Click(object sender, EventArgs e)
 		{
-
+			this.Dismiss();
 		}
 	}
 }

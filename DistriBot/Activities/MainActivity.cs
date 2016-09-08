@@ -50,6 +50,7 @@ namespace DistriBot
 								var menuActivity = new Intent(this, typeof(MenuActivity));
 								StartActivity(menuActivity);
 								progressDialog.Dismiss();
+								Finish();
 							});
 						}
 						else
