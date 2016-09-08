@@ -13,6 +13,13 @@ namespace DistriBot
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
+
+			if (SessionManager.IsUserLoggedIn())
+			{
+				StartActivity(new Intent(this, typeof(MenuActivity)));
+				Finish();
+			}
+
             SetContentView(Resource.Layout.Main);
 
 			var btnLogin = FindViewById<Button>(Resource.Id.btnLogin);
