@@ -17,6 +17,7 @@ namespace DistriBot
 		public ProductsCartRecyclerAdapter() : base()
 		{
 			order = CartManager.GetInstance().Order;
+			products = new List<Product>();
 			foreach (Product product in CartManager.GetInstance().Products)
 			{
 				products.Add(product);
@@ -45,8 +46,8 @@ namespace DistriBot
 			var item = order.Products.Find(p => p.Item1 == product.Id);
 			ProductCartView myHolder = holder as ProductCartView;
 			myHolder.Name.Text = product.Name;
-			myHolder.Quantity.Text = item.Item2.ToString();
-			myHolder.Subtotal.Text = item.Item3.ToString();
+			myHolder.Quantity.Text = item.Item2 + product.MeasurementUnit;
+			myHolder.Subtotal.Text = " - $" + item.Item3;
 		}
 
 		public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
