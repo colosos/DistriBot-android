@@ -184,7 +184,7 @@ namespace DistriBot
                     actividad.OnBackPressed();
                     return true;
             }
-            return false;
+            return base.OnOptionsItemSelected(item);
         }
     }
 }

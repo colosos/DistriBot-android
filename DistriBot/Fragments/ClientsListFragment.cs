@@ -144,7 +144,7 @@ namespace DistriBot
                     return true;
 
             }
-            return false;
+            return base.OnOptionsItemSelected(item);
         }
 
         void OnListItemClick(object sender, int position)

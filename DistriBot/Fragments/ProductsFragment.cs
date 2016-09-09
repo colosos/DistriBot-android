@@ -47,10 +47,14 @@ namespace DistriBot
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
 			SetupProductsList();
-            SetUpToolbar();
             base.OnActivityCreated(savedInstanceState);
         }
 
+		public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+		{
+			base.OnCreateOptionsMenu(menu, inflater);
+			SetUpToolbar();
+		}
 
         private void SetUpToolbar()
         {
@@ -70,7 +74,7 @@ namespace DistriBot
 					return true;
 
 			}
-			return false;
+			return base.OnOptionsItemSelected(item);
 		}
 
 		private void LoadProducts(Action<List<Product>> completion)

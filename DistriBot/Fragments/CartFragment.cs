@@ -59,7 +59,7 @@ namespace DistriBot
 					return true;
 
 			}
-			return false;
+			return base.OnOptionsItemSelected(item);
 		}
 
 		private void CreateAdapter()
@@ -70,31 +70,11 @@ namespace DistriBot
 			{
 				recyclerView.HasFixedSize = true;
 				layoutManager = new LinearLayoutManager(Context);
-				CreateScrollListener();
 				recyclerView.SetLayoutManager(layoutManager);
 				recyclerView.SetAdapter(adapter);
 			}
 		}
 
-		private void CreateScrollListener()
-		{
-			var onScrollListener = new RecyclerViewOnScrollListener(layoutManager);
-			onScrollListener.LoadMoreEvent += (object sender, EventArgs e) =>
-			{
-			};
-			/*
-			var onScrollListener = new RecyclerViewOnScrollListener(mLayoutManager);
-			onScrollListener.LoadMoreEvent += (object sender, EventArgs e) =>
-			{
-				LoadProducts(completion: (obj) =>
-				{
-					products.AddRange(obj);
-					mAdapter.NotifyItemRangeInserted(products.Count, obj.Count);
-				});
-			};
-
-			mRecyclerView.AddOnScrollListener(onScrollListener);*/
-		}
 
 		/*
 		 private RecyclerView mRecyclerView;
