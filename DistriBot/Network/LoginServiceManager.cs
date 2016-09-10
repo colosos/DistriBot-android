@@ -19,6 +19,7 @@ namespace DistriBot
 				var tokenType = obj["token_type"];
 				SessionManager.SaveTokenSession(token);
 				SessionManager.SaveTokenType(tokenType);
+				SessionManager.SaveTimestamp(DateTime.Now);
 				success(role);
 			}, failure: (obj) =>
 			{

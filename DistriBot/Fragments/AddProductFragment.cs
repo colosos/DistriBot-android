@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Views;
@@ -63,7 +64,7 @@ namespace DistriBot
 				subTotal = finalPrice;
 				totalPrice.Text = "Subtotal: $" + finalPrice.ToString();
 			}
-			catch(Exception)
+			catch(FormatException)
 			{
 				//Cannot convert string to double.
 				totalPrice.Text = "Subtotal: $";
@@ -79,8 +80,9 @@ namespace DistriBot
 					Tuple<int, double, double> productCart = new Tuple<int, double, double>(product.Id, Convert.ToDouble(txtQuantity.Text), subTotal);
 					CartManager.GetInstance().Order.Products.Add(productCart);
 					CartManager.GetInstance().Products.Add(product);
+					CartManager.GetInstance().TotalPrice += subTotal;
 				}
-				catch (Exception)
+				catch (FormatException)
 				{
 					//Cannot convert string to double.
 					Toast.MakeText(this.Activity, "Ingrese una cantidad correcta.", ToastLength.Short).Show();
@@ -98,4 +100,3 @@ namespace DistriBot
 		}
 	}
 }
-

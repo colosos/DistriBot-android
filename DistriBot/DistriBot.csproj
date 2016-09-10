@@ -123,6 +123,7 @@
     <Compile Include="Helpers\CartManager.cs" />
     <Compile Include="Fragments\CartFragment.cs" />
     <Compile Include="Helpers\ProductsCartRecyclerAdapter.cs" />
+    <Compile Include="Network\OrderServiceManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
