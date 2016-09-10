@@ -101,6 +101,7 @@ namespace DistriBot
 					completion(obj);
 				}, failure: (obj) =>
 				{
+					progressDialogue.Dismiss();
 					Android.Widget.Toast.MakeText(Context, "Ha ocurrido un error al cargar los clientes", Android.Widget.ToastLength.Short).Show();
 				});
 			}

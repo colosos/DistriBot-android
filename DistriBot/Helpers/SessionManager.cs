@@ -11,6 +11,20 @@ namespace DistriBot
 		{
 		}
 
+		public static void SaveTimestamp(DateTime date)
+		{
+			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
+			ISharedPreferencesEditor editor = prefs.Edit();
+			editor.PutLong("login-timestamp", date.Ticks);
+			editor.Apply();
+		}
+
+		public static DateTime GetTimestamp()
+		{
+			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
+			return new DateTime(prefs.GetLong("login-timestamp", 0));
+		}
+
 		public static void SaveTokenSession(string token)
 		{
 			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
@@ -22,7 +36,7 @@ namespace DistriBot
 		public static string GetSessionToken()
 		{
 			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
-			return prefs.GetString("distribot-token-session", "DEFAULT");
+			return prefs.GetString("distribot-token-session", "");
 		}
 
 		public static void SaveTokenType(string tokenType)
@@ -36,12 +50,14 @@ namespace DistriBot
 		public static string GetTokenType()
 		{
 			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
-			return prefs.GetString("token-type", "DEFAULT");
+			return prefs.GetString("token-type", "");
 		}
 
 		public static bool IsUserLoggedIn()
 		{
-			return GetSessionToken() != null && GetSessionToken() != "" && GetSessionToken() != "DEFAULT";
+			TimeSpan diff = DateTime.Now.Subtract(GetTimestamp());
+			bool tokenValid = diff.Days < 1;
+			return GetSessionToken() != null && GetSessionToken() != "" && tokenValid;
 		}
 	}
 }

@@ -13,17 +13,16 @@ using Android.Widget;
 using Android.Support.V4.App;
 using Android.Support.V7.Widget;
 using Android.Support.V7.App;
+using Android.Support.Design.Widget;
 
 namespace DistriBot
 {
 	public class CartFragment : Fragment
 	{
-
 		private Order order;
 		private RecyclerView recyclerView;
 		private ProductsCartRecyclerAdapter adapter;
 		private LinearLayoutManager layoutManager;
-
 
 		public override void OnCreate(Bundle savedInstanceState)
 		{
@@ -34,7 +33,9 @@ namespace DistriBot
 		{
 			order = CartManager.GetInstance().Order;
 			View view = inflater.Inflate(Resource.Layout.CartFragment, container, false);
-			view.FindViewById<TextView>(Resource.Id.txtTotal).Text = "Total $" + order.Price;
+			view.FindViewById<TextView>(Resource.Id.txtTotal).Text = "Total $" + CartManager.GetInstance().TotalPrice;
+			FloatingActionButton btnConfirm = view.FindViewById<FloatingActionButton>(Resource.Id.btnConfirmar);
+			btnConfirm.Click += BtnConfirm_Click;
 			return view;
 		}
 
@@ -65,6 +66,18 @@ namespace DistriBot
 				recyclerView.SetAdapter(adapter);
 			}
 		}
+
+		void BtnConfirm_Click(object sender, EventArgs e)
+		{
+			CartManager cart = CartManager.GetInstance();
+			OrderServiceManager.AddOrder(cart.Order, success: () =>
+			{
+				Toast.MakeText(this.Activity, "El pedido se ha registrado exitosamente.", ToastLength.Short).Show();
+				CartManager.GetInstance().ResetCart();
+			}, failure: () =>
+			{
+				Toast.MakeText(this.Activity, "Hubo un error al generar el pedido.", ToastLength.Short).Show();
+			});
+		}
 	}
 }
-

@@ -86,8 +86,11 @@ namespace DistriBot
 			if (parameters != null)
 			{
 				request.AddHeader("Accept", "application/json");
+				request.AddHeader("Authorization", GetFormattedToken());
+				request.AddHeader("Content-Type", "application/json");
 				request.Parameters.Clear();
-				request.AddParameter("application/json", parameters, ParameterType.RequestBody);
+				request.AddParameter("application/json; charset=utf-8", parameters, ParameterType.RequestBody);
+				request.RequestFormat = DataFormat.Json;
 			}
 			client.ExecuteAsync(request, response =>
 			{
@@ -140,6 +143,33 @@ namespace DistriBot
 			request.AddParameter("UserName", username);
 			request.AddParameter("Password", password);
 			request.AddParameter("grant_type","password");
+
+			client.ExecuteAsync(request, response =>
+			{
+				var json = JsonValue.Parse(response.Content);
+				if ((int)response.StatusCode >= 200 && (int)response.StatusCode <= 210)
+				{
+					success(json);
+				}
+				else
+				{
+					failure(json);
+				}
+			});
+		}
+
+		//Esto es un plan B para agregar un pedido.
+		public void PostOrderRequest(string relativeUrl, JsonValue productList, JsonValue clientId, double price,Action<JsonValue> success, Action<JsonValue> failure)
+		{
+			RestRequest request = new RestRequest(relativeUrl, Method.POST);
+
+			request.AddHeader("Content-Type", "application/json");
+			request.AddHeader("Authorization", GetFormattedToken());
+			request.AddHeader("Accept", "application/json");
+			request.AddParameter("client", clientId);
+			request.AddParameter("productList", productList);
+			request.AddParameter("price", price);
+			request.RequestFormat = DataFormat.Json;
 
 			client.ExecuteAsync(request, response =>
 			{

@@ -11,6 +11,7 @@ namespace DistriBot
 		public Order Order { get; set; }
 		public List<Product> Products { get; set; }
 		public Client Client { get; set; }
+		public double TotalPrice { get; set; }
 
 		private CartManager()
 		{
@@ -39,6 +40,7 @@ namespace DistriBot
 			this.Order = null;
 			this.Client = null;
 			this.Products = null;
+			this.TotalPrice = 0;
 		}
 	}
 }
