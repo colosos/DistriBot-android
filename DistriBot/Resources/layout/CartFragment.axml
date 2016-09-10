@@ -33,13 +33,13 @@
         </LinearLayout>
     </LinearLayout>
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floating_button"
+        android:id="@+id/btnConfirmar"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:src="@drawable/ic_done_white_24dp"
         android:clickable="true"
         android:elevation="6dp"
-        android:layout_marginLeft="250dp"
-        android:layout_marginTop="420dp"
+        android:layout_marginLeft="270dp"
+        android:layout_marginTop="429dp"
         android:layout_marginRight="5dp" />
 </RelativeLayout>

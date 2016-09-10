@@ -24,6 +24,7 @@ namespace DistriBot
 		private ProductsCartRecyclerAdapter adapter;
 		private LinearLayoutManager layoutManager;
 
+
 		public override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
