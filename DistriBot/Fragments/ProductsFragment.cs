@@ -35,12 +35,11 @@ namespace DistriBot
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+			HasOptionsMenu = true;
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-			// Use this to return your custom view for this Fragment
-			// return inflater.Inflate(Resource.Layout.YourFragment, container, false);
             View view = inflater.Inflate(Resource.Layout.Products, container, false);
             return view;
         }
@@ -48,17 +47,35 @@ namespace DistriBot
         public override void OnActivityCreated(Bundle savedInstanceState)
         {
 			SetupProductsList();
-            SetUpToolbar();
             base.OnActivityCreated(savedInstanceState);
         }
 
+		public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+		{
+			base.OnCreateOptionsMenu(menu, inflater);
+			SetUpToolbar();
+		}
 
         private void SetUpToolbar()
         {
             var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             var activity = Activity as AppCompatActivity;
+			toolbar.InflateMenu(Resource.Menu.ProductsMenu);
             activity.SetSupportActionBar(toolbar);
         }
+
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			switch (item.ItemId)
+			{
+				case Resource.Id.action_view_cart:
+					MenuActivity activity = Activity as MenuActivity;
+					activity.ShowFragment(new CartFragment(), "CartFragment");
+					return true;
+
+			}
+			return base.OnOptionsItemSelected(item);
+		}
 
 		private void LoadProducts(Action<List<Product>> completion)
 		{

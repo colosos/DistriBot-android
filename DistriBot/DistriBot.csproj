@@ -121,6 +121,8 @@
     <Compile Include="Models\Order.cs" />
     <Compile Include="Fragments\AddProductFragment.cs" />
     <Compile Include="Helpers\CartManager.cs" />
+    <Compile Include="Fragments\CartFragment.cs" />
+    <Compile Include="Helpers\ProductsCartRecyclerAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -143,6 +145,14 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\AddProductFragment.axml" />
+    <AndroidResource Include="Resources\layout\CartFragment.axml" />
+    <AndroidResource Include="Resources\layout\ProductCartRow.axml" />
+    <AndroidResource Include="Resources\menu\ProductsMenu.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_done_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_done_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_done_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_done_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_done_white_24dp.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">
