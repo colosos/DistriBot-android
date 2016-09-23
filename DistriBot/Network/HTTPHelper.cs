@@ -31,6 +31,33 @@ namespace DistriBot
 			return instance;
 		}
 
+		public void TestDirections(Action<JsonValue> success, Action<JsonValue> failure)
+		{
+			string latOrigin = "-34.890233";
+			string lonOrigin = "-56.121892";
+			string latDest = "-34.884319";
+			string longDest = "-56.071338";
+			string query = "json?origin="+latOrigin+","+lonOrigin+"&destination="+latDest+","+longDest+"&key=AIzaSyAPHhXRQMct1vIrgE-9kQNjlmCFnH0yLNU";
+			client = new RestClient("https://maps.googleapis.com/maps/api/directions/");
+			RestRequest request = new RestRequest(query, Method.GET);
+			request.AddHeader("Authorization", GetFormattedToken());
+			request.AddHeader("Accept", "application/json");
+			request.AddHeader("Content-Type", "application/json");
+
+			client.ExecuteAsync(request, response =>
+			{
+				var json = JsonValue.Parse(response.Content);
+				if ((int)response.StatusCode >= 200 && (int)response.StatusCode <= 210)
+				{
+					success(json);
+				}
+				else
+				{
+					failure(json);
+				}
+			});
+		}
+
 		public void DeleteRequest(string relativeUrl, JsonValue parameters, Action<JsonValue> success, Action<JsonValue> failure)
 		{
 			RestRequest request = new RestRequest(relativeUrl, Method.DELETE);

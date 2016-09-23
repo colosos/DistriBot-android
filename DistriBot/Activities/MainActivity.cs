@@ -40,7 +40,12 @@ namespace DistriBot
 
 			if (etUsername.Text == "" || etPassword.Text == "")
 			{
-				Toast.MakeText(this, "El nombre de usuario y/o la contraseña son incorrectos", ToastLength.Long).Show();
+				HTTPHelper.GetInstance().TestDirections(success: (obj) =>
+				{
+				}, failure: (obj) =>
+				{ 
+				});
+				//Toast.MakeText(this, "El nombre de usuario y/o la contraseña son incorrectos", ToastLength.Long).Show();
 			}
 			else
 			{
