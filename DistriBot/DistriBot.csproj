@@ -127,6 +127,8 @@
     <Compile Include="Activities\DeliverymanMenuActivity.cs" />
     <Compile Include="Models\Route.cs" />
     <Compile Include="Fragments\DeliveryMapFragment.cs" />
+    <Compile Include="Fragments\OrdersListFragment.cs" />
+    <Compile Include="Helpers\OrdersRecyclerAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -159,6 +161,8 @@
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_done_white_24dp.png" />
     <AndroidResource Include="Resources\layout\DeliverymanMenu.axml" />
     <AndroidResource Include="Resources\layout\DeliveryMapFragment.axml" />
+    <AndroidResource Include="Resources\layout\OrdersListFragment.axml" />
+    <AndroidResource Include="Resources\layout\OrderRow.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">

@@ -19,6 +19,7 @@ namespace DistriBot
 	public class DeliverymanMenuActivity : AppCompatActivity
 	{
 
+		private OrdersListFragment ordersListFragment;
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
