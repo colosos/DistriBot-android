@@ -20,61 +20,93 @@ namespace DistriBot
 	public class OrdersListFragment : Fragment
 	{
 
+		private List<Tuple<Client, Order>> list = new List<Tuple<Client, Order>>();
 		private RecyclerView recyclerView;
+		private OrdersRecyclerAdapter adapter;
 		private LinearLayoutManager layoutManager;
 
 		public override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
+			HasOptionsMenu = true;
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			return base.OnCreateView(inflater, container, savedInstanceState);
-		}
-	}
-}
-
-
-/*
- 		private Order order;
-		private RecyclerView recyclerView;
-		private ProductsCartRecyclerAdapter adapter;
-		private LinearLayoutManager layoutManager;
-
-		public override void OnCreate(Bundle savedInstanceState)
-		{
-			base.OnCreate(savedInstanceState);
-		}
-
-		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-		{
-			order = CartManager.GetInstance().Order;
-			View view = inflater.Inflate(Resource.Layout.CartFragment, container, false);
-			view.FindViewById<TextView>(Resource.Id.txtTotal).Text = "Total $" + CartManager.GetInstance().TotalPrice;
-			FloatingActionButton btnConfirm = view.FindViewById<FloatingActionButton>(Resource.Id.btnConfirmar);
-			btnConfirm.Click += BtnConfirm_Click;
+			View view = inflater.Inflate(Resource.Layout.OrdersListFragment, container, false);
 			return view;
 		}
 
 		public override void OnActivityCreated(Bundle savedInstanceState)
 		{
-			CreateAdapter();
-			SetupToolbar();
+			SetupOrdersList();
 			base.OnActivityCreated(savedInstanceState);
 		}
+
+		public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+		{
+			base.OnCreateOptionsMenu(menu, inflater);
+			SetupToolbar();
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			/*
+			switch (item.ItemId)
+			{
+				case Resource.Id.action_view_map:
+					MenuActivity mActivity = Activity as MenuActivity;
+					mActivity.ShowFragment(new ClientsOnMapFragment(clients, currentLocation), "ClientsOnMap");
+					return true;
+
+			}
+			return base.OnOptionsItemSelected(item);
+			*/
+			return true;
+		}
+
+		private void SetupOrdersList()
+		{
+			/*LoadOrders((List<Client> obj) =>
+			{
+				Activity.RunOnUiThread(() =>
+				{
+					CreateAdapter();
+				});
+			});
+			*/
+		}
+
+		/*
+		private void LoadOrders(Action<List<Tuple<Client, Order>> completion)
+		{
+			var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando pedidos", true, true);
+			ClientServiceManager.GetClientsPaginated(lastClient, clientsQuantity, success: (List<Client> obj) =>
+			{
+				progressDialogue.Dismiss();
+				clients.AddRange(obj);
+				reachedEnd = obj.Count < clientsQuantity;
+				lastClient += obj.Count;
+				completion(obj);
+			}, failure: (obj) =>
+			{
+				progressDialogue.Dismiss();
+				Android.Widget.Toast.MakeText(Context, "Ha ocurrido un error al cargar los clientes", Android.Widget.ToastLength.Short).Show();
+			}); 
+		}
+		*/
 
 		private void SetupToolbar()
 		{
 			var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 			var activity = Activity as AppCompatActivity;
+			// toolbar inflate menu
 			activity.SetSupportActionBar(toolbar);
-			activity.SupportActionBar.SetDisplayHomeAsUpEnabled(true);
 		}
 
 		private void CreateAdapter()
 		{
-			adapter = new ProductsCartRecyclerAdapter();
+			adapter = new OrdersRecyclerAdapter(list);
 			recyclerView = View.FindViewById<RecyclerView>(Resource.Id.recyclerView);
 			if (recyclerView != null)
 			{
@@ -84,17 +116,5 @@ namespace DistriBot
 				recyclerView.SetAdapter(adapter);
 			}
 		}
-
-		void BtnConfirm_Click(object sender, EventArgs e)
-		{
-			CartManager cart = CartManager.GetInstance();
-			OrderServiceManager.AddOrder(cart.Order, success: () =>
-			{
-				Toast.MakeText(this.Activity, "El pedido se ha registrado exitosamente.", ToastLength.Short).Show();
-				CartManager.GetInstance().ResetCart();
-			}, failure: () =>
-			{
-				Toast.MakeText(this.Activity, "Hubo un error al generar el pedido.", ToastLength.Short).Show();
-			});
-		}
-*/
+	}
+}

@@ -51,14 +51,10 @@ namespace DistriBot
 		public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
 		{
 			View row = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.OrderRow, parent, false);
-			return null;
-			/*
-			 * View row = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.ProductCartRow, parent, false);
-			TextView txtProductName = row.FindViewById<TextView>(Resource.Id.txtProductName);
-			TextView txtQuantity = row.FindViewById<TextView>(Resource.Id.txtQuantity);
-			TextView txtSubtotal = row.FindViewById<TextView>(Resource.Id.txtSubtotal);
-			return new ProductCartView(row, OnClick) { Name = txtProductName, Quantity = txtQuantity, Subtotal = txtSubtotal };
-			 */
+			TextView txtClientName = row.FindViewById<TextView>(Resource.Id.txtClientName);
+			TextView txtClientAddress = row.FindViewById<TextView>(Resource.Id.txtClientAddress);
+			TextView txtTotalPrice = row.FindViewById<TextView>(Resource.Id.txtTotalPrice);
+			return new OrderView(row, OnClick) { Client = txtClientName, Address = txtClientAddress, Price = txtTotalPrice };
 		}
 
 
