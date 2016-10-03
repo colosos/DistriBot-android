@@ -12,7 +12,7 @@ namespace DistriBot
 		
 		private HTTPHelper()
 		{
-			client = new RestClient("https://microsoft-apiappb014d742205d461bab0e6eaa303215f7.azurewebsites.net/api/");
+			client = new RestClient("http://distribotapiapp.azurewebsites.net/api/");
 		}
 
 		public static HTTPHelper GetInstance()
@@ -186,7 +186,7 @@ namespace DistriBot
 		}
 
 		//Esto es un plan B para agregar un pedido.
-		public void PostOrderRequest(string relativeUrl, JsonValue productList, JsonValue clientId, double price,Action<JsonValue> success, Action<JsonValue> failure)
+		public void PostOrderRequest(string relativeUrl, JsonValue productList, JsonValue clientId, JsonValue salesmanId, double price, Action<JsonValue> success, Action<JsonValue> failure)
 		{
 			RestRequest request = new RestRequest(relativeUrl, Method.POST);
 
@@ -195,6 +195,7 @@ namespace DistriBot
 			request.AddHeader("Accept", "application/json");
 			request.AddParameter("client", clientId);
 			request.AddParameter("productList", productList);
+			request.AddParameter("salesman", salesmanId);
 			request.AddParameter("price", price);
 			request.RequestFormat = DataFormat.Json;
 

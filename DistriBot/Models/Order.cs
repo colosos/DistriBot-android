@@ -17,4 +17,8 @@ namespace DistriBot
 	}
 }
 
-// Guardar fecha?????
+
+/*
+ Model Order en backend:
+ Id, Client, Creation date, DeliveredDate, ProductsList, Price, Salesman
+*/

@@ -22,6 +22,7 @@ namespace DistriBot
 			HTTPHelper.GetInstance().PostOrderRequest(relativeUrl,
 													  BuildProductListJson(products),
 													  BuildClientJson(order.ClientId),
+													  BuildSalesmanJson(6),
 													  order.Price,
 													  success: (obj) =>
 													  {
@@ -52,6 +53,11 @@ namespace DistriBot
 		private static JsonValue BuildClientJson(int clientId)
 		{
 			return new JsonObject(new KeyValuePair<string, JsonValue>("id", clientId));
+		}
+
+		private static JsonValue BuildSalesmanJson(int salesmanId)
+		{
+			return new JsonObject(new KeyValuePair<string, JsonValue>("id", salesmanId));
 		}
 
 		//private static JsonValue BuildOrderJson(int clientId, List<Tuple<int, double>> products, double price)

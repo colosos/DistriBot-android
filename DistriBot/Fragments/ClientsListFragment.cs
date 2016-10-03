@@ -152,10 +152,11 @@ namespace DistriBot
         {
             if (position >= 0)
             {
-                var c = clients[position];
-				CartManager.GetInstance().Client = c;
+                var client = clients[position];
+				CartManager.GetInstance().Client = client;
+				CartManager.GetInstance().Order.ClientId = client.Id;
                 MenuActivity actividad = Activity as MenuActivity;
-				actividad.Order.ClientId = c.Id;
+				actividad.Order.ClientId = client.Id;
 				actividad.ShowFragment(new ProductsFragment(true), "ProductsFragment");
             }
         }
