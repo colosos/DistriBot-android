@@ -129,6 +129,7 @@
     <Compile Include="Fragments\DeliveryMapFragment.cs" />
     <Compile Include="Fragments\OrdersListFragment.cs" />
     <Compile Include="Helpers\OrdersRecyclerAdapter.cs" />
+    <Compile Include="Fragments\OrdersOnMapFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -163,6 +164,9 @@
     <AndroidResource Include="Resources\layout\DeliveryMapFragment.axml" />
     <AndroidResource Include="Resources\layout\OrdersListFragment.axml" />
     <AndroidResource Include="Resources\layout\OrderRow.axml" />
+    <AndroidResource Include="Resources\menu\OrdersListMenu.xml" />
+    <AndroidResource Include="Resources\layout\OrdersOnMapFragment.axml" />
+    <AndroidResource Include="Resources\menu\OrdersOnMapMenu.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">

@@ -100,7 +100,7 @@ namespace DistriBot
 		{
 			var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 			var activity = Activity as AppCompatActivity;
-			// toolbar inflate menu
+			toolbar.InflateMenu(Resource.Menu.OrdersListMenu);
 			activity.SetSupportActionBar(toolbar);
 		}
 
