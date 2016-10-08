@@ -186,29 +186,26 @@ namespace DistriBot
 		}
 
 		//Esto es un plan B para agregar un pedido.
-		public void PostOrderRequest(string relativeUrl, JsonValue productList, JsonValue clientId, JsonValue salesmanId, double price, Action<JsonValue> success, Action<JsonValue> failure)
+		public void PostOrderRequest(string relativeUrl, JsonValue parameters, Action success, Action failure)
 		{
 			RestRequest request = new RestRequest(relativeUrl, Method.POST);
 
-			request.AddHeader("Content-Type", "application/json");
-			request.AddHeader("Authorization", GetFormattedToken());
 			request.AddHeader("Accept", "application/json");
-			request.AddParameter("client", clientId);
-			request.AddParameter("productList", productList);
-			request.AddParameter("salesman", salesmanId);
-			request.AddParameter("price", price);
+			request.AddHeader("Authorization", GetFormattedToken());
+			request.AddHeader("Content-Type", "application/json");
+			request.Parameters.Clear();
+			request.AddParameter("application/json; charset=utf-8", parameters, ParameterType.RequestBody);
 			request.RequestFormat = DataFormat.Json;
 
 			client.ExecuteAsync(request, response =>
-			{
-				var json = JsonValue.Parse(response.Content);
+			{				
 				if ((int)response.StatusCode >= 200 && (int)response.StatusCode <= 210)
 				{
-					success(json);
+					success();
 				}
 				else
 				{
-					failure(json);
+					failure();
 				}
 			});
 		}

@@ -20,6 +20,7 @@ namespace DistriBot
 				SessionManager.SaveTokenSession(token);
 				SessionManager.SaveTokenType(tokenType);
 				SessionManager.SaveTimestamp(DateTime.Now);
+				SessionManager.SaveSalesmanUsername(username);
 				success(role);
 			}, failure: (obj) =>
 			{

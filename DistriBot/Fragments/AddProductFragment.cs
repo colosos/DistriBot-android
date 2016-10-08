@@ -79,18 +79,23 @@ namespace DistriBot
 				{
 					Tuple<int, double, double> productCart = new Tuple<int, double, double>(product.Id, Convert.ToDouble(txtQuantity.Text), subTotal);
 					CartManager.GetInstance().Order.Products.Add(productCart);
+					CartManager.GetInstance().Order.Price += subTotal;
 					CartManager.GetInstance().Products.Add(product);
-					CartManager.GetInstance().TotalPrice += subTotal;
+					Toast.MakeText(this.Activity, "Producto agregado exitosamente", ToastLength.Long).Show();
 				}
 				catch (FormatException)
 				{
 					//Cannot convert string to double.
-					Toast.MakeText(this.Activity, "Ingrese una cantidad correcta.", ToastLength.Short).Show();
+					Toast.MakeText(this.Activity, "Ingrese una cantidad correcta", ToastLength.Long).Show();
 				}
 				finally
 				{
 					this.Dismiss();
 				}
+			}
+			else
+			{
+				Toast.MakeText(this.Activity, "Ingrese una cantidad correcta", ToastLength.Long).Show();
 			}
 		}
 

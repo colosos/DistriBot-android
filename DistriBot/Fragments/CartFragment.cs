@@ -19,7 +19,6 @@ namespace DistriBot
 {
 	public class CartFragment : Fragment
 	{
-		private Order order;
 		private RecyclerView recyclerView;
 		private ProductsCartRecyclerAdapter adapter;
 		private LinearLayoutManager layoutManager;
@@ -31,9 +30,8 @@ namespace DistriBot
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			order = CartManager.GetInstance().Order;
 			View view = inflater.Inflate(Resource.Layout.CartFragment, container, false);
-			view.FindViewById<TextView>(Resource.Id.txtTotal).Text = "Total $" + CartManager.GetInstance().TotalPrice;
+			view.FindViewById<TextView>(Resource.Id.txtTotal).Text = "Total $" + CartManager.GetInstance().Order.Price;
 			FloatingActionButton btnConfirm = view.FindViewById<FloatingActionButton>(Resource.Id.btnConfirmar);
 			btnConfirm.Click += BtnConfirm_Click;
 			return view;
@@ -72,11 +70,17 @@ namespace DistriBot
 			CartManager cart = CartManager.GetInstance();
 			OrderServiceManager.AddOrder(cart.Order, success: () =>
 			{
-				Toast.MakeText(this.Activity, "El pedido se ha registrado exitosamente.", ToastLength.Short).Show();
-				CartManager.GetInstance().ResetCart();
+				Activity.RunOnUiThread(() =>
+				{
+					Toast.MakeText(this.Activity, "El pedido se ha registrado exitosamente", ToastLength.Long).Show();
+					CartManager.GetInstance().ResetCart();
+				});
 			}, failure: () =>
 			{
-				Toast.MakeText(this.Activity, "Hubo un error al generar el pedido.", ToastLength.Short).Show();
+				Activity.RunOnUiThread(() =>
+				{
+					Toast.MakeText(this.Activity, "Hubo un error al generar el pedido", ToastLength.Long).Show();
+				});
 			});
 		}
 	}
