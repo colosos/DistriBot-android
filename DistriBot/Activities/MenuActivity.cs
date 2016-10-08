@@ -32,16 +32,11 @@ namespace DistriBot
         private LinkedList<LinkedList<SupportFragment>> mStackStacks;
         private LinkedList<SupportFragment> mCurrentStack;
 
-		//Este pedido se va construyendo con los fragments que pasan por esta Activity.
-		public Order Order { get; set; }
-
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.Menu);
-
-            Order = new Order();
 
             var toolbar = FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);

@@ -41,9 +41,12 @@ namespace DistriBot
         }
 
 
-		public ClientsOnMapFragment(List<Client> clientList, Location location)
+		public ClientsOnMapFragment(List<Client> clientsList, Location location)
         {
-            clients = clientList;
+			foreach (Client client in clientsList)
+			{
+				clients.Add(client);	
+			}
 			currentLocation = location;
         }
 
@@ -70,10 +73,10 @@ namespace DistriBot
         public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
         {
             base.OnCreateOptionsMenu(menu, inflater);
-            SetUpToolbar();
+            SetupToolbar();
         }
 
-        public void SetUpToolbar()
+        private void SetupToolbar()
         {
             var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
             var activity = Activity as AppCompatActivity;

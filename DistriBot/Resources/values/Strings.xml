@@ -15,6 +15,6 @@
     <string name="money_symbol">$</string>
     <string name="action_view_list">Ver Lista</string>
     <string name="action_view_map">Ver Mapa</string>
-	  <string name="google_maps_key">AIzaSyBwTuut6NUstGsaTbaSU1ynaMOc9HFOK9E</string>
-  
+	<string name="google_maps_key">AIzaSyBwTuut6NUstGsaTbaSU1ynaMOc9HFOK9E</string>
+  	<string name="google_maps_directions_key">AIzaSyAPHhXRQMct1vIrgE-9kQNjlmCFnH0yLNU</string>
 </resources>

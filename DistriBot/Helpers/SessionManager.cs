@@ -59,5 +59,19 @@ namespace DistriBot
 			bool tokenValid = diff.Days < 1;
 			return GetSessionToken() != null && GetSessionToken() != "" && tokenValid;
 		}
+
+		public static void SaveSalesmanUsername(string username)
+		{
+			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
+			ISharedPreferencesEditor editor = prefs.Edit();
+			editor.PutString("distribot-salesman-username", username);
+			editor.Apply();
+		}
+
+		public static string GetSalesmanUsername()
+		{
+			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
+			return prefs.GetString("distribot-salesman-username", "");
+		}
 	}
 }

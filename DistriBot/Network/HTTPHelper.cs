@@ -12,7 +12,7 @@ namespace DistriBot
 		
 		private HTTPHelper()
 		{
-			client = new RestClient("https://microsoft-apiappb014d742205d461bab0e6eaa303215f7.azurewebsites.net/api/");
+			client = new RestClient("http://distribotapiapp.azurewebsites.net/api/");
 		}
 
 		public static HTTPHelper GetInstance()
@@ -29,6 +29,33 @@ namespace DistriBot
 				}
 			}
 			return instance;
+		}
+
+		public void TestDirections(Action<JsonValue> success, Action<JsonValue> failure)
+		{
+			string latOrigin = "-34.890233";
+			string lonOrigin = "-56.121892";
+			string latDest = "-34.884319";
+			string longDest = "-56.071338";
+			string query = "json?origin="+latOrigin+","+lonOrigin+"&destination="+latDest+","+longDest+"&key=AIzaSyAPHhXRQMct1vIrgE-9kQNjlmCFnH0yLNU";
+			client = new RestClient("https://maps.googleapis.com/maps/api/directions/");
+			RestRequest request = new RestRequest(query, Method.GET);
+			request.AddHeader("Authorization", GetFormattedToken());
+			request.AddHeader("Accept", "application/json");
+			request.AddHeader("Content-Type", "application/json");
+
+			client.ExecuteAsync(request, response =>
+			{
+				var json = JsonValue.Parse(response.Content);
+				if ((int)response.StatusCode >= 200 && (int)response.StatusCode <= 210)
+				{
+					success(json);
+				}
+				else
+				{
+					failure(json);
+				}
+			});
 		}
 
 		public void DeleteRequest(string relativeUrl, JsonValue parameters, Action<JsonValue> success, Action<JsonValue> failure)
@@ -159,28 +186,26 @@ namespace DistriBot
 		}
 
 		//Esto es un plan B para agregar un pedido.
-		public void PostOrderRequest(string relativeUrl, JsonValue productList, JsonValue clientId, double price,Action<JsonValue> success, Action<JsonValue> failure)
+		public void PostOrderRequest(string relativeUrl, JsonValue parameters, Action success, Action failure)
 		{
 			RestRequest request = new RestRequest(relativeUrl, Method.POST);
 
-			request.AddHeader("Content-Type", "application/json");
-			request.AddHeader("Authorization", GetFormattedToken());
 			request.AddHeader("Accept", "application/json");
-			request.AddParameter("client", clientId);
-			request.AddParameter("productList", productList);
-			request.AddParameter("price", price);
+			request.AddHeader("Authorization", GetFormattedToken());
+			request.AddHeader("Content-Type", "application/json");
+			request.Parameters.Clear();
+			request.AddParameter("application/json; charset=utf-8", parameters, ParameterType.RequestBody);
 			request.RequestFormat = DataFormat.Json;
 
 			client.ExecuteAsync(request, response =>
-			{
-				var json = JsonValue.Parse(response.Content);
+			{				
 				if ((int)response.StatusCode >= 200 && (int)response.StatusCode <= 210)
 				{
-					success(json);
+					success();
 				}
 				else
 				{
-					failure(json);
+					failure();
 				}
 			});
 		}
