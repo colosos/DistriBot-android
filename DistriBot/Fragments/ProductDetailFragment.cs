@@ -61,7 +61,7 @@ namespace DistriBot
 		private void LoadImage()
 		{
 			var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando imagen", true, true);
-			string url = ProductServiceManager.ImageUrl + product.Id + "/v1";
+			string url = product.ImageUrlV1;
 			ImageService.Instance.LoadUrl(url)
 						.Finish((obj) =>
 			{

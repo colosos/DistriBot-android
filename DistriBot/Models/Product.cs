@@ -11,14 +11,18 @@ namespace DistriBot
 		public double UnitPrice { get; set; }
 		public string MeasurementUnit { get; set; }
 		public string Description { get; set; }
+		public string ImageUrlV1 { get; set; }
+		public string ImageUrlV2 { get; set; }
 
 		public Product(int id, string name, double unitPrice, string description, string unit)
 		{
-			this.Id = id;
-			this.Name = name;
-			this.UnitPrice = unitPrice;
-			this.MeasurementUnit = unit;
-			this.Description = description;
+			Id = id;
+			Name = name;
+			UnitPrice = unitPrice;
+			MeasurementUnit = unit;
+			Description = description;
+			ImageUrlV1 = "https://storagedistribot.blob.core.windows.net/clients/" + id + "/v1";
+			ImageUrlV1 = "https://storagedistribot.blob.core.windows.net/clients/" + id + "/v2";
 		}
 
 		public static List<Product> ProductsFromJson(JsonValue jsonArray)
