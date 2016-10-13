@@ -95,6 +95,12 @@
     <Reference Include="Xamarin.GooglePlayServices.Maps">
       <HintPath>..\packages\Xamarin.GooglePlayServices.Maps.29.0.0.2\lib\MonoAndroid41\Xamarin.GooglePlayServices.Maps.dll</HintPath>
     </Reference>
+    <Reference Include="FFImageLoading.Platform">
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.1.8\lib\MonoAndroid10\FFImageLoading.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading">
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.1.8\lib\MonoAndroid10\FFImageLoading.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fragments\ClientsListFragment.cs" />
@@ -130,6 +136,8 @@
     <Compile Include="Fragments\OrdersListFragment.cs" />
     <Compile Include="Helpers\OrdersRecyclerAdapter.cs" />
     <Compile Include="Fragments\OrdersOnMapFragment.cs" />
+    <Compile Include="Helpers\Images\CircleTransformation.cs" />
+    <Compile Include="Helpers\Images\RoundedTransformation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -362,6 +370,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\menu\MenuClientsOnMap.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

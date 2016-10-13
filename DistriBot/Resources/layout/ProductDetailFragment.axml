@@ -1,67 +1,82 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary_light">
-  <include
+    <include
         android:id="@+id/toolbar"
         layout="@layout/Toolbar" />
-  <ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_below="@id/toolbar">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_margin="10dp">
-      <ImageView
-        android:id="@+id/productImage"
+    <ScrollView
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_margin="8dp">
+            <FFImageLoading.Views.ImageViewAsync
+                android:id="@+id/productImage"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center" />
+            <TextView
+                android:id="@+id/txtProductName"
+                android:layout_marginTop="8dp"
+                android:textSize="24dp"
+                android:textColor="@color/primary_dark"
+                android:text="Nombre del producto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/txtProductDescription"
+                android:layout_marginTop="15dp"
+                android:textSize="18dp"
+                android:textColor="@color/primary"
+                android:text="Descripción del producto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="false" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:textSize="24dp"
+                    android:textColor="@color/primary_dark"
+                    android:text="Precio $ "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/txtProductUnitPrice"
+                    android:textSize="24dp"
+                    android:textColor="@color/primary_dark"
+                    android:text="200"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/txtProductUnit"
+                    android:textSize="24dp"
+                    android:textColor="@color/primary_dark"
+                    android:text=" / Kg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floating_button"
         android:layout_height="wrap_content"
-        android:src="@drawable/brain_gears"/>
-      <TextView
-          android:id="@+id/tvProductnName"
-          android:layout_marginTop="10dp"
-          android:textSize="24dp"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content" />
-      <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:gravity="center_vertical">
-        <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:textSize="24dp"
-          android:text="@string/price"/>
-        <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginLeft="8dp"
-          android:textSize="24dp"
-          android:text="@string/money_symbol"/>
-        <TextView
-            android:id="@+id/tvProductUnitPrice"
-            android:textSize="24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-      </LinearLayout>
-    </LinearLayout>
-  </ScrollView>
-  <android.support.design.widget.FloatingActionButton
-          android:id="@+id/floating_button"
-          android:layout_height="wrap_content"
-          android:layout_width="wrap_content"
-          android:src="@drawable/ic_add_shopping_cart_white_24dp"
-          android:clickable="true"
-          android:elevation="6dp"
-          android:layout_alignParentBottom="true"
-          android:layout_alignParentEnd="true"
-          android:layout_marginBottom="25dp"
-          android:layout_marginRight="25dp"/>
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_add_shopping_cart_white_24dp"
+        android:clickable="true"
+        android:elevation="6dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="25dp"
+        android:layout_marginRight="25dp" />
 </RelativeLayout>

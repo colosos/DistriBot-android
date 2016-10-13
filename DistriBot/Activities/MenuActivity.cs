@@ -32,6 +32,8 @@ namespace DistriBot
         private LinkedList<LinkedList<SupportFragment>> mStackStacks;
         private LinkedList<SupportFragment> mCurrentStack;
 
+		private bool backpressed;
+
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
@@ -113,8 +115,10 @@ namespace DistriBot
             }
 
             var trans = SupportFragmentManager.BeginTransaction();
-            if(mCurrentFragment!=null)
-                trans.Hide(mCurrentFragment);
+			if (mCurrentFragment != null)
+			{
+				trans.Hide(mCurrentFragment);
+			}
             trans.Show(fragment);
             trans.Commit();
 
@@ -122,7 +126,10 @@ namespace DistriBot
             {
                 mCurrentStack.AddFirst(mCurrentFragment);
                 mStackStacks.AddFirst(mCurrentStack);
-                if (mStackStacks.Contains(stack)) mStackStacks.Remove(stack);
+				if (mStackStacks.Contains(stack))
+				{
+					mStackStacks.Remove(stack);
+				}
             }
             mCurrentFragment = fragment;
             mCurrentStack = stack;
@@ -141,7 +148,11 @@ namespace DistriBot
             mCurrentFragment = fragment;
         }
 
-        private bool backpressed;
+		public void ClearPresaleStackFragment()
+		{
+			mStackFragmentPreSales.Clear();
+		}
+
         public override void OnBackPressed()
         {
             if(mCurrentStack.Count > 0)
