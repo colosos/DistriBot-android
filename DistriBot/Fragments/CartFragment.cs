@@ -74,6 +74,9 @@ namespace DistriBot
 				{
 					Toast.MakeText(this.Activity, "El pedido se ha registrado exitosamente", ToastLength.Long).Show();
 					CartManager.GetInstance().ResetCart();
+					MenuActivity activity = Activity as MenuActivity;
+					activity.ClearPresaleStackFragment();
+					activity.ShowFragment(new ClientsListFragment(), "ClientsListFragment");
 				});
 			}, failure: () =>
 			{

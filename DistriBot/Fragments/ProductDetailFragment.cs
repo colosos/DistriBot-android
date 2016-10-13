@@ -13,13 +13,23 @@ using Android.Widget;
 using Android.Support.V7.Widget;
 using Android.Support.V7.App;
 using Android.Support.Design.Widget;
+using FFImageLoading; using FFImageLoading.Views;
+using FFImageLoading.Transformations;
 
 namespace DistriBot
 {
     public class ProductDetailFragment : Fragment, View.IOnClickListener
     {
+		
         private FloatingActionButton ftAddToCart;
-        public Product ProductDetail { get; set; }
+		private Product product;
+		private ImageViewAsync imgView;
+
+		public ProductDetailFragment(Product p)
+		{
+			product = p;
+		}
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -28,8 +38,13 @@ namespace DistriBot
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             View view = inflater.Inflate(Resource.Layout.ProductDetailFragment, container, false);
-            view.FindViewById<TextView>(Resource.Id.tvProductnName).Text = ProductDetail.Name;
-            view.FindViewById<TextView>(Resource.Id.tvProductUnitPrice).Text = ProductDetail.UnitPrice.ToString();
+			view.FindViewById<TextView>(Resource.Id.txtProductName).Text = product.Name;
+			view.FindViewById<TextView>(Resource.Id.txtProductDescription).Text = product.Description;
+			view.FindViewById<TextView>(Resource.Id.txtProductUnitPrice).Text = product.UnitPrice.ToString();
+			view.FindViewById<TextView>(Resource.Id.txtProductUnit).Text = " / " + product.MeasurementUnit;
+
+			imgView = view.FindViewById<ImageViewAsync>(Resource.Id.productImage);
+			LoadImage();
 
             ftAddToCart = view.FindViewById<FloatingActionButton>(Resource.Id.floating_button);
             ftAddToCart.SetOnClickListener(this);
@@ -43,11 +58,23 @@ namespace DistriBot
             base.OnActivityCreated(savedInstanceState);
         }
 
+		private void LoadImage()
+		{
+			var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando imagen", true, true);
+			string url = ProductServiceManager.ImageUrl + product.Id + "/v1";
+			ImageService.Instance.LoadUrl(url)
+						.Finish((obj) =>
+			{
+				progressDialogue.Dismiss();
+			})
+			            .Transform(new CircleTransformation(8, "#CFD8DC"))
+			            .Into(imgView);
+		}
 
         private void SetUpToolbar()
         {
             var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            toolbar.Title = ProductDetail.Name;
+            toolbar.Title = product.Name;
             var activity = Activity as AppCompatActivity;
             activity.SetSupportActionBar(toolbar);
             activity.SupportActionBar.SetDisplayHomeAsUpEnabled(true);
@@ -58,14 +85,10 @@ namespace DistriBot
             switch (v.Id)
             {
                 case Resource.Id.floating_button:
-                    Android.Widget.Toast.MakeText(Context, "Agregar al pedido", Android.Widget.ToastLength.Short).Show();
+                    Toast.MakeText(Context, "Agregar al pedido", ToastLength.Short).Show();
                     break;
             }
         }
-        
-        public ProductDetailFragment(Product product)
-        {
-            ProductDetail = product;
-        }
-    }
+
+	}
 }
