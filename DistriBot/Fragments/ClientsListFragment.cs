@@ -153,7 +153,7 @@ namespace DistriBot
             if (position >= 0)
             {
                 var client = clients[position];
-				CartManager.GetInstance().Order.ClientId = client.Id;
+				CartManager.GetInstance().Order.Client = client;
                 MenuActivity actividad = Activity as MenuActivity;
 				actividad.ShowFragment(new ProductsFragment(true), "ProductsFragment");
             }
@@ -170,7 +170,7 @@ namespace DistriBot
 				alert.SetMessage("Desea realizar un pedido para " + obj.Name + "?");
 				alert.SetPositiveButton("Si", (senderAlert, args) =>
 				{
-					CartManager.GetInstance().Order.ClientId = obj.Id;
+					CartManager.GetInstance().Order.Client = obj;
 					MenuActivity actividad = Activity as MenuActivity;
 					actividad.ShowFragment(new ProductsFragment(true), "ProductsFragment");
 				});

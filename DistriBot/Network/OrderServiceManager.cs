@@ -19,6 +19,20 @@ namespace DistriBot
 			});
 		}
 
+		public static void DeliverOrder(Order order, Action success, Action failure)
+		{
+			string url = "deliverOrder?idOrder=" + order.Id + "&flag=true";
+			HTTPHelper.GetInstance().PostRequest(relativeUrl,
+												 null,
+												 success: (obj) =>
+												 {
+													 success();
+												 }, failure: (obj) =>
+												 {
+													 failure();
+												 });
+		}
+
 		public static void AddOrder(Order order, Action success, Action failure)
 		{
 			var salesman = SessionManager.GetSalesmanUsername();
@@ -28,16 +42,15 @@ namespace DistriBot
 				Tuple<int, double> product = new Tuple<int, double>(tuple.Item1, tuple.Item2);
 				products.Add(product);
 			}
-			HTTPHelper.GetInstance().PostOrderRequest(relativeUrl,
-			                                          BuildOrderJson(order.ClientId, products, salesman, order.Price),
-													  success: () =>
-													  {
-														  success();
-													  },
-													  failure: () =>
-													  {
-														  failure();
-													  });
+			HTTPHelper.GetInstance().PostRequest(relativeUrl,
+												 BuildOrderJson(order.Client.Id, products, salesman, order.Price),
+												 success: (obj) =>
+												 {
+													 success();
+												 }, failure: (obj) =>
+												 {
+													 failure();
+												 });
 		}
 
 		private static JsonValue BuildOrderJson(int clientId, List<Tuple<int, double>> products, string salesman, double price)

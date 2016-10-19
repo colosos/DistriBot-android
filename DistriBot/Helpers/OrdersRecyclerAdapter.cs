@@ -10,14 +10,13 @@ namespace DistriBot
 	public class OrdersRecyclerAdapter : RecyclerView.Adapter
 	{
 
-		private List<Tuple<Client, Order>> orders;
-
+		private List<Order> orders;
 		public event EventHandler<int> ItemClick;
 
-		public OrdersRecyclerAdapter(List<Tuple<Client, Order>> orderList) : base()
+		public OrdersRecyclerAdapter(List<Order> ordersList) : base()
 		{
-			orders = new List<Tuple<Client, Order>>();
-			foreach (Tuple<Client, Order> order in orderList)
+			orders = new List<Order>();
+			foreach (Order order in ordersList)
 			{
 				orders.Add(order);
 			}
@@ -43,9 +42,9 @@ namespace DistriBot
 		{
 			var order = orders[position];
 			OrderView myHolder = holder as OrderView;
-			myHolder.Client.Text = order.Item1.Name;
-			myHolder.Address.Text = order.Item1.Address;
-			myHolder.Price.Text = order.Item2.Price.ToString();
+			myHolder.Client.Text = order.Client.Name;
+			myHolder.Address.Text = order.Client.Address;
+			myHolder.Price.Text = order.Price.ToString();
 		}
 
 		public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)

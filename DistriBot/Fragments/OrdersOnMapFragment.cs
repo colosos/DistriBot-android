@@ -24,11 +24,11 @@ namespace DistriBot
 		private MapView mapView;
 
 		private Dictionary<Order, Marker> ordersDictionary = new Dictionary<Order, Marker>();
-		private List<Tuple<Client, Order>> ordersList = new List<Tuple<Client, Order>>();
+		private List<Order> ordersList = new List<Order>();
 
-		public OrdersOnMapFragment(List<Tuple<Client, Order>> orders)
+		public OrdersOnMapFragment(List<Order> orders)
 		{
-			foreach (Tuple<Client, Order> order in orders)
+			foreach (Order order in orders)
 			{
 				ordersList.Add(order);
 			}
@@ -99,16 +99,16 @@ namespace DistriBot
 
 		private void LoadOrders()
 		{
-			foreach (Tuple<Client, Order> order in ordersList)
+			foreach (Order order in ordersList)
 			{
 				Activity.RunOnUiThread(() =>
 				{
 					MarkerOptions markerOptions = new MarkerOptions();
-					var latitude = order.Item1.Latitude;
-					var longitude = order.Item1.Longitude;
+					var latitude = order.Client.Latitude;
+					var longitude = order.Client.Longitude;
 					markerOptions.SetPosition(new LatLng(latitude, longitude));
 					Marker marker = mMap.AddMarker(markerOptions);
-					ordersDictionary.Add(order.Item2, marker);
+					ordersDictionary.Add(order, marker);
 				});
 			}
 			//LatLng latlng = new LatLng(currentLocation.Latitude, currentLocation.Longitude);
