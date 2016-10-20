@@ -118,7 +118,19 @@ namespace DistriBot
 
 		void MMap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
 		{
-
+			List<Tuple<string, string>> list = new List<Tuple<string, string>>();
+			foreach (Order order in ordersList)
+			{
+				Tuple<string, string> tuple = new Tuple<string, string>(order.Client.Latitude.ToString(), order.Client.Longitude.ToString());
+				list.Add(tuple);
+			}
+			HTTPHelper.GetInstance().TestDirections(list, success: (obj) =>
+			{
+				Route.RouteFromJson(obj);
+			}, failure: (obj) =>
+			{
+				
+			});
 		}
 
 		public override void OnResume()

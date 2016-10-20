@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Json;
 using RestSharp;
 
@@ -31,13 +32,14 @@ namespace DistriBot
 			return instance;
 		}
 
-		public void TestDirections(Action<JsonValue> success, Action<JsonValue> failure)
+		public void TestDirections(List<Tuple<string, string>> list, Action<JsonValue> success, Action<JsonValue> failure)
 		{
-			string latOrigin = "-34.890233";
-			string lonOrigin = "-56.121892";
-			string latDest = "-34.884319";
-			string longDest = "-56.071338";
-			string query = "json?origin="+latOrigin+","+lonOrigin+"&destination="+latDest+","+longDest+"&key=AIzaSyAPHhXRQMct1vIrgE-9kQNjlmCFnH0yLNU";
+			var tuple1 = list[0];
+			var tuple2 = list[1];
+			var tuple3 = list[2];
+			string query = "json?origin=" + tuple1.Item1 + "," + tuple1.Item2 + "&destination=" + tuple3.Item1 + "," + 
+			                                      tuple3.Item2 + "&waypoints=optimize:true|" + tuple2.Item1 + "," + tuple2.Item2 
+			                                      + "&key=AIzaSyAPHhXRQMct1vIrgE-9kQNjlmCFnH0yLNU";
 			client = new RestClient("https://maps.googleapis.com/maps/api/directions/");
 			RestRequest request = new RestRequest(query, Method.GET);
 			request.AddHeader("Authorization", GetFormattedToken());

@@ -20,15 +20,21 @@ namespace DistriBot
 	{
 
 		private OrdersListFragment ordersListFragment;
+		private OrdersOnMapFragment ordersOnMapFragment;
 
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
 			SetContentView(Resource.Layout.DeliverymanMenu);
-			ordersListFragment = new OrdersListFragment();
+			//ordersListFragment = new OrdersListFragment();
+
+			Route route = new Route();
+			ordersOnMapFragment = new OrdersOnMapFragment(route.Orders);
 			var trans = SupportFragmentManager.BeginTransaction();
-			trans.Add(Resource.Id.fragmentContainer, ordersListFragment, "OrdersListFragment");
-			trans.Show(ordersListFragment);
+			trans.Add(Resource.Id.fragmentContainer, ordersOnMapFragment, "OrdersOnMapFragment");
+			trans.Show(ordersOnMapFragment);
+			//trans.Add(Resource.Id.fragmentContainer, ordersListFragment, "OrdersListFragment");
+			//trans.Show(ordersListFragment);
 			trans.Commit();
 		}
 	}
