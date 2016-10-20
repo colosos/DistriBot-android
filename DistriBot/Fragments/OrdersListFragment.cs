@@ -118,7 +118,6 @@ namespace DistriBot
 			{
 				var order = orders[position];
 				AlertDialog.Builder alert = new AlertDialog.Builder(this.Activity);
-				//alert.SetTitle("Confirmar entrega");
 				alert.SetMessage("Entregar el pedido del cliente " + order.Client.Name);
 				alert.SetPositiveButton("Confirmar", (senderAlert, args) =>
 				{

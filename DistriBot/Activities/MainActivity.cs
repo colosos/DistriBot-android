@@ -16,8 +16,8 @@ namespace DistriBot
 
 			if (SessionManager.IsUserLoggedIn())
 			{
-				//StartActivity(new Intent(this, typeof(MenuActivity)));
-				//Finish();
+				StartActivity(new Intent(this, typeof(MenuActivity)));
+				Finish();
 			}
 
             SetContentView(Resource.Layout.Main);
