@@ -62,7 +62,13 @@ namespace DistriBot
 						}
 						else
 						{
-							// TODO: Redirect to Deliveryman menu
+							RunOnUiThread(() =>
+							{
+								var deliverymanMenuActivity = new Intent(this, typeof(DeliverymanMenuActivity));
+								StartActivity(deliverymanMenuActivity);
+								progressDialog.Dismiss();
+								Finish();
+							});
 						}
 					}, failure: () =>
 					{

@@ -15,7 +15,7 @@ using SupportFragment = Android.Support.V4.App.Fragment;
 
 namespace DistriBot
 {
-	[Activity(Label = "DeliverymanMenuActivity", Theme = "@style/DefaultTheme")]
+	[Activity(Label = "Lista de pedidos", Theme = "@style/DefaultTheme")]
 	public class DeliverymanMenuActivity : AppCompatActivity
 	{
 
@@ -24,8 +24,12 @@ namespace DistriBot
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
-
-			// Create your application here
+			SetContentView(Resource.Layout.DeliverymanMenu);
+			ordersListFragment = new OrdersListFragment();
+			var trans = SupportFragmentManager.BeginTransaction();
+			trans.Add(Resource.Id.fragmentContainer, ordersListFragment, "OrdersListFragment");
+			trans.Show(ordersListFragment);
+			trans.Commit();
 		}
 	}
 }

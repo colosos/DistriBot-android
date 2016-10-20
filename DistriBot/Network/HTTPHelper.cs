@@ -109,12 +109,11 @@ namespace DistriBot
 		public void PostRequest(string relativeUrl, JsonValue parameters, Action<JsonValue> success, Action<JsonValue> failure)
 		{
 			RestRequest request = new RestRequest(relativeUrl, Method.POST);
-
+			request.AddHeader("Accept", "application/json");
+			request.AddHeader("Authorization", GetFormattedToken());
+			request.AddHeader("Content-Type", "application/json");
 			if (parameters != null)
 			{
-				request.AddHeader("Accept", "application/json");
-				request.AddHeader("Authorization", GetFormattedToken());
-				request.AddHeader("Content-Type", "application/json");
 				request.Parameters.Clear();
 				request.AddParameter("application/json; charset=utf-8", parameters, ParameterType.RequestBody);
 				request.RequestFormat = DataFormat.Json;
@@ -131,6 +130,7 @@ namespace DistriBot
 					failure(json);
 				}
 			});
+
 		}
 
 		public void PutRequest(string relativeUrl, JsonValue parameters, Action<JsonValue> success, Action<JsonValue> failure)
@@ -185,7 +185,7 @@ namespace DistriBot
 			});
 		}
 
-		//Esto es un plan B para agregar un pedido.
+		/*
 		public void PostOrderRequest(string relativeUrl, JsonValue parameters, Action success, Action failure)
 		{
 			RestRequest request = new RestRequest(relativeUrl, Method.POST);
@@ -209,5 +209,6 @@ namespace DistriBot
 				}
 			});
 		}
+		*/
 	}
 }

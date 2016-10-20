@@ -20,7 +20,7 @@ namespace DistriBot
 	public class OrdersListFragment : Fragment
 	{
 
-		private List<Tuple<Client, Order>> list = new List<Tuple<Client, Order>>();
+		private List<Order> orders = new List<Order>();
 		private RecyclerView recyclerView;
 		private OrdersRecyclerAdapter adapter;
 		private LinearLayoutManager layoutManager;
@@ -67,34 +67,28 @@ namespace DistriBot
 
 		private void SetupOrdersList()
 		{
-			/*LoadOrders((List<Client> obj) =>
+			LoadOrders((List<Order> obj) =>
 			{
 				Activity.RunOnUiThread(() =>
 				{
 					CreateAdapter();
 				});
 			});
-			*/
 		}
 
-		/*
-		private void LoadOrders(Action<List<Tuple<Client, Order>> completion)
+		private void LoadOrders(Action<List<Order>> completion)
 		{
 			var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando pedidos", true, true);
-			ClientServiceManager.GetClientsPaginated(lastClient, clientsQuantity, success: (List<Client> obj) =>
+			OrderServiceManager.GetOrders(success: (obj) =>
 			{
 				progressDialogue.Dismiss();
-				clients.AddRange(obj);
-				reachedEnd = obj.Count < clientsQuantity;
-				lastClient += obj.Count;
 				completion(obj);
 			}, failure: (obj) =>
 			{
 				progressDialogue.Dismiss();
-				Android.Widget.Toast.MakeText(Context, "Ha ocurrido un error al cargar los clientes", Android.Widget.ToastLength.Short).Show();
-			}); 
+				Toast.MakeText(Context, "Ha ocurrido un error al cargar los pedidos", ToastLength.Long).Show();
+			});
 		}
-		*/
 
 		private void SetupToolbar()
 		{
@@ -106,7 +100,8 @@ namespace DistriBot
 
 		private void CreateAdapter()
 		{
-			adapter = new OrdersRecyclerAdapter(list);
+			adapter = new OrdersRecyclerAdapter(orders);
+			adapter.ItemClick += OnListItemClick;
 			recyclerView = View.FindViewById<RecyclerView>(Resource.Id.recyclerView);
 			if (recyclerView != null)
 			{
@@ -114,6 +109,37 @@ namespace DistriBot
 				layoutManager = new LinearLayoutManager(Context);
 				recyclerView.SetLayoutManager(layoutManager);
 				recyclerView.SetAdapter(adapter);
+			}
+		}
+
+		void OnListItemClick(object sender, int position)
+		{
+			if (position >= 0)
+			{
+				var order = orders[position];
+				AlertDialog.Builder alert = new AlertDialog.Builder(this.Activity);
+				alert.SetMessage("Entregar el pedido del cliente " + order.Client.Name);
+				alert.SetPositiveButton("Confirmar", (senderAlert, args) =>
+				{
+					OrderServiceManager.DeliverOrder(order, success: () =>
+					{
+						Activity.RunOnUiThread(() =>
+						{
+							Toast.MakeText(this.Activity, "Pedido entregado exitosamente", ToastLength.Long).Show();
+						});
+					}, failure: () =>
+					{
+						Activity.RunOnUiThread(() =>
+						{
+							Toast.MakeText(this.Activity, "Hubo un error al entregar el pedido", ToastLength.Long).Show();
+						});
+					});
+				});
+				alert.SetNegativeButton("Cancelar", (senderAlert, args) => { });
+				Activity.RunOnUiThread(() =>
+				{
+					alert.Show();
+				});
 			}
 		}
 	}
