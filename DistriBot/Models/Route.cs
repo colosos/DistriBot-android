@@ -54,10 +54,11 @@ namespace DistriBot
 			Orders.Add(o3);
 		}
 
-		public static void RouteFromJson(JsonValue json)
+		public static string RouteFromJson(JsonValue json)
 		{
-			JsonValue geocoded_waypoints = json["geocoded_waypoints"];
 			JsonValue routes = json["routes"];
+			JsonValue overview_polyline = routes[0]["overview_polyline"];
+			return overview_polyline["points"];
 		}
 	}
 }

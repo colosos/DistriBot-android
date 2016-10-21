@@ -126,11 +126,79 @@ namespace DistriBot
 			}
 			HTTPHelper.GetInstance().TestDirections(list, success: (obj) =>
 			{
-				Route.RouteFromJson(obj);
+				string encodedPoints = Route.RouteFromJson(obj);
+				List<LatLng> lstDecodedPoints = DecodePolylinePoints(encodedPoints);
+				var latlngPoints = new LatLng[lstDecodedPoints.Count];
+				int index = 0;
+				foreach (LatLng latlng in lstDecodedPoints)
+				{
+					latlngPoints[index] = new LatLng(latlng.Latitude, latlng.Longitude);
+					index++;
+				}
+
+				Activity.RunOnUiThread(() =>
+				{
+					var polylineoption = new PolylineOptions().InvokeColor(Android.Graphics.Color.Red)
+															  .Geodesic(true)
+															  .Add(latlngPoints);
+					mMap.AddPolyline(polylineoption);
+				});
 			}, failure: (obj) =>
 			{
 				
 			});
+		}
+
+		private List<LatLng> DecodePolylinePoints(string encodedPoints)
+		{
+			var poly = new List<LatLng>();
+			if (encodedPoints == null || encodedPoints == "")
+			{
+				return null;
+			}
+			char[] polylinechars = encodedPoints.ToCharArray();
+			int index = 0;
+			int currentLat = 0;
+			int currentLng = 0;
+			int next5bits;
+			int sum;
+			int shifter;
+			while (index < polylinechars.Length)
+			{
+				sum = 0;
+				shifter = 0;
+				do
+				{
+					next5bits = (int)polylinechars[index++] - 63;
+					sum |= (next5bits & 31) << shifter;
+					shifter += 5;	
+				} while (next5bits >= 32 && index < polylinechars.Length);
+				if (index >= polylinechars.Length)
+				{
+					break;
+				}
+				currentLat += (sum & 1) == 1 ? ~(sum >> 1) : (sum >> 1);
+
+				sum = 0;
+				shifter = 0;
+				do
+				{
+					next5bits = (int)polylinechars[index++] - 63;
+					sum |= (next5bits & 31) << shifter;
+					shifter += 5;
+				} while (next5bits >= 32 && index < polylinechars.Length);
+				if (index >= polylinechars.Length && next5bits >= 32)
+				{
+					break;
+				}
+				currentLng += (sum & 1) == 1 ? ~(sum >> 1) : (sum >> 1);
+
+				double lat = Convert.ToDouble(currentLat) / 100000.0;
+				double lng = Convert.ToDouble(currentLng) / 100000.0;
+				LatLng p = new LatLng(lat, lng);
+				poly.Add(p);
+			}
+			return poly;
 		}
 
 		public override void OnResume()
