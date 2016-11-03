@@ -19,10 +19,22 @@ namespace DistriBot
 			});
 		}
 
+		public static void GetOrdersToDeliver(string deliveryman, Action<List<Order>> success, Action<string> failure)
+		{
+			string url = "getOrdersForDeliveryMan?username=" + deliveryman;
+			HTTPHelper.GetInstance().GetRequest(url, null, success: (obj) =>
+			{
+				success(Order.OrdersFromJson(obj));
+			}, failure: (obj) =>
+			{
+				failure("Error al cargar los pedidos");
+			});
+		}
+
 		public static void DeliverOrder(Order order, Action success, Action failure)
 		{
 			string url = "deliverOrder?idOrder=" + order.Id + "&flag=true";
-			HTTPHelper.GetInstance().PostRequest(relativeUrl,
+			HTTPHelper.GetInstance().PostRequest(url,
 												 null,
 												 success: (obj) =>
 												 {

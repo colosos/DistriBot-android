@@ -54,11 +54,22 @@ namespace DistriBot
 			Orders.Add(o3);
 		}
 
-		public static string RouteFromJson(JsonValue json)
+		public static string GetOverviewPolyLine(JsonValue json)
 		{
 			JsonValue routes = json["routes"];
 			JsonValue overview_polyline = routes[0]["overview_polyline"];
 			return overview_polyline["points"];
+		}
+
+		public static List<Client> RouteFromJson(JsonValue json)
+		{
+			List<Client> clients = new List<Client>();
+			JsonValue jsonClients = json["clients"];
+			foreach (JsonValue client in jsonClients)
+			{
+				clients.Add(Client.ClientFromJson(client));
+			}
+			return clients;
 		}
 	}
 }

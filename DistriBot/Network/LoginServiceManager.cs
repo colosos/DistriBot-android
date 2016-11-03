@@ -20,7 +20,14 @@ namespace DistriBot
 				SessionManager.SaveTokenSession(token);
 				SessionManager.SaveTokenType(tokenType);
 				SessionManager.SaveTimestamp(DateTime.Now);
-				SessionManager.SaveSalesmanUsername(username);
+				if (role.Equals("salesmen"))
+				{
+					SessionManager.SaveSalesmanUsername(username);
+				}
+				else
+				{
+					SessionManager.SaveDeliverymanUsername(username);
+				}
 				success(role);
 			}, failure: (obj) =>
 			{

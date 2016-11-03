@@ -73,5 +73,19 @@ namespace DistriBot
 			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
 			return prefs.GetString("distribot-salesman-username", "");
 		}
+
+		public static void SaveDeliverymanUsername(string username)
+		{
+			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
+			ISharedPreferencesEditor editor = prefs.Edit();
+			editor.PutString("distribot-deliveryman-username", username);
+			editor.Apply();
+		}
+
+		public static string GetDeliverymanUsername()
+		{
+			ISharedPreferences prefs = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
+			return prefs.GetString("distribot-deliveryman-username", "");
+		}
 	}
 }

@@ -13,7 +13,7 @@ namespace DistriBot
 		
 		private HTTPHelper()
 		{
-			client = new RestClient("http://distribotapiapp.azurewebsites.net/api/");
+			client = new RestClient("http://distribotapi20161029125815.azurewebsites.net/api/");
 		}
 
 		public static HTTPHelper GetInstance()
@@ -30,34 +30,6 @@ namespace DistriBot
 				}
 			}
 			return instance;
-		}
-
-		public void TestDirections(List<Tuple<string, string>> list, Action<JsonValue> success, Action<JsonValue> failure)
-		{
-			var tuple1 = list[0];
-			var tuple2 = list[1];
-			var tuple3 = list[2];
-			string query = "json?origin=" + tuple1.Item1 + "," + tuple1.Item2 + "&destination=" + tuple3.Item1 + "," + 
-			                                      tuple3.Item2 + "&waypoints=optimize:true|" + tuple2.Item1 + "," + tuple2.Item2 
-			                                      + "&key=AIzaSyAPHhXRQMct1vIrgE-9kQNjlmCFnH0yLNU";
-			client = new RestClient("https://maps.googleapis.com/maps/api/directions/");
-			RestRequest request = new RestRequest(query, Method.GET);
-			request.AddHeader("Authorization", GetFormattedToken());
-			request.AddHeader("Accept", "application/json");
-			request.AddHeader("Content-Type", "application/json");
-
-			client.ExecuteAsync(request, response =>
-			{
-				var json = JsonValue.Parse(response.Content);
-				if ((int)response.StatusCode >= 200 && (int)response.StatusCode <= 210)
-				{
-					success(json);
-				}
-				else
-				{
-					failure(json);
-				}
-			});
 		}
 
 		public void DeleteRequest(string relativeUrl, JsonValue parameters, Action<JsonValue> success, Action<JsonValue> failure)
@@ -172,6 +144,42 @@ namespace DistriBot
 			request.AddParameter("UserName", username);
 			request.AddParameter("Password", password);
 			request.AddParameter("grant_type","password");
+
+			client.ExecuteAsync(request, response =>
+			{
+				var json = JsonValue.Parse(response.Content);
+				if ((int)response.StatusCode >= 200 && (int)response.StatusCode <= 210)
+				{
+					success(json);
+				}
+				else
+				{
+					failure(json);
+				}
+			});
+		}
+
+		public void GetDeliveryRoute(List<Tuple<string, string>> list, Tuple<string, string> initialPosition, Action<JsonValue> success, Action<JsonValue> failure)
+		{
+			string url = "json?origin=" + initialPosition.Item1 + "," + initialPosition.Item2;
+			url += "&destination=" + initialPosition.Item1 + "," + initialPosition.Item2;
+			url += "&waypoints=optimize:true|";
+			int count = list.Count;
+			foreach (Tuple<string, string> waypoint in list)
+			{
+				url += waypoint.Item1 + "," + waypoint.Item2;
+				count -= 1;
+				if (count != 0)
+				{
+					url += "|";
+				}	
+			}
+			url += "&key=AIzaSyAPHhXRQMct1vIrgE-9kQNjlmCFnH0yLNU";
+			client = new RestClient("https://maps.googleapis.com/maps/api/directions/");
+			RestRequest request = new RestRequest(url, Method.GET);
+			request.AddHeader("Authorization", GetFormattedToken());
+			request.AddHeader("Accept", "application/json");
+			request.AddHeader("Content-Type", "application/json");
 
 			client.ExecuteAsync(request, response =>
 			{

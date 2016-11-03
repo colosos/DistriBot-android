@@ -23,15 +23,16 @@ namespace DistriBot
 		private GoogleMap mMap;
 		private MapView mapView;
 
-		private Dictionary<Order, Marker> ordersDictionary = new Dictionary<Order, Marker>();
-		private List<Order> ordersList = new List<Order>();
+		private Location currentLocation;
 
-		public OrdersOnMapFragment(List<Order> orders)
+		private Dictionary<Client, Marker> clientsDictionary = new Dictionary<Client, Marker>();
+		private List<Order> orders = new List<Order>();
+		private List<Client> clients = new List<Client>();
+
+		public OrdersOnMapFragment(List<Order> ordersList, Location location)
 		{
-			foreach (Order order in orders)
-			{
-				ordersList.Add(order);
-			}
+			orders.AddRange(ordersList);
+			currentLocation = location;
 		}
 
 		public override void OnCreate(Bundle savedInstanceState)
@@ -66,7 +67,10 @@ namespace DistriBot
 		{
 			mMap = googleMap;
 			mMap.MyLocationEnabled = true;
-			LoadOrders();
+			var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando ruta de reparto", true, true);
+			LoadClients();
+			DisplayDeliveryRoute();
+			progressDialogue.Dismiss();
 
 			mMap.MarkerClick += MMap_MarkerClick;
 		}
@@ -82,7 +86,7 @@ namespace DistriBot
 			switch (item.ItemId)
 			{
 				case Resource.Id.action_view_list:
-					MenuActivity actividad = Activity as MenuActivity;
+					DeliverymanMenuActivity actividad = Activity as DeliverymanMenuActivity;
 					actividad.OnBackPressed();
 					return true;
 			}
@@ -97,36 +101,46 @@ namespace DistriBot
 			activity.SetSupportActionBar(toolbar);
 		}
 
-		private void LoadOrders()
+		private void LoadClients()
 		{
-			foreach (Order order in ordersList)
+			var deliveryman = SessionManager.GetDeliverymanUsername();
+			RouteServiceManager.GetRouteClients(deliveryman, success: (obj) =>
+			{
+				clients.AddRange(obj);
+			}, failure: (obj) =>
+			{
+				Toast.MakeText(Context, "Ha ocurrido un error al cargar los clientes", ToastLength.Long).Show();
+			});
+
+			foreach (Client client in clients)
 			{
 				Activity.RunOnUiThread(() =>
 				{
 					MarkerOptions markerOptions = new MarkerOptions();
-					var latitude = order.Client.Latitude;
-					var longitude = order.Client.Longitude;
+					var latitude = client.Latitude;
+					var longitude = client.Longitude;
 					markerOptions.SetPosition(new LatLng(latitude, longitude));
 					Marker marker = mMap.AddMarker(markerOptions);
-					ordersDictionary.Add(order, marker);
+					clientsDictionary.Add(client, marker);
 				});
 			}
-			//LatLng latlng = new LatLng(currentLocation.Latitude, currentLocation.Longitude);
-			//CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 12);
-			//mMap.AnimateCamera(camera);
+			LatLng latlng = new LatLng(currentLocation.Latitude, currentLocation.Longitude);
+			CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 12);
+			mMap.AnimateCamera(camera);
 		}
 
-		void MMap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
+		public void DisplayDeliveryRoute()
 		{
+			Tuple<string, string> initialPosition = new Tuple<string, string>(currentLocation.Latitude.ToString(), currentLocation.Longitude.ToString());
 			List<Tuple<string, string>> list = new List<Tuple<string, string>>();
-			foreach (Order order in ordersList)
+			foreach (Client client in clients)
 			{
-				Tuple<string, string> tuple = new Tuple<string, string>(order.Client.Latitude.ToString(), order.Client.Longitude.ToString());
+				Tuple<string, string> tuple = new Tuple<string, string>(client.Latitude.ToString(), client.Longitude.ToString());
 				list.Add(tuple);
 			}
-			HTTPHelper.GetInstance().TestDirections(list, success: (obj) =>
+			HTTPHelper.GetInstance().GetDeliveryRoute(list, initialPosition, success: (obj) =>
 			{
-				string encodedPoints = Route.RouteFromJson(obj);
+				string encodedPoints = Route.GetOverviewPolyLine(obj);
 				List<LatLng> lstDecodedPoints = DecodePolylinePoints(encodedPoints);
 				var latlngPoints = new LatLng[lstDecodedPoints.Count];
 				int index = 0;
@@ -135,17 +149,16 @@ namespace DistriBot
 					latlngPoints[index] = new LatLng(latlng.Latitude, latlng.Longitude);
 					index++;
 				}
-
 				Activity.RunOnUiThread(() =>
 				{
-					var polylineoption = new PolylineOptions().InvokeColor(Android.Graphics.Color.Red)
+					var polylineoption = new PolylineOptions().InvokeColor(Android.Graphics.Color.DarkBlue)
 															  .Geodesic(true)
 															  .Add(latlngPoints);
 					mMap.AddPolyline(polylineoption);
 				});
 			}, failure: (obj) =>
 			{
-				
+				Toast.MakeText(Context, "Ha ocurrido un error al armar la ruta", ToastLength.Long).Show();
 			});
 		}
 
@@ -171,7 +184,7 @@ namespace DistriBot
 				{
 					next5bits = (int)polylinechars[index++] - 63;
 					sum |= (next5bits & 31) << shifter;
-					shifter += 5;	
+					shifter += 5;
 				} while (next5bits >= 32 && index < polylinechars.Length);
 				if (index >= polylinechars.Length)
 				{
@@ -201,6 +214,11 @@ namespace DistriBot
 			return poly;
 		}
 
+		void MMap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
+		{
+			
+		}
+
 		public override void OnResume()
 		{
 			mapView.OnResume();
@@ -218,33 +236,5 @@ namespace DistriBot
 			base.OnLowMemory();
 			mapView.OnLowMemory();
 		}
-
 	}
 }
-
-
-/*
-		void MMap_MarkerClick(object sender, GoogleMap.MarkerClickEventArgs e)
-		{
-			var clientsList = clientsDictionary.Where(c => c.Value.Equals(e.Marker)).Select(c => c.Key);
-			foreach (Client client in clientsList)
-			{
-				mClientDetailFragment = new ClientsDetailFragment(client);
-				var trans = Activity.SupportFragmentManager.BeginTransaction();
-				trans.Replace(mClientsDetailFragmentContainer.Id, mClientDetailFragment, "ClientsDetailFragment");
-				trans.Commit();
-			}
-			if (mClientsDetailFragmentContainer.TranslationY + 2 >= mClientsDetailFragmentContainer.Height)
-			{
-				mClientsDetailFragmentContainer.TranslationY = 500;
-				var interpolator = new Android.Views.Animations.OvershootInterpolator(5);
-				mClientsDetailFragmentContainer.Animate().SetInterpolator(interpolator)
-											   .TranslationYBy(-130)
-											   .SetDuration(500);
-			}
-			LatLng latlng = new LatLng(e.Marker.Position.Latitude, e.Marker.Position.Longitude);
-			CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 12);
-			mMap.AnimateCamera(camera);
-		}
-
-*/
