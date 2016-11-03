@@ -138,6 +138,7 @@
     <Compile Include="Fragments\OrdersOnMapFragment.cs" />
     <Compile Include="Helpers\Images\CircleTransformation.cs" />
     <Compile Include="Helpers\Images\RoundedTransformation.cs" />
+    <Compile Include="Network\RouteServiceManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
