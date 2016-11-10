@@ -73,11 +73,11 @@ namespace DistriBot
 				Activity.RunOnUiThread(() =>
 				{
 					Toast.MakeText(this.Activity, "El pedido se ha registrado exitosamente", ToastLength.Long).Show();
-					CartManager.GetInstance().ResetCart();
-					MenuActivity activity = Activity as MenuActivity;
-					activity.ClearPresaleStackFragment();
-					activity.ShowFragment(new ClientsListFragment(), "ClientsListFragment");
 				});
+				CartManager.GetInstance().ResetCart();
+				MenuActivity activity = Activity as MenuActivity;
+				activity.ClearPresaleStackFragment();
+				activity.ShowFragment(new ClientsListFragment(), "ClientsListFragment");
 			}, failure: () =>
 			{
 				Activity.RunOnUiThread(() =>

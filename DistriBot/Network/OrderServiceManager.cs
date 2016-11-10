@@ -54,15 +54,14 @@ namespace DistriBot
 				Tuple<int, double> product = new Tuple<int, double>(tuple.Item1, tuple.Item2);
 				products.Add(product);
 			}
-			HTTPHelper.GetInstance().PostRequest(relativeUrl,
-												 BuildOrderJson(order.Client.Id, products, salesman, order.Price),
-												 success: (obj) =>
-												 {
-													 success();
-												 }, failure: (obj) =>
-												 {
-													 failure();
-												 });
+			HTTPHelper.GetInstance().PostOrderRequest(relativeUrl, BuildOrderJson(order.Client.Id, products, salesman, order.Price),
+													  success: () =>
+			{
+				success();
+			}, failure: () =>
+			{
+				failure();
+			});
 		}
 
 		private static JsonValue BuildOrderJson(int clientId, List<Tuple<int, double>> products, string salesman, double price)
