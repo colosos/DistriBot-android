@@ -195,7 +195,7 @@ namespace DistriBot
 			});
 		}
 
-		/*
+
 		public void PostOrderRequest(string relativeUrl, JsonValue parameters, Action success, Action failure)
 		{
 			RestRequest request = new RestRequest(relativeUrl, Method.POST);
@@ -208,17 +208,20 @@ namespace DistriBot
 			request.RequestFormat = DataFormat.Json;
 
 			client.ExecuteAsync(request, response =>
-			{				
-				if ((int)response.StatusCode >= 200 && (int)response.StatusCode <= 210)
+			{
+				if ((int)response.StatusCode >= 100 && (int)response.StatusCode <= 600)
 				{
-					success();
-				}
-				else
-				{
-					failure();
+					if ((int)response.StatusCode >= 200 && (int)response.StatusCode <= 210)
+					{
+						success();
+					}
+					else
+					{
+						failure();
+					}
 				}
 			});
 		}
-		*/
+
 	}
 }

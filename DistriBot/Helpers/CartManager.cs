@@ -10,7 +10,6 @@ namespace DistriBot
 
 		public Order Order { get; set; }
 		public List<Product> Products { get; set; }
-		public int Salesman { get; set; }
 
 		private CartManager()
 		{
@@ -36,9 +35,8 @@ namespace DistriBot
 
 		public void ResetCart()
 		{
-			this.Order = null;
-			this.Products = null;
-			this.Salesman = 0;
+			Order = new Order();
+			Products = new List<Product>();
 		}
 	}
 }
