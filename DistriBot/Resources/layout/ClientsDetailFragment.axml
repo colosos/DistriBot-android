@@ -11,9 +11,9 @@
         android:text="Client name"
         android:textColor="@color/primary_light"
         android:layout_centerHorizontal="true"
-        android:textSize="24dp"
+        android:textSize="20dp"
         android:textStyle="bold"
-        android:paddingTop="15dp"
+        android:paddingTop="25dp"
         android:layout_alignParentLeft="true"
         android:paddingLeft="20dp" />
     <TextView
@@ -24,7 +24,7 @@
         android:textColor="@color/primary_light"
         android:layout_centerHorizontal="true"
         android:padding="5dp"
-        android:textSize="20dp"
+        android:textSize="16dp"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="70dp"
         android:layout_marginLeft="15dp" />
@@ -36,7 +36,7 @@
         android:textColor="@color/primary_light"
         android:layout_centerHorizontal="true"
         android:padding="5dp"
-        android:textSize="20dp"
+        android:textSize="16dp"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="110dp"
         android:layout_marginLeft="15dp" />
@@ -48,7 +48,7 @@
         android:textColor="@color/primary_light"
         android:layout_centerHorizontal="true"
         android:padding="5dp"
-        android:textSize="20dp"
+        android:textSize="16dp"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="150dp"
         android:layout_marginLeft="15dp" />
@@ -60,7 +60,7 @@
         android:textColor="@color/primary_light"
         android:layout_centerHorizontal="true"
         android:padding="5dp"
-        android:textSize="20dp"
+        android:textSize="16dp"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="190dp"
         android:layout_marginLeft="15dp" />
@@ -69,10 +69,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Saldo"
-        android:textColor="@color/primary_light"
+        android:textColor="#ffcfd8dc"
         android:layout_centerHorizontal="true"
         android:padding="5dp"
-        android:textSize="20dp"
+        android:textSize="16dp"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="190dp"
         android:layout_marginLeft="80dp" />

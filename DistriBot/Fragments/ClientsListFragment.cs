@@ -85,6 +85,7 @@ namespace DistriBot
             var activity = Activity as AppCompatActivity;
             toolbar.InflateMenu(Resource.Menu.MenuClientsList);
             activity.SetSupportActionBar(toolbar);
+			activity.SupportActionBar.Title = "Lista de clientes";
         }
 
 		void LoadClients(Action<List<Client>> completion)
@@ -166,7 +167,6 @@ namespace DistriBot
 			ClientServiceManager.GetNearestClient(lat, lon, success: (Client obj) =>
 			{
 				AlertDialog.Builder alert = new AlertDialog.Builder(this.Activity);
-				alert.SetTitle("Info");
 				alert.SetMessage("Desea realizar un pedido para " + obj.Name + "?");
 				alert.SetPositiveButton("Si", (senderAlert, args) =>
 				{

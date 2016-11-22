@@ -139,6 +139,9 @@
     <Compile Include="Helpers\Images\CircleTransformation.cs" />
     <Compile Include="Helpers\Images\RoundedTransformation.cs" />
     <Compile Include="Network\RouteServiceManager.cs" />
+    <Compile Include="Fragments\SalesmanOrdersFragment.cs" />
+    <Compile Include="Fragments\OrderProductsFragment.cs" />
+    <Compile Include="Helpers\OrderProductsRecyclerAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -176,6 +179,14 @@
     <AndroidResource Include="Resources\menu\OrdersListMenu.xml" />
     <AndroidResource Include="Resources\layout\OrdersOnMapFragment.axml" />
     <AndroidResource Include="Resources\menu\OrdersOnMapMenu.xml" />
+    <AndroidResource Include="Resources\layout\SalesmanOrdersFragment.axml" />
+    <AndroidResource Include="Resources\layout\OrdersProductFragment.axml" />
+    <AndroidResource Include="Resources\menu\OrderProductsMenu.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_delete_forever_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_delete_forever_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_delete_forever_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_delete_forever_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_delete_forever_white_24dp.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">

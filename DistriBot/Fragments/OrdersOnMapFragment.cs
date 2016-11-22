@@ -99,6 +99,7 @@ namespace DistriBot
 			var activity = Activity as AppCompatActivity;
 			toolbar.InflateMenu(Resource.Menu.OrdersOnMapMenu);
 			activity.SetSupportActionBar(toolbar);
+			activity.SupportActionBar.Title = "Ruta de reparto";
 		}
 
 		private void LoadClients()

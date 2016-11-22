@@ -10,10 +10,12 @@ namespace DistriBot
 		public Client Client { get; set; }
 		public List<Tuple<int, double, double>> Products { get; set; } // <ProductId, ProductQuantity, Subtotal>
 		public double Price { get; set; }
+		public List<Product> ProductsHelper { get; set; }
 
 		public Order()
 		{
 			Products = new List<Tuple<int, double, double>>();
+			ProductsHelper = new List<Product>();
 		}
 
 		public static Order OrderFromJson(JsonValue json)
@@ -34,12 +36,53 @@ namespace DistriBot
 			return order;
 		}
 
+		public static Order EagerOrderFromJson(JsonValue json)
+		{
+			int id = json["id"];
+			double price = json["price"];
+			Client client = Client.ClientFromJson(json["client"]);
+			List<Tuple<int, double, double>> products = ProductsListFromJson(json["productsList"]);
+			List<Product> productsHelper = ProductsFromJson(json["productsList"]);
+
+			Order order = new Order();
+			order.Id = id;
+			order.Client = client;
+			order.Price = price;
+			order.Products.AddRange(products);
+			order.ProductsHelper.AddRange(productsHelper);
+			return order;
+		}
+
+		public static Order LazyOrderFromJson(JsonValue json)
+		{
+			int id = json["id"];
+			double price = json["price"];
+			Client client = Client.ClientFromJson(json["client"]);
+
+			Order order = new Order();
+			order.Id = id;
+			order.Client = client;
+			order.Price = price;
+			order.Products = new List<Tuple<int, double, double>>();
+			return order;	
+		}
+
 		public static List<Order> OrdersFromJson(JsonValue jsonArray)
 		{
 			List<Order> orders = new List<Order>();
 			foreach (JsonValue json in jsonArray)
 			{
 				orders.Add(OrderFromJson(json));
+			}
+			return orders;
+		}
+
+		public static List<Order> LazyOrdersFromJson(JsonValue jsonArray)
+		{
+			List<Order> orders = new List<Order>();
+			foreach (JsonValue json in jsonArray)
+			{
+				orders.Add(LazyOrderFromJson(json));
 			}
 			return orders;
 		}
@@ -55,6 +98,23 @@ namespace DistriBot
 				double price =  product["price"];
 				double subtotal = quantity * price;
 				products.Add(new Tuple<int, double, double>(id, quantity, subtotal));
+			}
+			return products;
+		}
+
+		private static List<Product> ProductsFromJson(JsonValue jsonArray)
+		{
+			List<Product> products = new List<Product>();
+			foreach (JsonValue json in jsonArray)
+			{
+				JsonValue product = json["product"];
+				int id = product["id"];
+				string name = product["name"];
+				string description = product["description"];
+				double price = product["price"];
+				string unit = product["unit"];
+
+				products.Add(new Product(id, name, price, description, unit));
 			}
 			return products;
 		}

@@ -23,7 +23,7 @@ namespace DistriBot
 
         private SupportFragment mCurrentFragment;
         private ProductsFragment mProductsFragment;
-        private SampleFragment mSampleFragment;
+		private SalesmanOrdersFragment mSalesmanOrdersFragment;
         private ClientsListFragment mClientsListFragment;
 
         private LinkedList<SupportFragment> mStackFragmentPreSales;
@@ -91,15 +91,15 @@ namespace DistriBot
                         ShowTab(mStackFragmentCatalogue, mProductsFragment);
                         break;
                     case 2:
-                        if (mSampleFragment == null)
+                        if (mSalesmanOrdersFragment == null)
                         {
-                            mSampleFragment = new SampleFragment();
+							mSalesmanOrdersFragment = new SalesmanOrdersFragment();
                             var trans = SupportFragmentManager.BeginTransaction();
-                            trans.Add(Resource.Id.fragmentContainer, mSampleFragment, "SampleFragment");
-                            trans.Hide(mSampleFragment);
+                            trans.Add(Resource.Id.fragmentContainer, mSalesmanOrdersFragment, "SalesmanOrdersFragment");
+                            trans.Hide(mSalesmanOrdersFragment);
                             trans.Commit();
                         }
-                        ShowTab(mStackFragmentDeliveryRequests, mSampleFragment);
+                        ShowTab(mStackFragmentDeliveryRequests, mSalesmanOrdersFragment);
                         break;
                 }
             }
@@ -151,6 +151,11 @@ namespace DistriBot
 		public void ClearPresaleStackFragment()
 		{
 			mStackFragmentPreSales.Clear();
+		}
+
+		public void ClearDeilveryStackFragment()
+		{
+			mStackFragmentDeliveryRequests.Clear();
 		}
 
         public override void OnBackPressed()

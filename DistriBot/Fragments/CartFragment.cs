@@ -50,6 +50,14 @@ namespace DistriBot
 			var activity = Activity as AppCompatActivity;
 			activity.SetSupportActionBar(toolbar);
 			activity.SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+			if (CartManager.GetInstance().Order.Client != null)
+			{
+				activity.SupportActionBar.Title = CartManager.GetInstance().Order.Client.Name;
+			}
+			else
+			{
+				activity.SupportActionBar.Title = "Carrito de productos";
+			}	
 		}
 
 		private void CreateAdapter()

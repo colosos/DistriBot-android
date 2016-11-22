@@ -62,6 +62,7 @@ namespace DistriBot
             var activity = Activity as AppCompatActivity;
 			toolbar.InflateMenu(Resource.Menu.ProductsMenu);
             activity.SetSupportActionBar(toolbar);
+			activity.SupportActionBar.Title = "Lista de productos";
         }
 
 		public override bool OnOptionsItemSelected(IMenuItem item)

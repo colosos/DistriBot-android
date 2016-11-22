@@ -99,6 +99,7 @@ namespace DistriBot
 				var activity = Activity as AppCompatActivity;
 				toolbar.InflateMenu(Resource.Menu.OrdersListMenu);
 				activity.SetSupportActionBar(toolbar);
+				activity.SupportActionBar.Title = "Lista de pedidos";
 			}
 		}
 
