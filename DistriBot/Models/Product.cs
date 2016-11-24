@@ -13,6 +13,7 @@ namespace DistriBot
 		public string Description { get; set; }
 		public string ImageUrlV1 { get; set; }
 		public string ImageUrlV2 { get; set; }
+		public bool Recommended { get; set; }
 
 		public Product(int id, string name, double unitPrice, string description, string unit)
 		{
@@ -23,9 +24,10 @@ namespace DistriBot
 			Description = description;
 			ImageUrlV1 = "https://storagedistribot.blob.core.windows.net/clients/" + id + "/v1";
 			ImageUrlV1 = "https://storagedistribot.blob.core.windows.net/clients/" + id + "/v2";
+			Recommended = false;
 		}
 
-		public static List<Product> ProductsFromJson(JsonValue jsonArray)
+		public static List<Product> ProductsFromJson(JsonValue jsonArray, bool recommendation)
 		{
 			List<Product> products = new List<Product>();
 			foreach (JsonValue json in jsonArray)
@@ -36,7 +38,12 @@ namespace DistriBot
 				double price = json["price"];
 				string unit = json["unit"];
 
-				products.Add(new Product(id, name, price, description, unit));
+				Product product = new Product(id, name, price, description, unit);
+				if (recommendation)
+				{
+					product.Recommended = true;
+				}
+				products.Add(product);
 			}
 
 			return products;
