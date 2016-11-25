@@ -11,10 +11,22 @@ namespace DistriBot
 			string url = "Products?desde=" + desde + "&cantidad=" + cantidad;
 			HTTPHelper.GetInstance().GetRequest(url, null, success: (obj) =>
 			{
-				success(Product.ProductsFromJson(obj));
+				success(Product.ProductsFromJson(obj, false));
 			}, failure: (obj) =>
 			{
 				failure("Error message");
+			});
+		}
+
+		public static void GetRecommendedProducts(int clientId, Action<List<Product>> success, Action<string> failure)
+		{
+			string url = "getRecommendations?CliId=" + clientId;
+			HTTPHelper.GetInstance().GetRequest(url, null, success: (obj) =>
+			{
+				success(Product.ProductsFromJson(obj, true));
+			}, failure: (obj) =>
+			{
+				failure("Error al cargar los productos");
 			});
 		}
 	}

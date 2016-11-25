@@ -19,12 +19,36 @@ namespace DistriBot
 			});
 		}
 
+		public static void GetOrder(int id, Action<Order> success, Action<string> failure)
+		{
+			string url = relativeUrl + "/" + id;
+			HTTPHelper.GetInstance().GetRequest(url, null, success: (obj) =>
+			{
+				success(Order.EagerOrderFromJson(obj));
+			}, failure: (obj) =>
+			{
+				failure("Error al cargar el pedido");
+			});
+		}
+
 		public static void GetOrdersToDeliver(string deliveryman, Action<List<Order>> success, Action<string> failure)
 		{
 			string url = "getOrdersForDeliveryMan?username=" + deliveryman;
 			HTTPHelper.GetInstance().GetRequest(url, null, success: (obj) =>
 			{
 				success(Order.OrdersFromJson(obj));
+			}, failure: (obj) =>
+			{
+				failure("Error al cargar los pedidos");
+			});
+		}
+
+		public static void GetOrdersBySalesman(string salesman, Action<List<Order>> success, Action<string> failure)
+		{
+			string url = "OrdersBySalesman?nameSalesman=" + salesman;
+			HTTPHelper.GetInstance().GetRequest(url, null, success: (obj) =>
+			{
+				success(Order.LazyOrdersFromJson(obj));
 			}, failure: (obj) =>
 			{
 				failure("Error al cargar los pedidos");
@@ -43,6 +67,23 @@ namespace DistriBot
 												 {
 													 failure();
 												 });
+		}
+
+		public static void EditOrder(Order order, Action success, Action failure)
+		{
+			
+		}
+
+		public static void DeleteOrder(int id, Action success, Action failure)
+		{
+			string url = relativeUrl + "/" + id;
+			HTTPHelper.GetInstance().DeleteRequest(url, null, success: (obj) =>
+			{
+				success();
+			}, failure: (obj) =>
+			{
+				failure();
+			});
 		}
 
 		public static void AddOrder(Order order, Action success, Action failure)

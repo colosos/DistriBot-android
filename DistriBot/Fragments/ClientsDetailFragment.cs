@@ -39,7 +39,7 @@ namespace DistriBot
 			txtCreditBalance.Text = "$ " + mClient.CreditBalance.ToString(); 
 			if (mClient.CreditBalance > 0)
 			{
-				txtCreditBalance.SetTextColor(Android.Graphics.Color.ParseColor("#ff388e3c"));
+				txtCreditBalance.SetTextColor(Android.Graphics.Color.ParseColor("#ff00c853"));
 			}
 			if (mClient.CreditBalance < 0)
 			{

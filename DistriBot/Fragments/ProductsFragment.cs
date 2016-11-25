@@ -62,6 +62,7 @@ namespace DistriBot
             var activity = Activity as AppCompatActivity;
 			toolbar.InflateMenu(Resource.Menu.ProductsMenu);
             activity.SetSupportActionBar(toolbar);
+			activity.SupportActionBar.Title = "Lista de productos";
         }
 
 		public override bool OnOptionsItemSelected(IMenuItem item)
@@ -79,9 +80,20 @@ namespace DistriBot
 
 		private void LoadProducts(Action<List<Product>> completion)
 		{
+			var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando productos..", true, true);
+			if (Selling)
+			{
+				int clientId = CartManager.GetInstance().Order.Client.Id;
+				ProductServiceManager.GetRecommendedProducts(clientId, success: (obj) =>
+				{
+					products.AddRange(obj);
+				}, failure: (obj) =>
+				{
+					Toast.MakeText(Context, "Ha ocurrido un error al cargar los productos", ToastLength.Short).Show();
+				});
+			}
 			if (!reachedEnd)
 			{
-				var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando productos..", true, true);
 				ProductServiceManager.GetProducts(lastProduct, prodQuantity, success: (obj) =>
 				{
 					progressDialogue.Dismiss();
@@ -91,7 +103,7 @@ namespace DistriBot
 					completion(obj);
 				}, failure: (obj) =>
 				{
-					Android.Widget.Toast.MakeText(Context, "Ha ocurrido un error al cargar los productos", Android.Widget.ToastLength.Short).Show();
+					Toast.MakeText(Context, "Ha ocurrido un error al cargar los productos", ToastLength.Short).Show();
 				});
 			}
 		}

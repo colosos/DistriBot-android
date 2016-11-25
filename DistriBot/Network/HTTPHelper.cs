@@ -35,7 +35,8 @@ namespace DistriBot
 		public void DeleteRequest(string relativeUrl, JsonValue parameters, Action<JsonValue> success, Action<JsonValue> failure)
 		{
 			RestRequest request = new RestRequest(relativeUrl, Method.DELETE);
-
+			request.AddHeader("Accept", "application/json");
+			request.AddHeader("Content-Type", "application/json");
 			if (parameters != null)
 			{
 				request.AddBody(parameters);

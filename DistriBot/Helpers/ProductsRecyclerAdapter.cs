@@ -43,16 +43,25 @@ namespace DistriBot
             ProductView myHolder = holder as ProductView;
             myHolder.Name.Text = product.Name;
             myHolder.UnitPrice.Text = product.UnitPrice.ToString();
+			if (product.Recommended)
+			{
+				myHolder.Recommended.Text = "Recomendado";
+			}
+			else
+			{
+				myHolder.Recommended.Text = "";
+			}
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             View row = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.ProductRow, parent, false);
-
+			//row.SetBackgroundColor(Android.Graphics.Color.ParseColor("#ff4dd0e1"));
             TextView txtName = row.FindViewById<TextView>(Resource.Id.Text1);
             TextView txtUnitPrice = row.FindViewById<TextView>(Resource.Id.Text2);
+			TextView txtRecommended = row.FindViewById<TextView>(Resource.Id.Text3);
 
-            return new ProductView(row, OnClick) { Name = txtName, UnitPrice = txtUnitPrice};
+			return new ProductView(row, OnClick) { Name = txtName, UnitPrice = txtUnitPrice, Recommended = txtRecommended };
         }
 
         public class ProductView : RecyclerView.ViewHolder
@@ -60,6 +69,7 @@ namespace DistriBot
             public View MainView { get; set; }
             public TextView Name { get; set; }
             public TextView UnitPrice { get; set; }
+			public TextView Recommended { get; set; }
             
             public ProductView (View view, Action<int> listener) : base(view)
             {

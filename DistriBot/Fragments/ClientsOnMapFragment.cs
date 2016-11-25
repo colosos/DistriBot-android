@@ -82,6 +82,7 @@ namespace DistriBot
             var activity = Activity as AppCompatActivity;
             toolbar.InflateMenu(Resource.Menu.MenuClientsOnMap);
             activity.SetSupportActionBar(toolbar);
+			activity.SupportActionBar.Title = "Ubicacion de los clientes";
         }
 
         private void SetUpMap(Bundle savedInstanceState)
@@ -109,7 +110,7 @@ namespace DistriBot
         public void OnMapReady(GoogleMap googleMap)
 		{
 			mMap = googleMap;
-			mMap.MyLocationEnabled = true;
+			//mMap.MyLocationEnabled = true; Si descomento no se ve el detalle de los clientes
 			LoadClients();
 
 			mMap.MarkerClick += MMap_MarkerClick;
@@ -130,7 +131,7 @@ namespace DistriBot
 				mClientsDetailFragmentContainer.TranslationY = 500;
 				var interpolator = new Android.Views.Animations.OvershootInterpolator(5);
 				mClientsDetailFragmentContainer.Animate().SetInterpolator(interpolator)
-											   .TranslationYBy(-130)
+											   .TranslationYBy(-100)
 											   .SetDuration(500);
 			}
 			LatLng latlng = new LatLng(e.Marker.Position.Latitude, e.Marker.Position.Longitude);

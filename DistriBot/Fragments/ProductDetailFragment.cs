@@ -78,6 +78,7 @@ namespace DistriBot
             var activity = Activity as AppCompatActivity;
             activity.SetSupportActionBar(toolbar);
             activity.SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+			activity.SupportActionBar.Title = product.Name;
         }
 
         public void OnClick(View v)
