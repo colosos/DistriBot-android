@@ -39,9 +39,22 @@ namespace DistriBot
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            var product = clients[position];
+            var client = clients[position];
             ClientView myHolder = holder as ClientView;
-            myHolder.Name.Text = product.Name;
+            myHolder.Name.Text = client.Name;
+			myHolder.Balance.Text = "$" + client.CreditBalance;
+			if (client.CreditBalance > 0)
+			{
+				myHolder.Balance.SetTextColor(Android.Graphics.Color.ParseColor("#ff00c853"));
+			}
+			if (client.CreditBalance == 0)
+			{
+				myHolder.Balance.SetTextColor(Android.Graphics.Color.ParseColor("#747474"));
+			}
+			if (client.CreditBalance < 0)
+			{
+				myHolder.Balance.SetTextColor(Android.Graphics.Color.ParseColor("#ffd32f2f"));
+			}
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
@@ -49,16 +62,16 @@ namespace DistriBot
             View row = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.ClientRow, parent, false);
 
             TextView tvName = row.FindViewById<TextView>(Resource.Id.tvName);
-            TextView tvAddress = row.FindViewById<TextView>(Resource.Id.tvAddress);
+			TextView tvBalance = row.FindViewById<TextView>(Resource.Id.tvBalance);
 
-            return new ClientView(row, OnClick) { Name = tvName, Address = tvAddress };
+			return new ClientView(row, OnClick) { Name = tvName, Balance = tvBalance };
         }
 
         public class ClientView : RecyclerView.ViewHolder
         {
             public View MainView { get; set; }
             public TextView Name { get; set; }
-            public TextView Address { get; set; }
+            public TextView Balance { get; set; }
 
             public ClientView(View view, Action<int> listener) : base(view)
             {

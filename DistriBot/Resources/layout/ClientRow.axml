@@ -15,14 +15,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#434343"
-            android:textSize="18dip"
+            android:textSize="16dip"
             android:textStyle="bold" />
-        <TextView
-            android:id="@+id/tvAddress"
+        <LinearLayout
+            android:id="@+id/ClientBalance"
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dip"
-            android:textColor="#747474"
-            android:textStyle="normal" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvCreditBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13dip"
+                android:textColor="#747474"
+                android:textStyle="normal"
+                android:text="Balance: " />
+            <TextView
+                android:id="@+id/tvBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13dip"
+                android:textColor="#747474"
+                android:textStyle="normal"
+                android:text="$200" />
+        </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
