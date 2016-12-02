@@ -14,6 +14,7 @@ using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.Locations;
 using Android.Support.V7.App;
+using System.Json;
 
 namespace DistriBot
 {
@@ -28,6 +29,8 @@ namespace DistriBot
 		private Dictionary<Client, Marker> clientsDictionary = new Dictionary<Client, Marker>();
 		private List<Order> orders = new List<Order>();
 		private List<Client> clients = new List<Client>();
+
+		private bool routeParameter;
 
 		public OrdersOnMapFragment(List<Order> ordersList, Location location)
 		{
@@ -50,6 +53,20 @@ namespace DistriBot
 		public override void OnActivityCreated(Bundle savedInstanceState)
 		{
 			SetupMap(savedInstanceState);
+			RouteServiceManager.GetRouteParameter(success: (obj) =>
+			{
+				if (obj == 1)
+				{
+					routeParameter = true;
+				}
+				else
+				{
+					routeParameter = false;
+				}
+			}, failure: (obj) =>
+			{
+				Toast.MakeText(Context, "Ha ocurrido un error al cargar un parámetro de ruta", ToastLength.Long).Show();
+			});
 			base.OnActivityCreated(savedInstanceState);
 		}
 
@@ -69,7 +86,6 @@ namespace DistriBot
 			mMap.MyLocationEnabled = true;
 			var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando ruta de reparto", true, true);
 			LoadClients();
-			DisplayDeliveryRoute();
 			progressDialogue.Dismiss();
 
 			mMap.MarkerClick += MMap_MarkerClick;
@@ -102,32 +118,55 @@ namespace DistriBot
 			activity.SupportActionBar.Title = "Ruta de reparto";
 		}
 
+		private void GetRouteParameter()
+		{
+			RouteServiceManager.GetRouteParameter(success: (obj) =>
+			{
+				if (obj == 1)
+				{
+					routeParameter = true;
+				}
+				else
+				{
+					routeParameter = false;
+				}
+			}, failure: (obj) =>
+			{
+				Toast.MakeText(Context, "Ha ocurrido un error al cargar un parámetro de ruta", ToastLength.Long).Show();
+			});
+		}
+
 		private void LoadClients()
 		{
 			var deliveryman = SessionManager.GetDeliverymanUsername();
 			RouteServiceManager.GetRouteClients(deliveryman, success: (obj) =>
 			{
 				clients.AddRange(obj);
+				int count = 0;
+				Activity.RunOnUiThread(() =>
+				{
+					DisplayDeliveryRoute();
+					foreach (Client client in clients)
+					{
+						MarkerOptions markerOptions = new MarkerOptions();
+						var latitude = client.Latitude;
+						var longitude = client.Longitude;
+						markerOptions.SetPosition(new LatLng(latitude, longitude));
+						Marker marker = mMap.AddMarker(markerOptions);
+						clientsDictionary.Add(client, marker);
+						count++;
+						if (count == clients.Count)
+						{
+							LatLng latlng = new LatLng(currentLocation.Latitude, currentLocation.Longitude);
+							CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 12);
+							mMap.AnimateCamera(camera);
+						}
+					}
+				});
 			}, failure: (obj) =>
 			{
 				Toast.MakeText(Context, "Ha ocurrido un error al cargar los clientes", ToastLength.Long).Show();
 			});
-
-			foreach (Client client in clients)
-			{
-				Activity.RunOnUiThread(() =>
-				{
-					MarkerOptions markerOptions = new MarkerOptions();
-					var latitude = client.Latitude;
-					var longitude = client.Longitude;
-					markerOptions.SetPosition(new LatLng(latitude, longitude));
-					Marker marker = mMap.AddMarker(markerOptions);
-					clientsDictionary.Add(client, marker);
-				});
-			}
-			LatLng latlng = new LatLng(currentLocation.Latitude, currentLocation.Longitude);
-			CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 12);
-			mMap.AnimateCamera(camera);
 		}
 
 		public void DisplayDeliveryRoute()
@@ -139,24 +178,65 @@ namespace DistriBot
 				Tuple<string, string> tuple = new Tuple<string, string>(client.Latitude.ToString(), client.Longitude.ToString());
 				list.Add(tuple);
 			}
-			HTTPHelper.GetInstance().GetDeliveryRoute(list, initialPosition, success: (obj) =>
+			Tuple<string, string> finalPosition;
+			if (routeParameter)
 			{
-				string encodedPoints = Route.GetOverviewPolyLine(obj);
-				List<LatLng> lstDecodedPoints = DecodePolylinePoints(encodedPoints);
-				var latlngPoints = new LatLng[lstDecodedPoints.Count];
-				int index = 0;
-				foreach (LatLng latlng in lstDecodedPoints)
+				finalPosition = new Tuple<string, string>(initialPosition.Item1, initialPosition.Item2);
+			}
+			else
+			{
+				finalPosition = list[list.Count - 1];
+			}
+			HTTPHelper.GetInstance().GetDeliveryRoute(list, initialPosition, finalPosition, routeParameter, success: (obj) =>
+			{
+				if (routeParameter)
 				{
-					latlngPoints[index] = new LatLng(latlng.Latitude, latlng.Longitude);
-					index++;
+					JsonValue routes = obj["routes"];
+					JsonArray waypoints = routes[0]["waypoint_order"] as JsonArray;
+					int waypoint = waypoints[waypoints.Count - 1];
+					var destination = list[waypoint - 1];
+					HTTPHelper.GetInstance().GetDeliveryRoute(list, initialPosition, destination, routeParameter, success: (json) =>
+					{
+						string encodedPoints = Route.GetOverviewPolyLine(json);
+						List<LatLng> lstDecodedPoints = DecodePolylinePoints(encodedPoints);
+						var latlngPoints = new LatLng[lstDecodedPoints.Count];
+						int index = 0;
+						foreach (LatLng latlng in lstDecodedPoints)
+						{
+							latlngPoints[index] = new LatLng(latlng.Latitude, latlng.Longitude);
+							index++;
+						}
+						Activity.RunOnUiThread(() =>
+						{
+							var polylineoption = new PolylineOptions().InvokeColor(Android.Graphics.Color.DarkBlue)
+																	  .Geodesic(true)
+																	  .Add(latlngPoints);
+							mMap.AddPolyline(polylineoption);
+						});
+					}, failure: (json) =>
+					{
+						Toast.MakeText(Context, "Ha ocurrido un error al armar la ruta", ToastLength.Long).Show();
+					});
 				}
-				Activity.RunOnUiThread(() =>
+				else
 				{
-					var polylineoption = new PolylineOptions().InvokeColor(Android.Graphics.Color.DarkBlue)
-															  .Geodesic(true)
-															  .Add(latlngPoints);
-					mMap.AddPolyline(polylineoption);
-				});
+					string encodedPoints = Route.GetOverviewPolyLine(obj);
+					List<LatLng> lstDecodedPoints = DecodePolylinePoints(encodedPoints);
+					var latlngPoints = new LatLng[lstDecodedPoints.Count];
+					int index = 0;
+					foreach (LatLng latlng in lstDecodedPoints)
+					{
+						latlngPoints[index] = new LatLng(latlng.Latitude, latlng.Longitude);
+						index++;
+					}
+					Activity.RunOnUiThread(() =>
+					{
+						var polylineoption = new PolylineOptions().InvokeColor(Android.Graphics.Color.DarkBlue)
+																  .Geodesic(true)
+																  .Add(latlngPoints);
+						mMap.AddPolyline(polylineoption);
+					});
+				}
 			}, failure: (obj) =>
 			{
 				Toast.MakeText(Context, "Ha ocurrido un error al armar la ruta", ToastLength.Long).Show();

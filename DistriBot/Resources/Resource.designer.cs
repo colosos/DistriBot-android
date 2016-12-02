@@ -3782,14 +3782,14 @@ namespace DistriBot
 			// aapt resource value: 0x7f0a008a
 			public const int Text = 2131361930;
 			
-			// aapt resource value: 0x7f0a00be
-			public const int Text1 = 2131361982;
-			
-			// aapt resource value: 0x7f0a00bf
-			public const int Text2 = 2131361983;
-			
 			// aapt resource value: 0x7f0a00c0
-			public const int Text3 = 2131361984;
+			public const int Text1 = 2131361984;
+			
+			// aapt resource value: 0x7f0a00c1
+			public const int Text2 = 2131361985;
+			
+			// aapt resource value: 0x7f0a00c2
+			public const int Text3 = 2131361986;
 			
 			// aapt resource value: 0x7f0a00b6
 			public const int Title = 2131361974;
@@ -3821,8 +3821,8 @@ namespace DistriBot
 			// aapt resource value: 0x7f0a0066
 			public const int action_context_bar = 2131361894;
 			
-			// aapt resource value: 0x7f0a00c8
-			public const int action_delete_order = 2131361992;
+			// aapt resource value: 0x7f0a00ca
+			public const int action_delete_order = 2131361994;
 			
 			// aapt resource value: 0x7f0a00a9
 			public const int action_divider = 2131361961;
@@ -3842,14 +3842,14 @@ namespace DistriBot
 			// aapt resource value: 0x7f0a0047
 			public const int action_mode_close_button = 2131361863;
 			
+			// aapt resource value: 0x7f0a00cb
+			public const int action_view_cart = 2131361995;
+			
 			// aapt resource value: 0x7f0a00c9
-			public const int action_view_cart = 2131361993;
+			public const int action_view_list = 2131361993;
 			
-			// aapt resource value: 0x7f0a00c7
-			public const int action_view_list = 2131361991;
-			
-			// aapt resource value: 0x7f0a00c6
-			public const int action_view_map = 2131361990;
+			// aapt resource value: 0x7f0a00c8
+			public const int action_view_map = 2131361992;
 			
 			// aapt resource value: 0x7f0a0048
 			public const int activity_chooser_view_content = 2131361864;
@@ -3905,14 +3905,14 @@ namespace DistriBot
 			// aapt resource value: 0x7f0a0035
 			public const int bottom = 2131361845;
 			
-			// aapt resource value: 0x7f0a00c2
-			public const int bottomBarCatalogue = 2131361986;
+			// aapt resource value: 0x7f0a00c4
+			public const int bottomBarCatalogue = 2131361988;
+			
+			// aapt resource value: 0x7f0a00c5
+			public const int bottomBarDeliveryRequests = 2131361989;
 			
 			// aapt resource value: 0x7f0a00c3
-			public const int bottomBarDeliveryRequests = 2131361987;
-			
-			// aapt resource value: 0x7f0a00c1
-			public const int bottomBarPreSales = 2131361985;
+			public const int bottomBarPreSales = 2131361987;
 			
 			// aapt resource value: 0x7f0a007c
 			public const int btnAddProduct = 2131361916;
@@ -4037,11 +4037,11 @@ namespace DistriBot
 			// aapt resource value: 0x7f0a0039
 			public const int fill_vertical = 2131361849;
 			
+			// aapt resource value: 0x7f0a00bd
+			public const int firstProduct = 2131361981;
+			
 			// aapt resource value: 0x7f0a0043
 			public const int @fixed = 2131361859;
-			
-			// aapt resource value: 0x7f0a00bd
-			public const int floating_button = 2131361981;
 			
 			// aapt resource value: 0x7f0a0097
 			public const int fragmentContainer = 2131361943;
@@ -4097,11 +4097,11 @@ namespace DistriBot
 			// aapt resource value: 0x7f0a00a8
 			public const int media_actions = 2131361960;
 			
-			// aapt resource value: 0x7f0a00c5
-			public const int menu_settings = 2131361989;
+			// aapt resource value: 0x7f0a00c7
+			public const int menu_settings = 2131361991;
 			
-			// aapt resource value: 0x7f0a00c4
-			public const int menu_share = 2131361988;
+			// aapt resource value: 0x7f0a00c6
+			public const int menu_share = 2131361990;
 			
 			// aapt resource value: 0x7f0a0028
 			public const int middle = 2131361832;
@@ -4205,6 +4205,9 @@ namespace DistriBot
 			// aapt resource value: 0x7f0a0072
 			public const int search_voice_btn = 2131361906;
 			
+			// aapt resource value: 0x7f0a00be
+			public const int secondProduct = 2131361982;
+			
 			// aapt resource value: 0x7f0a0073
 			public const int select_dialog_listview = 2131361907;
 			
@@ -4270,6 +4273,9 @@ namespace DistriBot
 			
 			// aapt resource value: 0x7f0a0058
 			public const int textSpacerNoButtons = 2131361880;
+			
+			// aapt resource value: 0x7f0a00bf
+			public const int thirdProduct = 2131361983;
 			
 			// aapt resource value: 0x7f0a00ab
 			public const int time = 2131361963;

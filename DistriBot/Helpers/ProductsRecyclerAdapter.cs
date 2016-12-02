@@ -42,7 +42,7 @@ namespace DistriBot
             var product = products[position];
             ProductView myHolder = holder as ProductView;
             myHolder.Name.Text = product.Name;
-            myHolder.UnitPrice.Text = product.UnitPrice.ToString();
+			myHolder.UnitPrice.Text = "$" + product.UnitPrice + " / " + product.MeasurementUnit;
 			if (product.Recommended)
 			{
 				myHolder.Recommended.Text = "Recomendado";

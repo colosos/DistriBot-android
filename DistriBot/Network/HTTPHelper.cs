@@ -13,7 +13,7 @@ namespace DistriBot
 		
 		private HTTPHelper()
 		{
-			client = new RestClient("http://distribotapi20161029125815.azurewebsites.net/api/");
+			client = new RestClient("http://distribotdiciembreapi.azurewebsites.net/api/");
 		}
 
 		public static HTTPHelper GetInstance()
@@ -160,11 +160,18 @@ namespace DistriBot
 			});
 		}
 
-		public void GetDeliveryRoute(List<Tuple<string, string>> list, Tuple<string, string> initialPosition, Action<JsonValue> success, Action<JsonValue> failure)
+		public void GetDeliveryRoute(List<Tuple<string, string>> list, Tuple<string, string> initialPosition, Tuple<string, string> finalPosition, bool routeParameter, Action<JsonValue> success, Action<JsonValue> failure)
 		{
 			string url = "json?origin=" + initialPosition.Item1 + "," + initialPosition.Item2;
-			url += "&destination=" + initialPosition.Item1 + "," + initialPosition.Item2;
-			url += "&waypoints=optimize:true|";
+			url += "&destination=" + finalPosition.Item1 + "," + finalPosition.Item2;
+			if (routeParameter)
+			{
+				url += "&waypoints=optimize:true|";
+			}
+			else
+			{
+				url += "&waypoints=";
+			}
 			int count = list.Count;
 			foreach (Tuple<string, string> waypoint in list)
 			{
@@ -173,7 +180,7 @@ namespace DistriBot
 				if (count != 0)
 				{
 					url += "|";
-				}	
+				}
 			}
 			url += "&key=AIzaSyAPHhXRQMct1vIrgE-9kQNjlmCFnH0yLNU";
 			client = new RestClient("https://maps.googleapis.com/maps/api/directions/");
@@ -195,7 +202,6 @@ namespace DistriBot
 				}
 			});
 		}
-
 
 		public void PostOrderRequest(string relativeUrl, JsonValue parameters, Action success, Action failure)
 		{

@@ -29,5 +29,17 @@ namespace DistriBot
 				failure("Error al cargar los productos");
 			});
 		}
+
+		public static void GetRecommendedProductsFromProduct(int productId, Action<List<Product>> success, Action<string> failure)
+		{
+			string url = "getRecommendations?CliId=" + productId;
+			HTTPHelper.GetInstance().GetRequest(url, null, success: (obj) =>
+			{
+				success(Product.ProductsFromJson(obj, true));
+			}, failure: (obj) =>
+			{
+				failure("Error al cargar los productos");
+			});
+		}
 	}
 }
