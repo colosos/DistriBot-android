@@ -18,12 +18,14 @@ using FFImageLoading.Transformations;
 
 namespace DistriBot
 {
-    public class ProductDetailFragment : Fragment, View.IOnClickListener
+    public class ProductDetailFragment : Fragment
     {
 		
-        private FloatingActionButton ftAddToCart;
 		private Product product;
 		private ImageViewAsync imgView;
+		private View firstRecommendendProduct;
+		private View secondRecommendendProduct;
+		private View thirdRecommendendProduct;
 
 		public ProductDetailFragment(Product p)
 		{
@@ -38,16 +40,17 @@ namespace DistriBot
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             View view = inflater.Inflate(Resource.Layout.ProductDetailFragment, container, false);
-			view.FindViewById<TextView>(Resource.Id.txtProductName).Text = product.Name;
 			view.FindViewById<TextView>(Resource.Id.txtProductDescription).Text = product.Description;
 			view.FindViewById<TextView>(Resource.Id.txtProductUnitPrice).Text = product.UnitPrice.ToString();
 			view.FindViewById<TextView>(Resource.Id.txtProductUnit).Text = " / " + product.MeasurementUnit;
 
+			firstRecommendendProduct = view.FindViewById<View>(Resource.Id.firstProduct);
+			secondRecommendendProduct = view.FindViewById<View>(Resource.Id.secondProduct);
+			thirdRecommendendProduct = view.FindViewById<View>(Resource.Id.thirdProduct);
+
 			imgView = view.FindViewById<ImageViewAsync>(Resource.Id.productImage);
 			LoadImage();
-
-            ftAddToCart = view.FindViewById<FloatingActionButton>(Resource.Id.floating_button);
-            ftAddToCart.SetOnClickListener(this);
+			LoadRecommendedProducts();
 
             return view;
         }
@@ -71,6 +74,28 @@ namespace DistriBot
 			            .Into(imgView);
 		}
 
+		private void LoadRecommendedProducts()
+		{
+			var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando productos recomendados", true, true);
+			ProductServiceManager.GetRecommendedProductsFromProduct(product.Id, success: (obj) =>
+			{
+				Activity.RunOnUiThread(() =>
+				{
+					progressDialogue.Dismiss();
+					firstRecommendendProduct.FindViewById<TextView>(Resource.Id.Text1).Text = obj[0].Name;
+					firstRecommendendProduct.FindViewById<TextView>(Resource.Id.Text2).Text = "$" + obj[0].UnitPrice;
+					secondRecommendendProduct.FindViewById<TextView>(Resource.Id.Text1).Text = obj[1].Name;
+					secondRecommendendProduct.FindViewById<TextView>(Resource.Id.Text2).Text = "$" + obj[1].UnitPrice;
+					thirdRecommendendProduct.FindViewById<TextView>(Resource.Id.Text1).Text = obj[2].Name;
+					thirdRecommendendProduct.FindViewById<TextView>(Resource.Id.Text2).Text = "$" + obj[2].UnitPrice;
+				});
+			}, failure: (obj) =>
+			{
+				progressDialogue.Dismiss();
+				Toast.MakeText(Context, "Ha ocurrido un error al cargar los productos recomendados", ToastLength.Long).Show();
+			});
+		}
+
         private void SetUpToolbar()
         {
             var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
@@ -79,16 +104,6 @@ namespace DistriBot
             activity.SetSupportActionBar(toolbar);
             activity.SupportActionBar.SetDisplayHomeAsUpEnabled(true);
 			activity.SupportActionBar.Title = product.Name;
-        }
-
-        public void OnClick(View v)
-        {
-            switch (v.Id)
-            {
-                case Resource.Id.floating_button:
-                    Toast.MakeText(Context, "Agregar al pedido", ToastLength.Short).Show();
-                    break;
-            }
         }
 
 	}
