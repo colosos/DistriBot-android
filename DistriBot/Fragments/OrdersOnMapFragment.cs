@@ -55,14 +55,7 @@ namespace DistriBot
 			SetupMap(savedInstanceState);
 			RouteServiceManager.GetRouteParameter(success: (obj) =>
 			{
-				if (obj == 1)
-				{
-					routeParameter = true;
-				}
-				else
-				{
-					routeParameter = false;
-				}
+				routeParameter = obj == 1;
 			}, failure: (obj) =>
 			{
 				Toast.MakeText(Context, "Ha ocurrido un error al cargar un parámetro de ruta", ToastLength.Long).Show();
@@ -116,24 +109,6 @@ namespace DistriBot
 			toolbar.InflateMenu(Resource.Menu.OrdersOnMapMenu);
 			activity.SetSupportActionBar(toolbar);
 			activity.SupportActionBar.Title = "Ruta de reparto";
-		}
-
-		private void GetRouteParameter()
-		{
-			RouteServiceManager.GetRouteParameter(success: (obj) =>
-			{
-				if (obj == 1)
-				{
-					routeParameter = true;
-				}
-				else
-				{
-					routeParameter = false;
-				}
-			}, failure: (obj) =>
-			{
-				Toast.MakeText(Context, "Ha ocurrido un error al cargar un parámetro de ruta", ToastLength.Long).Show();
-			});
 		}
 
 		private void LoadClients()
