@@ -36,7 +36,7 @@ namespace DistriBot
 			string url = "getOrdersForDeliveryMan?username=" + deliveryman;
 			HTTPHelper.GetInstance().GetRequest(url, null, success: (obj) =>
 			{
-				success(Order.OrdersFromJson(obj));
+				success(Order.EagerOrdersFromJson(obj));
 			}, failure: (obj) =>
 			{
 				failure("Error al cargar los pedidos");
@@ -58,15 +58,13 @@ namespace DistriBot
 		public static void DeliverOrder(Order order, Action success, Action failure)
 		{
 			string url = "deliverOrder?idOrder=" + order.Id + "&flag=true";
-			HTTPHelper.GetInstance().PostRequest(url,
-												 null,
-												 success: (obj) =>
-												 {
-													 success();
-												 }, failure: (obj) =>
-												 {
-													 failure();
-												 });
+			HTTPHelper.GetInstance().PostDeliverOrderRequest(url, success: () =>
+			{
+				success();
+			}, failure: () =>
+			{
+				failure();
+			});
 		}
 
 		public static void EditOrder(Order order, Action success, Action failure)

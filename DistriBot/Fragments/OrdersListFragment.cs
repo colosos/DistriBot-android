@@ -149,29 +149,15 @@ namespace DistriBot
 			if (position >= 0)
 			{
 				var order = orders[position];
-				AlertDialog.Builder alert = new AlertDialog.Builder(this.Activity);
-				alert.SetMessage("Entregar el pedido del cliente " + order.Client.Name + "?");
-				alert.SetPositiveButton("Confirmar", (senderAlert, args) =>
+				if (!order.Delivered)
 				{
-					OrderServiceManager.DeliverOrder(order, success: () =>
-					{
-						Activity.RunOnUiThread(() =>
-						{
-							Toast.MakeText(this.Activity, "Pedido entregado exitosamente", ToastLength.Long).Show();
-						});
-					}, failure: () =>
-					{
-						Activity.RunOnUiThread(() =>
-						{
-							Toast.MakeText(this.Activity, "Hubo un error al entregar el pedido", ToastLength.Long).Show();
-						});
-					});
-				});
-				alert.SetNegativeButton("Cancelar", (senderAlert, args) => { });
-				Activity.RunOnUiThread(() =>
+					DeliverymanMenuActivity activity = Activity as DeliverymanMenuActivity;
+					activity.ShowFragment(new OrderDetailsFragment(order), "OrderDetailsFragment");
+				}
+				else
 				{
-					alert.Show();
-				});
+					Toast.MakeText(Context, "El pedido ya ha sido entregado", ToastLength.Long).Show();
+				}
 			}
 		}
 

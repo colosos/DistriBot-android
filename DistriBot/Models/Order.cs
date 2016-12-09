@@ -11,6 +11,7 @@ namespace DistriBot
 		public List<Tuple<int, double, double>> Products { get; set; } // <ProductId, ProductQuantity, Subtotal>
 		public double Price { get; set; }
 		public List<Product> ProductsHelper { get; set; }
+		public bool Delivered { get; set; }
 
 		public Order()
 		{
@@ -24,11 +25,17 @@ namespace DistriBot
 			double price = json["price"];
 			Client client = Client.ClientFromJson(json["client"]);
 			List<Tuple<int, double, double>> products = ProductsListFromJson(json["productsList"]);
+			bool delivered = false;
+			if (json["deliveredDate"] != null)
+			{
+				delivered = true;
+			}
 
 			Order order = new Order();
 			order.Id = id;
 			order.Client = client;
 			order.Price = price;
+			order.Delivered = delivered;
 			foreach (Tuple<int, double, double> product in products)
 			{
 				order.Products.Add(product);
@@ -43,6 +50,11 @@ namespace DistriBot
 			Client client = Client.ClientFromJson(json["client"]);
 			List<Tuple<int, double, double>> products = ProductsListFromJson(json["productsList"]);
 			List<Product> productsHelper = ProductsFromJson(json["productsList"]);
+			bool delivered = false;
+			if (json["deliveredDate"] != null)
+			{
+				delivered = true;
+			}
 
 			Order order = new Order();
 			order.Id = id;
@@ -50,6 +62,7 @@ namespace DistriBot
 			order.Price = price;
 			order.Products.AddRange(products);
 			order.ProductsHelper.AddRange(productsHelper);
+			order.Delivered = delivered;
 			return order;
 		}
 
@@ -58,12 +71,18 @@ namespace DistriBot
 			int id = json["id"];
 			double price = json["price"];
 			Client client = Client.ClientFromJson(json["client"]);
+			bool delivered = false;
+			if (json["deliveredDate"] != null)
+			{
+				delivered = true;
+			}
 
 			Order order = new Order();
 			order.Id = id;
 			order.Client = client;
 			order.Price = price;
 			order.Products = new List<Tuple<int, double, double>>();
+			order.Delivered = delivered;
 			return order;	
 		}
 
@@ -83,6 +102,16 @@ namespace DistriBot
 			foreach (JsonValue json in jsonArray)
 			{
 				orders.Add(LazyOrderFromJson(json));
+			}
+			return orders;
+		}
+
+		public static List<Order> EagerOrdersFromJson(JsonValue jsonArray)
+		{
+			List<Order> orders = new List<Order>();
+			foreach (JsonValue json in jsonArray)
+			{
+				orders.Add(EagerOrderFromJson(json));
 			}
 			return orders;
 		}

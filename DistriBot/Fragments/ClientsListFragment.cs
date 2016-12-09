@@ -217,7 +217,7 @@ namespace DistriBot
 			{
 				LoadClients(completion: (obj) =>
 				{
-					clients.AddRange(obj);
+					//clients.AddRange(obj);
 					mAdapter.NotifyItemRangeInserted(clients.Count, obj.Count);
 				});
 			};

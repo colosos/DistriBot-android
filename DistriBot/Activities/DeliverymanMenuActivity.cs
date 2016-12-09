@@ -74,5 +74,27 @@ namespace DistriBot
 
 			}
 		}
+
+		public void ClearStackFragment()
+		{
+			currentStack.Clear();
+		}
+
+		public override bool OnCreateOptionsMenu(IMenu menu)
+		{
+			return base.OnCreateOptionsMenu(menu);
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			switch (item.ItemId)
+			{
+				case Android.Resource.Id.Home:
+					OnBackPressed();
+					return true;
+
+			}
+			return false;
+		}
 	}
 }

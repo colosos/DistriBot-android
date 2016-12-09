@@ -45,6 +45,14 @@ namespace DistriBot
 			myHolder.Client.Text = order.Client.Name;
 			myHolder.Address.Text = order.Client.Address;
 			myHolder.Price.Text = order.Price.ToString();
+			if (order.Delivered)
+			{
+				myHolder.Delivered.Text = "Entregado";
+			}
+			else
+			{
+				myHolder.Delivered.Text = "";
+			}
 		}
 
 		public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
@@ -53,7 +61,9 @@ namespace DistriBot
 			TextView txtClientName = row.FindViewById<TextView>(Resource.Id.txtClientName);
 			TextView txtClientAddress = row.FindViewById<TextView>(Resource.Id.txtClientAddress);
 			TextView txtTotalPrice = row.FindViewById<TextView>(Resource.Id.txtTotalPrice);
-			return new OrderView(row, OnClick) { Client = txtClientName, Address = txtClientAddress, Price = txtTotalPrice };
+			TextView txtDelivered = row.FindViewById<TextView>(Resource.Id.txtEntregado);
+			return new OrderView(row, OnClick) { Client = txtClientName, Address = txtClientAddress, 
+				Price = txtTotalPrice, Delivered = txtDelivered };
 		}
 
 
@@ -64,6 +74,7 @@ namespace DistriBot
 			public TextView Client { get; set; }
 			public TextView Address { get; set; }
 			public TextView Price { get; set; }
+			public TextView Delivered { get; set; }
 
 			public OrderView(View view, Action<int> listener) : base(view)
 			{
