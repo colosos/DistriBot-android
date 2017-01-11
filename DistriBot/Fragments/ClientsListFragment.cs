@@ -81,11 +81,14 @@ namespace DistriBot
 
         private void SetUpToolbar()
         {
-            var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            var activity = Activity as AppCompatActivity;
-            toolbar.InflateMenu(Resource.Menu.MenuClientsList);
-            activity.SetSupportActionBar(toolbar);
-			activity.SupportActionBar.Title = "Lista de clientes";
+			if (View != null)
+			{
+				var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+				var activity = Activity as AppCompatActivity;
+				toolbar.InflateMenu(Resource.Menu.MenuClientsList);
+				activity.SetSupportActionBar(toolbar);
+				activity.SupportActionBar.Title = "Lista de clientes";
+			}
         }
 
 		void LoadClients(Action<List<Client>> completion)
@@ -162,28 +165,31 @@ namespace DistriBot
 
 		void SuggestClient()
 		{
-			double lat = currentLocation.Latitude;
-			double lon = currentLocation.Longitude;
-			ClientServiceManager.GetNearestClient(lat, lon, success: (Client obj) =>
+			if (currentLocation != null)
 			{
-				AlertDialog.Builder alert = new AlertDialog.Builder(this.Activity);
-				alert.SetMessage("Desea realizar un pedido para " + obj.Name + "?");
-				alert.SetPositiveButton("Si", (senderAlert, args) =>
+				double lat = currentLocation.Latitude;
+				double lon = currentLocation.Longitude;
+				ClientServiceManager.GetNearestClient(lat, lon, success: (Client obj) =>
 				{
-					CartManager.GetInstance().Order.Client = obj;
-					MenuActivity actividad = Activity as MenuActivity;
-					actividad.ShowFragment(new ProductsFragment(true), "ProductsFragment");
-				});
+					AlertDialog.Builder alert = new AlertDialog.Builder(this.Activity);
+					alert.SetMessage("Desea realizar un pedido para " + obj.Name + "?");
+					alert.SetPositiveButton("Si", (senderAlert, args) =>
+					{
+						CartManager.GetInstance().Order.Client = obj;
+						MenuActivity actividad = Activity as MenuActivity;
+						actividad.ShowFragment(new ProductsFragment(true), "ProductsFragment");
+					});
 
-				alert.SetNegativeButton("No", (senderAlert, args) => { });
-				 
-				Activity.RunOnUiThread(() =>
+					alert.SetNegativeButton("No", (senderAlert, args) => { });
+
+					Activity.RunOnUiThread(() =>
+					{
+						alert.Show();
+					});
+				}, failure: (string obj) =>
 				{
-					alert.Show();
 				});
-			}, failure: (string obj) =>
-			{
-			});
+			}
 		}
 
 		public void OnLocationChanged(Location location)

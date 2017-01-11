@@ -52,12 +52,15 @@ namespace DistriBot
 
 		private void SetupToolbar()
 		{
-			var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-			toolbar.Title = order.Client.Name;
-			var activity = Activity as AppCompatActivity;
-			activity.SetSupportActionBar(toolbar);
-			activity.SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-			activity.SupportActionBar.Title = order.Client.Name;
+			if (View != null)
+			{
+				var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+				toolbar.Title = order.Client.Name;
+				var activity = Activity as AppCompatActivity;
+				activity.SetSupportActionBar(toolbar);
+				activity.SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+				activity.SupportActionBar.Title = order.Client.Name;
+			}
 		}
 
 		private void CreateAdapter()

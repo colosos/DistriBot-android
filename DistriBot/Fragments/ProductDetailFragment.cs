@@ -98,12 +98,15 @@ namespace DistriBot
 
         private void SetUpToolbar()
         {
-            var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            toolbar.Title = product.Name;
-            var activity = Activity as AppCompatActivity;
-            activity.SetSupportActionBar(toolbar);
-            activity.SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-			activity.SupportActionBar.Title = product.Name;
+			if (View != null)
+			{
+				var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+				toolbar.Title = product.Name;
+				var activity = Activity as AppCompatActivity;
+				activity.SetSupportActionBar(toolbar);
+				activity.SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+				activity.SupportActionBar.Title = product.Name;
+			}
         }
 
 	}

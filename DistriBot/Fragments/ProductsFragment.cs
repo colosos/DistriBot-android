@@ -60,11 +60,14 @@ namespace DistriBot
 
         private void SetUpToolbar()
         {
-            var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            var activity = Activity as AppCompatActivity;
-			toolbar.InflateMenu(Resource.Menu.ProductsMenu);
-            activity.SetSupportActionBar(toolbar);
-			activity.SupportActionBar.Title = "Lista de productos";
+			if (View != null)
+			{
+				var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+				var activity = Activity as AppCompatActivity;
+				toolbar.InflateMenu(Resource.Menu.ProductsMenu);
+				activity.SetSupportActionBar(toolbar);
+				activity.SupportActionBar.Title = "Lista de productos";
+			}
         }
 
 		public override bool OnOptionsItemSelected(IMenuItem item)

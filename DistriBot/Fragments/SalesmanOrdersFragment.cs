@@ -43,12 +43,17 @@ namespace DistriBot
 			base.OnActivityCreated(savedInstanceState);
 		}
 
+
+
 		private void SetupToolbar()
 		{
-			var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-			var activity = Activity as AppCompatActivity;
-			activity.SetSupportActionBar(toolbar);
-			activity.SupportActionBar.Title = "Lista de pedidos";
+			if (View != null)
+			{
+				var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+				var activity = Activity as AppCompatActivity;
+				activity.SetSupportActionBar(toolbar);
+				activity.SupportActionBar.Title = "Lista de pedidos";
+			}
 		}
 
 		private void SetupOrdersList()
