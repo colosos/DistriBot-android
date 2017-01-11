@@ -142,6 +142,7 @@
     <Compile Include="Fragments\SalesmanOrdersFragment.cs" />
     <Compile Include="Fragments\OrderProductsFragment.cs" />
     <Compile Include="Helpers\OrderProductsRecyclerAdapter.cs" />
+    <Compile Include="Fragments\OrderDetailsFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -187,6 +188,12 @@
     <AndroidResource Include="Resources\drawable-xhdpi\ic_delete_forever_white_24dp.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_delete_forever_white_24dp.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_delete_forever_white_24dp.png" />
+    <AndroidResource Include="Resources\layout\OrderDetailsFragment.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\ic_local_shipping_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\ic_local_shipping_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\ic_local_shipping_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\ic_local_shipping_white_24dp.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\ic_local_shipping_white_24dp.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">

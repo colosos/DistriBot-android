@@ -78,11 +78,14 @@ namespace DistriBot
 
         private void SetupToolbar()
         {
-            var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            var activity = Activity as AppCompatActivity;
-            toolbar.InflateMenu(Resource.Menu.MenuClientsOnMap);
-            activity.SetSupportActionBar(toolbar);
-			activity.SupportActionBar.Title = "Ubicacion de los clientes";
+			if (View != null)
+			{
+				var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+				var activity = Activity as AppCompatActivity;
+				toolbar.InflateMenu(Resource.Menu.MenuClientsOnMap);
+				activity.SetSupportActionBar(toolbar);
+				activity.SupportActionBar.Title = "Ubicacion de los clientes";
+			}
         }
 
         private void SetUpMap(Bundle savedInstanceState)
@@ -151,9 +154,12 @@ namespace DistriBot
                     clientsDictionary.Add(client, marker);
                 });
             }
-			LatLng latlng = new LatLng(currentLocation.Latitude, currentLocation.Longitude);
-			CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 12);
-			mMap.AnimateCamera(camera);
+			if (currentLocation != null)
+			{
+				LatLng latlng = new LatLng(currentLocation.Latitude, currentLocation.Longitude);
+				CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 12);
+				mMap.AnimateCamera(camera);
+			}
 		}
 
 		public bool OnTouch(View v, MotionEvent e)

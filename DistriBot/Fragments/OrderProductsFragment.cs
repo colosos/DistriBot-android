@@ -16,7 +16,7 @@ using Android.Support.Design.Widget;
 
 namespace DistriBot
 {
-	public class OrderProductsFragment : Fragment
+	public class OrderProductsFragment : Fragment, View.IOnClickListener
 	{
 
 		private Order order;
@@ -60,21 +60,22 @@ namespace DistriBot
 
 		private void SetupToolbar()
 		{
-			var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-			var activity = Activity as AppCompatActivity;
-			toolbar.InflateMenu(Resource.Menu.OrderProductsMenu);
-			activity.SetSupportActionBar(toolbar);
-			activity.SupportActionBar.Title = order.Client.Name;
+			if (View != null)
+			{
+				var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+				var activity = Activity as AppCompatActivity;
+				toolbar.InflateMenu(Resource.Menu.OrderProductsMenu);
+				activity.SetSupportActionBar(toolbar);
+				toolbar.SetNavigationIcon(Resource.Drawable.abc_ic_ab_back_mtrl_am_alpha);
+				toolbar.SetNavigationOnClickListener(this);
+				activity.SupportActionBar.Title = order.Client.Name;
+			}
 		}
 
 		public override bool OnOptionsItemSelected(IMenuItem item)
 		{
 			switch (item.ItemId)
 			{
-				case Resource.Id.action_view_list:
-					MenuActivity actividad = Activity as MenuActivity;
-					actividad.ShowFragment(new SalesmanOrdersFragment(), "SalesmanOrdersFragment");
-					return true;
 				case Resource.Id.action_delete_order:
 					AlertDialog.Builder alert = new AlertDialog.Builder(this.Activity);
 					alert.SetMessage("Esta seguro que desea eliminar el pedido?");
@@ -146,6 +147,12 @@ namespace DistriBot
 		void BtnAgregar_Click(object sender, EventArgs e)
 		{
 
+		}
+
+		public void OnClick(View v)
+		{
+			MenuActivity activity = Activity as MenuActivity;
+			activity.OnBackPressed();
 		}
 	}
 }

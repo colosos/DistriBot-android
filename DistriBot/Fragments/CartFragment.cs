@@ -17,7 +17,7 @@ using Android.Support.Design.Widget;
 
 namespace DistriBot
 {
-	public class CartFragment : Fragment
+	public class CartFragment : Fragment, View.IOnClickListener
 	{
 		private RecyclerView recyclerView;
 		private ProductsCartRecyclerAdapter adapter;
@@ -26,6 +26,7 @@ namespace DistriBot
 		public override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
+			HasOptionsMenu = true;
 		}
 
 		public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -37,27 +38,61 @@ namespace DistriBot
 			return view;
 		}
 
+		public override void OnCreateOptionsMenu(IMenu menu, MenuInflater inflater)
+		{
+			SetupToolbar();
+			base.OnCreateOptionsMenu(menu, inflater);
+		}
+
 		public override void OnActivityCreated(Bundle savedInstanceState)
 		{
 			CreateAdapter();
-			SetupToolbar();
 			base.OnActivityCreated(savedInstanceState);
 		}
 
 		private void SetupToolbar()
 		{
-			var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-			var activity = Activity as AppCompatActivity;
-			activity.SetSupportActionBar(toolbar);
-			activity.SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-			if (CartManager.GetInstance().Order.Client != null)
+			if (View != null)
 			{
-				activity.SupportActionBar.Title = CartManager.GetInstance().Order.Client.Name;
+				var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+				var activity = Activity as AppCompatActivity;
+				toolbar.InflateMenu(Resource.Menu.OrderProductsMenu);
+				activity.SetSupportActionBar(toolbar);
+				toolbar.SetNavigationIcon(Resource.Drawable.abc_ic_ab_back_mtrl_am_alpha);
+				toolbar.SetNavigationOnClickListener(this);
+				if (CartManager.GetInstance().Order.Client != null)
+				{
+					activity.SupportActionBar.Title = CartManager.GetInstance().Order.Client.Name;
+				}
+				else
+				{
+					activity.SupportActionBar.Title = "Carrito de productos";
+				}	
 			}
-			else
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			switch (item.ItemId)
 			{
-				activity.SupportActionBar.Title = "Carrito de productos";
-			}	
+				case Resource.Id.action_delete_order:
+					AlertDialog.Builder alert = new AlertDialog.Builder(this.Activity);
+					alert.SetMessage("Esta seguro que desea cancelar el pedido?");
+					alert.SetPositiveButton("Confirmar", (senderAlert, args) =>
+					{
+						CartManager.GetInstance().ResetCart();
+						MenuActivity activity = Activity as MenuActivity;
+						activity.ClearPresaleStackFragment();
+						activity.ShowFragment(new ClientsListFragment(), "ClientsListFragment");
+					});
+					alert.SetNegativeButton("Cancelar", (senderAlert, args) => { });
+					Activity.RunOnUiThread(() =>
+					{
+						alert.Show();
+					});
+					return true;
+			}
+			return base.OnOptionsItemSelected(item);
 		}
 
 		private void CreateAdapter()
@@ -93,6 +128,12 @@ namespace DistriBot
 					Toast.MakeText(this.Activity, "Hubo un error al generar el pedido", ToastLength.Long).Show();
 				});
 			});
+		}
+
+		public void OnClick(View v)
+		{
+			MenuActivity activity = Activity as MenuActivity;
+			activity.OnBackPressed();
 		}
 	}
 }

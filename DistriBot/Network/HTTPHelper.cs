@@ -183,13 +183,13 @@ namespace DistriBot
 				}
 			}
 			url += "&key=AIzaSyAPHhXRQMct1vIrgE-9kQNjlmCFnH0yLNU";
-			client = new RestClient("https://maps.googleapis.com/maps/api/directions/");
+			RestClient restClient = new RestClient("https://maps.googleapis.com/maps/api/directions/");
 			RestRequest request = new RestRequest(url, Method.GET);
 			request.AddHeader("Authorization", GetFormattedToken());
 			request.AddHeader("Accept", "application/json");
 			request.AddHeader("Content-Type", "application/json");
 
-			client.ExecuteAsync(request, response =>
+			restClient.ExecuteAsync(request, response =>
 			{
 				var json = JsonValue.Parse(response.Content);
 				if ((int)response.StatusCode >= 200 && (int)response.StatusCode <= 210)
@@ -230,5 +230,25 @@ namespace DistriBot
 			});
 		}
 
+		public void PostDeliverOrderRequest(string relativeUrl, Action success, Action failure)
+		{
+			RestRequest request = new RestRequest(relativeUrl, Method.POST);
+			request.AddHeader("Accept", "application/json");
+			request.AddHeader("Authorization", GetFormattedToken());
+			request.AddHeader("Content-Type", "application/json");
+
+			client.ExecuteAsync(request, response =>
+			{
+				if ((int)response.StatusCode >= 200 && (int)response.StatusCode <= 210)
+				{
+					success();
+				}
+				else
+				{
+					failure();
+				}
+			});
+
+		}
 	}
 }

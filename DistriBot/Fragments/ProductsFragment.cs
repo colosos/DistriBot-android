@@ -26,10 +26,12 @@ namespace DistriBot
 		private bool reachedEnd = false;
 
 		public bool Selling { get; set; }
+		private bool recommendationsLoaded;
 
 		public ProductsFragment(bool selling)
 		{
 			this.Selling = selling;
+			recommendationsLoaded = false;
 		}
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -58,11 +60,14 @@ namespace DistriBot
 
         private void SetUpToolbar()
         {
-            var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            var activity = Activity as AppCompatActivity;
-			toolbar.InflateMenu(Resource.Menu.ProductsMenu);
-            activity.SetSupportActionBar(toolbar);
-			activity.SupportActionBar.Title = "Lista de productos";
+			if (View != null)
+			{
+				var toolbar = View.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+				var activity = Activity as AppCompatActivity;
+				toolbar.InflateMenu(Resource.Menu.ProductsMenu);
+				activity.SetSupportActionBar(toolbar);
+				activity.SupportActionBar.Title = "Lista de productos";
+			}
         }
 
 		public override bool OnOptionsItemSelected(IMenuItem item)
@@ -80,31 +85,63 @@ namespace DistriBot
 
 		private void LoadProducts(Action<List<Product>> completion)
 		{
-			var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando productos..", true, true);
-			if (Selling)
-			{
-				int clientId = CartManager.GetInstance().Order.Client.Id;
-				ProductServiceManager.GetRecommendedProducts(clientId, success: (obj) =>
-				{
-					products.AddRange(obj);
-				}, failure: (obj) =>
-				{
-					Toast.MakeText(Context, "Ha ocurrido un error al cargar los productos", ToastLength.Short).Show();
-				});
-			}
 			if (!reachedEnd)
 			{
-				ProductServiceManager.GetProducts(lastProduct, prodQuantity, success: (obj) =>
+				var progressDialogue = Android.App.ProgressDialog.Show(Context, "", "Cargando productos..", true, true);
+				if (Selling)
 				{
-					progressDialogue.Dismiss();
-					products.AddRange(obj);
-					reachedEnd = obj.Count < prodQuantity;
-					lastProduct += obj.Count;
-					completion(obj);
-				}, failure: (obj) =>
+					if (!recommendationsLoaded)
+					{
+						int clientId = CartManager.GetInstance().Order.Client.Id;
+						ProductServiceManager.GetRecommendedProducts(clientId, success: (pObj) =>
+						{
+							products.AddRange(pObj);
+							recommendationsLoaded = true;
+							ProductServiceManager.GetProducts(lastProduct, prodQuantity, success: (obj) =>
+							{
+								progressDialogue.Dismiss();
+								products.AddRange(obj);
+								reachedEnd = obj.Count < prodQuantity;
+								lastProduct += obj.Count;
+								completion(obj);
+							}, failure: (obj) =>
+							{
+								Toast.MakeText(Context, "Ha ocurrido un error al cargar los productos", ToastLength.Short).Show();
+							});
+						}, failure: (pObj) =>
+						{
+							Toast.MakeText(Context, "Ha ocurrido un error al cargar los productos", ToastLength.Short).Show();
+						});
+					}
+					else
+					{
+						ProductServiceManager.GetProducts(lastProduct, prodQuantity, success: (obj) =>
+						{
+							progressDialogue.Dismiss();
+							products.AddRange(obj);
+							reachedEnd = obj.Count < prodQuantity;
+							lastProduct += obj.Count;
+							completion(obj);
+						}, failure: (obj) =>
+						{
+							Toast.MakeText(Context, "Ha ocurrido un error al cargar los productos", ToastLength.Short).Show();
+						});	
+					}
+				}
+				else
 				{
-					Toast.MakeText(Context, "Ha ocurrido un error al cargar los productos", ToastLength.Short).Show();
-				});
+					ProductServiceManager.GetProducts(lastProduct, prodQuantity, success: (obj) =>
+					{
+						progressDialogue.Dismiss();
+						products.AddRange(obj);
+						reachedEnd = obj.Count < prodQuantity;
+						lastProduct += obj.Count;
+						completion(obj);
+					}, failure: (obj) =>
+					{
+						Toast.MakeText(Context, "Ha ocurrido un error al cargar los productos", ToastLength.Short).Show();
+					});
+				}
 			}
 		}
 
@@ -169,7 +206,7 @@ namespace DistriBot
             {
 				LoadProducts(completion: (obj) =>
 				{
-					products.AddRange(obj);
+					//products.AddRange(obj);
 					mAdapter.NotifyItemRangeInserted(products.Count, obj.Count);
 				});                
             };
