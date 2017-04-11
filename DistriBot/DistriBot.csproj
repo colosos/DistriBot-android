@@ -143,6 +143,7 @@
     <Compile Include="Fragments\OrderProductsFragment.cs" />
     <Compile Include="Helpers\OrderProductsRecyclerAdapter.cs" />
     <Compile Include="Fragments\OrderDetailsFragment.cs" />
+    <Compile Include="Fragments\EditProductFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -194,6 +195,7 @@
     <AndroidResource Include="Resources\drawable-xhdpi\ic_local_shipping_white_24dp.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_local_shipping_white_24dp.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\ic_local_shipping_white_24dp.png" />
+    <AndroidResource Include="Resources\layout\EditProductFragment.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">

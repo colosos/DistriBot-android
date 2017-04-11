@@ -121,6 +121,15 @@ namespace DistriBot
 			}
 		}
 
+		void OnListItemClick(object sender, int position)
+		{
+			if (position >= 0)
+			{
+				var product = order.ProductsHelper[position];
+
+			}
+		}
+
 		void BtnConfirmar_Click(object sender, EventArgs e)
 		{
 			OrderServiceManager.EditOrder(order, success: () =>

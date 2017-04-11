@@ -22,8 +22,8 @@ namespace DistriBot
 			UnitPrice = unitPrice;
 			MeasurementUnit = unit;
 			Description = description;
-			ImageUrlV1 = "https://acanabarrostorage.blob.core.windows.net/products/" + id + "/v1/prod.jpg";
-			ImageUrlV1 = "https://acanabarrostorage.blob.core.windows.net/products/" + id + "/v2/prod.jpg";
+			ImageUrlV1 = "https://storagedistribot.blob.core.windows.net/products/" + id + "/v1/prod.jpg";
+			ImageUrlV1 = "https://storagedistribot.blob.core.windows.net/products/" + id + "/v2/prod.jpg";
 			Recommended = false;
 		}
 

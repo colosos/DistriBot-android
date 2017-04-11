@@ -13,7 +13,7 @@ namespace DistriBot
 		
 		private HTTPHelper()
 		{
-			client = new RestClient("http://distribotdiciembreapi.azurewebsites.net/api/");
+			client = new RestClient("http://distribotdefensa.azurewebsites.net/api/");
 		}
 
 		public static HTTPHelper GetInstance()
