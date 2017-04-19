@@ -16,25 +16,27 @@
             android:layout_height="wrap_content"
             android:textColor="#434343"
             android:textSize="18dip"
-            android:textStyle="bold"
-            android:text="Nombre" />
-        <TextView
-            android:id="@+id/Text2"
+            android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/Text"
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dip"
-            android:textColor="#747474"
-            android:textStyle="normal"
-            android:text="Precio" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/Text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textColor="#747474"
+                android:textStyle="normal" />
+            <TextView
+                android:id="@+id/Text3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dip"
+                android:textColor="#ff0277bd"
+                android:textStyle="bold"
+                android:paddingLeft="100dp" />
+        </LinearLayout>
     </LinearLayout>
-    <TextView
-        android:id="@+id/Text3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16dip"
-        android:textColor="#ff0277bd"
-        android:textStyle="bold"
-        android:paddingTop="5dp"
-        android:paddingLeft="210dp"
-        android:text="Recomendado" />
 </RelativeLayout>

@@ -84,10 +84,13 @@ namespace DistriBot
 					progressDialogue.Dismiss();
 					firstRecommendendProduct.FindViewById<TextView>(Resource.Id.Text1).Text = obj[0].Name;
 					firstRecommendendProduct.FindViewById<TextView>(Resource.Id.Text2).Text = "$" + obj[0].UnitPrice;
+					firstRecommendendProduct.FindViewById<TextView>(Resource.Id.Text3).Text = "Recomendado";
 					secondRecommendendProduct.FindViewById<TextView>(Resource.Id.Text1).Text = obj[1].Name;
 					secondRecommendendProduct.FindViewById<TextView>(Resource.Id.Text2).Text = "$" + obj[1].UnitPrice;
+					secondRecommendendProduct.FindViewById<TextView>(Resource.Id.Text3).Text = "Recomendado";
 					thirdRecommendendProduct.FindViewById<TextView>(Resource.Id.Text1).Text = obj[2].Name;
 					thirdRecommendendProduct.FindViewById<TextView>(Resource.Id.Text2).Text = "$" + obj[2].UnitPrice;
+					thirdRecommendendProduct.FindViewById<TextView>(Resource.Id.Text3).Text = "Recomendado";
 				});
 			}, failure: (obj) =>
 			{

@@ -42,6 +42,6 @@
         android:clickable="true"
         android:elevation="6dp"
         android:layout_marginLeft="300dp"
-        android:layout_marginTop="440dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginTop="485dp"
+        android:layout_marginRight="15dp" />
 </RelativeLayout>

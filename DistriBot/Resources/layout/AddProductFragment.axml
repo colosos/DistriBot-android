@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/txtProductName"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:text="Nombre del producto"
         android:textSize="20dp"
         android:textColor="@color/primary_dark"
@@ -18,7 +18,7 @@
     <TextView
         android:id="@+id/txtUnitPrice"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:text="$precio/unidad"
         android:textSize="18dp"
         android:textColor="@color/primary_dark"
